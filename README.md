@@ -1,11 +1,5 @@
 # NOISE OVER SILENT - New Sliding Panel UI
 
-## ⚠️ FOLDER STRUCTURE FIXED
-
-The previous version had `{` characters in folder names due to a shell expansion bug.
-
-**This version is FIXED with clean folder structure!**
-
 ## 📁 Correct Structure:
 ```
 Assets/
