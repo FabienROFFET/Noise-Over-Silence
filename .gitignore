@@ -97,3 +97,15 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+/NoiseOverSilent-NewUI/Library
+/NoiseOverSilent-NewUI/Temp
+/NoiseOverSilent-NewUI/ProjectSettings
+NoiseOverSilent-NewUI/NoiseOverSilent-NewUI.slnx
+/NoiseOverSilent-NewUI/Packages
+/NoiseOverSilent-NewUI/UserSettings
+/NoiseOverSilent-NewUI/.vscode
+*.asset
+*.meta
+*.inputactions
+/NoiseOverSilent-NewUI/Assets/Settings
+*.unity

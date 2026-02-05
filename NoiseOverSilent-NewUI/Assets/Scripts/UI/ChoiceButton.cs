@@ -1,30 +1,62 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using TMPro;
+using System;
+using NoiseOverSilent.Data;
 
 namespace NoiseOverSilent.UI
 {
-    public class ChoiceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class ChoiceButton : MonoBehaviour
     {
-        [SerializeField] private Color normalColor = new Color(0.88f, 0.88f, 0.88f, 1f);
-        [SerializeField] private Color hoverColor = new Color(1f, 0.42f, 0.21f, 1f);
+        [Header("UI References")]
+        [SerializeField] private Button button;
+        [SerializeField] private TextMeshProUGUI buttonText;
         
-        private TextMeshProUGUI buttonText;
+        private int choiceIndex;
+        private Action<int> onChoiceSelected;
         
         private void Awake()
         {
-            buttonText = GetComponentInChildren<TextMeshProUGUI>();
-            if (buttonText != null) buttonText.color = normalColor;
+            if (button == null)
+                button = GetComponent<Button>();
+            
+            if (button != null)
+            {
+                button.onClick.AddListener(OnButtonClicked);
+            }
         }
         
-        public void OnPointerEnter(PointerEventData eventData)
+        public void Setup(Choice choice, int index, Action<int> callback)
         {
-            if (buttonText != null) buttonText.color = hoverColor;
+            choiceIndex = index;
+            onChoiceSelected = callback;
+            
+            if (buttonText != null)
+            {
+                buttonText.text = choice.text;
+            }
+            else
+            {
+                // Fallback to regular Text component if TMP isn't available
+                Text regularText = GetComponentInChildren<Text>();
+                if (regularText != null)
+                {
+                    regularText.text = choice.text;
+                }
+            }
         }
         
-        public void OnPointerExit(PointerEventData eventData)
+        private void OnButtonClicked()
         {
-            if (buttonText != null) buttonText.color = normalColor;
+            onChoiceSelected?.Invoke(choiceIndex);
+        }
+        
+        private void OnDestroy()
+        {
+            if (button != null)
+            {
+                button.onClick.RemoveListener(OnButtonClicked);
+            }
         }
     }
 }
