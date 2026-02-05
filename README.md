@@ -1,5 +1,6 @@
 # NOISE OVER SILENT
-,,,
+
+```
 Assets/
 ├── Scripts/
 │   ├── Core/
@@ -9,6 +10,7 @@ Assets/
 ├── StreamingAssets/Episodes/
 ├── Resources/
 └── Prefabs/
-,,,
+```
+
 ## Episode Data:
 - episode01.json with 24 events
