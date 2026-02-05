@@ -1,4 +1,4 @@
-# NOISE OVER SILENT - New Sliding Panel UI
+# NOISE OVER SILENT
 
 ## 📁 Correct Structure:
 ```
