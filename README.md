@@ -1,15 +1,31 @@
 # NOISE OVER SILENT
 
 ```
-Assets/
-├── Scripts/
-│   ├── Core/
-│   ├── Data/
-│   ├── Managers/
-│   └── UI/
-├── StreamingAssets/Episodes/
-├── Resources/
-└── Prefabs/
+NoiseOverSilent-NewUI/
+├── README.md
+├── UNITY_SETUP_GUIDE.md
+├── Assets/
+│   ├── Scripts/
+│   │   ├── Core/
+│   │   │   └── JsonLoader.cs ✅
+│   │   ├── Data/
+│   │   │   └── GameData.cs ✅
+│   │   ├── Managers/
+│   │   │   └── GameManager.cs ✅
+│   │   └── UI/
+│   │       ├── ImageDisplay.cs ✅
+│   │       ├── SlidingPanel.cs ✅
+│   │       └── ChoiceButton.cs ✅
+│   ├── StreamingAssets/Episodes/
+│   │   └── episode01.json ✅
+│   ├── Resources/
+│   │   ├── Images/Events/
+│   │   ├── Audio/Soundscapes/
+│   │   ├── Audio/Tapes/
+│   │   └── Fonts/
+│   ├── Scenes/
+│   └── Prefabs/
+└── ProjectSettings/
 ```
 
 ## Episode Data:
