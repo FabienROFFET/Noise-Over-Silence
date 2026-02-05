@@ -1,0 +1,319 @@
+# 🎮 NOISE OVER SILENT - NEW UI SYSTEM
+## Unity Setup Guide with Sliding Panels
+
+---
+
+## 📋 WHAT'S NEW
+
+### **UI Changes:**
+- ✅ **Fullscreen images** (no more small image box)
+- ✅ **Sliding text panel** (1/3 screen, slides from left/right)
+- ✅ **JSON-driven positioning** (`text_position`: "left", "right", "center")
+- ✅ **80% opacity** dark panel
+- ✅ **Hover effects** on choices (orange highlight)
+- ✅ **Easy font management** (change globally)
+- ✅ **Auto-hide/show** panel
+
+### **Removed (For Now):**
+- Location text (will add later with date/time bar)
+- Stats display (later)
+- Inventory (later)
+- Tape player (later)
+
+---
+
+## 📦 WHAT'S INCLUDED
+
+### **C# Scripts (6 total):**
+1. `GameData.cs` - Data structures with panel positioning
+2. `JsonLoader.cs` - Episode loading
+3. `GameManager.cs` - Main controller with panel logic
+4. `ImageDisplay.cs` - Fullscreen image display
+5. `SlidingPanel.cs` - Animated sliding panel
+6. `ChoiceButton.cs` - Hover effect component
+
+### **Episode Data:**
+- `episode01.json` - 6 events with `text_position` field
+
+---
+
+## 🚀 UNITY SETUP (STEP-BY-STEP)
+
+### **STEP 1: Install Unity Packages**
+
+1. Open Unity (version 6000.3.5f2 or 2022.3 LTS)
+2. **Import TextMeshPro:**
+   - Hierarchy → Right-click → UI → Text - TextMeshPro
+   - Popup appears → Click "Import TMP Essentials"
+   - Wait 10 seconds
+3. **Install Unity UI:**
+   - Window → Package Manager
+   - Dropdown: "Unity Registry"
+   - Search: `ugui`
+   - Click "com.unity.ugui"
+   - Click "Install"
+
+---
+
+### **STEP 2: Create GameScene**
+
+1. File → New Scene → Empty
+2. File → Save As → `GameScene`
+3. Save location: `Assets/Scenes/`
+
+---
+
+### **STEP 3: Create GameManager GameObject**
+
+1. Hierarchy → Right-click → Create Empty
+2. Name it: `GameManager`
+3. Add components:
+   - Add Component → `GameManager`
+   - Add Component → `JsonLoader`
+
+---
+
+### **STEP 4: Create Canvas (UI)**
+
+1. Hierarchy → Right-click → UI → Canvas
+2. Select Canvas → Inspector:
+   - Canvas Scaler → UI Scale Mode: `Scale With Screen Size`
+   - Reference Resolution: X: `1920`, Y: `1080`
+
+---
+
+### **STEP 5: Create Fullscreen Image Display**
+
+1. Select Canvas → Right-click → UI → Image
+2. Name it: `BackgroundImage`
+3. Select BackgroundImage:
+   - Add Component → `ImageDisplay`
+   - Rect Transform:
+     - Hold Alt+Shift, click bottom-right corner (stretches to fill)
+     - All margins: `0`
+   - Image component:
+     - Color: Dark gray (placeholder)
+
+---
+
+### **STEP 6: Create Sliding Panel**
+
+1. Select Canvas → Right-click → UI → Panel
+2. Name it: `SlidingPanel`
+3. Select SlidingPanel:
+   - Add Component → `SlidingPanel`
+   - Rect Transform:
+     - Anchor: Right middle (will be set by script)
+     - Width: `640` (1/3 of 1920)
+     - Height: `1080` (fullscreen height)
+   - Image component:
+     - Color: `#1a1a1a` (RGBA: 26, 26, 26, 204 for 80% opacity)
+
+---
+
+### **STEP 7: Add Text to Panel**
+
+1. Select SlidingPanel → Right-click → UI → Text - TextMeshPro
+2. Name it: `NarrativeText`
+3. Select NarrativeText:
+   - Rect Transform:
+     - Hold Alt+Shift, click center (stretches)
+     - Margins: Top: `40`, Bottom: `200`, Left/Right: `30`
+   - TextMeshPro:
+     - Text: "Story text appears here..."
+     - Font Size: `20`
+     - Color: `#e0e0e0` (off-white)
+     - Alignment: Left, Top
+     - Wrapping: Enabled
+     - Font: (You can change this later in font menu)
+
+---
+
+### **STEP 8: Add Choice Container**
+
+1. Select SlidingPanel → Right-click → Create Empty
+2. Name it: `ChoiceContainer`
+3. Select ChoiceContainer:
+   - Rect Transform:
+     - Anchor: Bottom stretch
+     - Height: `180`
+     - Bottom: `20`, Left/Right: `30`
+   - Add Component → Vertical Layout Group:
+     - Spacing: `10`
+     - Padding: All `0`
+     - Child Alignment: Upper Center
+
+---
+
+### **STEP 9: Create Choice Button Prefab**
+
+1. Select ChoiceContainer → Right-click → UI → Button - TextMeshPro
+2. Name it: `ChoiceButtonPrefab`
+3. Select ChoiceButtonPrefab:
+   - Add Component → `ChoiceButton`
+   - Delete Image component (we want plain text)
+   - Select Text (TMP) child:
+     - Text: "Choice text"
+     - Font Size: `18`
+     - Color: `#e0e0e0`
+     - Alignment: Left, Middle
+4. Drag `ChoiceButtonPrefab` from Hierarchy to Project window → `Assets/Prefabs/`
+5. Delete `ChoiceButtonPrefab` from Hierarchy (keep only the prefab)
+
+---
+
+### **STEP 10: Connect References**
+
+#### **A. GameManager:**
+1. Select `GameManager` in Hierarchy
+2. In Inspector, `GameManager` component:
+   - Json Loader: Drag `GameManager` itself (has JsonLoader component)
+   - Image Display: Drag `BackgroundImage`
+   - Sliding Panel: Drag `SlidingPanel`
+   - Start Episode: `1`
+   - Start Event: `1`
+
+#### **B. ImageDisplay:**
+1. Select `BackgroundImage`
+2. In Inspector, `ImageDisplay` component:
+   - Event Image: Drag `BackgroundImage` itself
+
+#### **C. SlidingPanel:**
+1. Select `SlidingPanel`
+2. In Inspector, `SlidingPanel` component:
+   - Panel Rect: Drag `SlidingPanel` itself
+   - Panel Background: Drag `SlidingPanel` itself (has Image component)
+   - Narrative Text: Drag `NarrativeText`
+   - Choice Container: Drag `ChoiceContainer`
+   - Choice Button Prefab: Drag `ChoiceButtonPrefab` from Project → Assets/Prefabs/
+   - Slide Speed: `0.5`
+   - Panel Opacity: `0.8`
+   - Panel Color: `#1a1a1a` with alpha `204`
+
+---
+
+### **STEP 11: Save & Test**
+
+1. **File → Save** (Ctrl+S)
+2. **Press Play** (top center)
+3. **You should see:**
+   - Dark gray fullscreen background (placeholder)
+   - Panel slides in from right
+   - Text: "The radiator clicks..."
+   - 2 choices: "Get up" / "Stay seated and think"
+4. **Click a choice:**
+   - Panel slides out
+   - New event loads
+   - Panel slides in with new text
+
+---
+
+## 🎨 CUSTOMIZATION
+
+### **Change Panel Opacity:**
+1. Select `SlidingPanel`
+2. Inspector → `SlidingPanel` component
+3. Change `Panel Opacity`: `0.8` = 80%, `0.5` = 50%, etc.
+
+### **Change Hover Color:**
+1. Select `ChoiceButtonPrefab` in Project window
+2. Inspector → `ChoiceButton` component
+3. Hover Color: Change to any color you want
+
+### **Change Font Globally:**
+1. Import your font file to `Assets/Resources/Fonts/`
+2. Create TMP Font Asset: Window → TextMeshPro → Font Asset Creator
+3. In `SlidingPanel` script, call `SetFont(newFont)`
+
+### **Change Panel Width:**
+- Edit JSON: `"panel_width": 0.4` (40% of screen)
+- Or in Inspector: Default `0.33` = 1/3 screen
+
+---
+
+## 📄 JSON STRUCTURE
+
+### **Standard Event:**
+```json
+{
+  "id": 1,
+  "image_link": "images/ep1_event1.png",
+  "text": "Story text here...",
+  "text_position": "right",
+  "panel_width": 0.33,
+  "choices": [
+    { "text": "Choice 1", "next_event": 2 },
+    { "text": "Choice 2", "next_event": 3 }
+  ]
+}
+```
+
+### **Fields:**
+- `text_position`: `"left"`, `"right"`, or `"center"` (default: `"right"`)
+- `panel_width`: `0.25` to `0.5` (default: `0.33`)
+
+---
+
+## 🐛 TROUBLESHOOTING
+
+### **"Panel doesn't slide"**
+- Check `SlidingPanel` component has all references filled
+- Make sure `Panel Rect` is dragged correctly
+- Check Console for errors
+
+### **"Choices don't appear"**
+- Check `Choice Button Prefab` is assigned
+- Verify prefab has `ChoiceButton` component
+- Make sure JSON has `choices` array
+
+### **"Image doesn't show"**
+- Images go in: `Assets/Resources/Images/Events/`
+- File name must match JSON (without `images/` prefix)
+- Example: JSON says `"images/ep1_event1.png"` → File: `ep1_event1.png`
+
+### **"Hover effect doesn't work"**
+- Make sure `ChoiceButtonPrefab` has `ChoiceButton` component
+- Check EventSystem exists in Hierarchy (auto-created with Canvas)
+
+---
+
+## ✅ COMPLETE CHECKLIST
+
+```
+□ Unity packages installed (TMP + UGUI)
+□ GameScene created
+□ GameManager GameObject created (with 2 scripts)
+□ Canvas created (scale with screen size)
+□ BackgroundImage created (fullscreen, ImageDisplay script)
+□ SlidingPanel created (Panel, SlidingPanel script)
+□ NarrativeText added to panel
+□ ChoiceContainer added to panel
+□ ChoiceButtonPrefab created and saved
+□ All references connected in Inspector
+□ File → Save (Ctrl+S)
+□ Press Play → Works! ✅
+```
+
+---
+
+## 🎯 WHAT'S NEXT
+
+**Coming Soon:**
+- Top bar with date/time
+- Stats display (Physical/Mental)
+- Inventory panel
+- Tape player
+- Font selection menu
+
+**For Now:** You have a working game with fullscreen images and sliding text panels!
+
+---
+
+## 🎮 CONTROLS
+
+- **Left Click** - Select choice
+- **Mouse Hover** - Highlight choice (orange)
+
+---
+
+**Need help? Check Console (Window → General → Console) for errors!**
