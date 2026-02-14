@@ -8,22 +8,17 @@ namespace NoiseOverSilent.UI
 {
     public class ChoiceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [Header("References")]
-        [SerializeField] private Button button;
-        [SerializeField] private TextMeshProUGUI buttonText;
-
-        [Header("Hover Colors")]
-        [SerializeField] private Color normalColor = new Color(0.878f, 0.878f, 0.878f, 1f); // #e0e0e0
-        [SerializeField] private Color hoverColor = new Color(1f, 0.647f, 0f, 1f);           // Orange
-
+        private TextMeshProUGUI buttonText;
+        private Button button;
         private Action onClickCallback;
+
+        private Color normalColor = new Color(0.88f, 0.88f, 0.88f, 1f);
+        private Color hoverColor  = new Color(1f, 0.65f, 0f, 1f); // orange
 
         private void Awake()
         {
-            if (button == null)
-                button = GetComponent<Button>();
-            if (buttonText == null)
-                buttonText = GetComponentInChildren<TextMeshProUGUI>();
+            button = GetComponent<Button>();
+            buttonText = GetComponentInChildren<TextMeshProUGUI>();
 
             if (button != null)
                 button.onClick.AddListener(OnClick);

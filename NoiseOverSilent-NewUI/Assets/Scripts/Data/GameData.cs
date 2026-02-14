@@ -22,8 +22,8 @@ namespace NoiseOverSilent.Data
         public Stats stats;
         public Inventory inventory;
         public string text;
-        public string text_position = "right";
-        public float panel_width = 0.33f;
+        public string text_position;
+        public float panel_width;
         public List<Choice> choices = new List<Choice>();
     }
 

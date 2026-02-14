@@ -18,14 +18,12 @@ namespace NoiseOverSilent.Managers
 
         private EpisodeData currentEpisode;
 
-        private void Awake()
-        {
-            if (jsonLoader == null)
-                jsonLoader = gameObject.AddComponent<JsonLoader>();
-        }
-
         private void Start()
         {
+            // JsonLoader added by UIBuilder — get it here
+            if (jsonLoader == null)
+                jsonLoader = GetComponent<JsonLoader>();
+
             LoadEpisode(startEpisode, startEventId);
         }
 
@@ -44,27 +42,23 @@ namespace NoiseOverSilent.Managers
         {
             if (currentEpisode == null) return;
 
-            // Find event by id (not array index)
             GameEvent gameEvent = currentEpisode.events.Find(e => e.id == eventId);
 
             if (gameEvent == null)
             {
-                Debug.LogError($"Event id {eventId} not found in episode.");
+                Debug.LogError($"Event {eventId} not found.");
                 return;
             }
 
-            // Show fullscreen image
             if (imageDisplay != null)
                 imageDisplay.DisplayImage(gameEvent.image_link);
 
-            // Show panel with text and choices
             if (slidingPanel != null)
                 slidingPanel.ShowEvent(gameEvent);
         }
 
         public void MakeChoice(int nextEventId)
         {
-            // next_event: null in JSON becomes 0 in C# int, treat 0 as end of episode
             if (nextEventId <= 0)
             {
                 Debug.Log("Episode complete.");
