@@ -6,7 +6,7 @@ namespace NoiseOverSilent.Data
     [Serializable]
     public class EpisodeData
     {
-        public string episodeId;
+        public int episode;
         public string title;
         public List<GameEvent> events = new List<GameEvent>();
     }
@@ -14,39 +14,37 @@ namespace NoiseOverSilent.Data
     [Serializable]
     public class GameEvent
     {
-        public string id;
-        public string narrator;
-        public string character;
-        public string dialogue;
-        public string image;
-        public string audio;
+        public int id;
+        public string location;
+        public string soundscape_mp3;
+        public string image_prompt;
+        public string image_link;
+        public Stats stats;
+        public Inventory inventory;
+        public string text;
+        public string text_position = "right";
+        public float panel_width = 0.33f;
         public List<Choice> choices = new List<Choice>();
-        public List<Consequence> consequences = new List<Consequence>();
     }
 
     [Serializable]
     public class Choice
     {
         public string text;
-        public string nextEvent;
-        public List<Consequence> consequences = new List<Consequence>();
+        public int next_event;
     }
 
     [Serializable]
-    public class Consequence
+    public class Stats
     {
-        public string type;
-        public string target;
-        public int value;
+        public int physical;
+        public int mental;
     }
 
     [Serializable]
-    public class GameState
+    public class Inventory
     {
-        public string currentEpisode;
-        public string currentEventId;
-        public Dictionary<string, int> relationships = new Dictionary<string, int>();
-        public List<string> inventory = new List<string>();
-        public Dictionary<string, bool> flags = new Dictionary<string, bool>();
+        public List<string> items = new List<string>();
+        public List<string> tapes = new List<string>();
     }
 }

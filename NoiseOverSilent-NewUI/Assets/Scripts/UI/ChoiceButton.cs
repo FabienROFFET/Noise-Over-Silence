@@ -1,62 +1,69 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
-using System;
-using NoiseOverSilent.Data;
 
 namespace NoiseOverSilent.UI
 {
-    public class ChoiceButton : MonoBehaviour
+    public class ChoiceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [Header("UI References")]
+        [Header("References")]
         [SerializeField] private Button button;
         [SerializeField] private TextMeshProUGUI buttonText;
-        
-        private int choiceIndex;
-        private Action<int> onChoiceSelected;
-        
+
+        [Header("Hover Colors")]
+        [SerializeField] private Color normalColor = new Color(0.878f, 0.878f, 0.878f, 1f); // #e0e0e0
+        [SerializeField] private Color hoverColor = new Color(1f, 0.647f, 0f, 1f);           // Orange
+
+        private Action onClickCallback;
+
         private void Awake()
         {
             if (button == null)
                 button = GetComponent<Button>();
-            
+            if (buttonText == null)
+                buttonText = GetComponentInChildren<TextMeshProUGUI>();
+
             if (button != null)
-            {
-                button.onClick.AddListener(OnButtonClicked);
-            }
+                button.onClick.AddListener(OnClick);
+
+            SetColor(normalColor);
         }
-        
-        public void Setup(Choice choice, int index, Action<int> callback)
+
+        public void Setup(string text, Action callback)
         {
-            choiceIndex = index;
-            onChoiceSelected = callback;
-            
             if (buttonText != null)
-            {
-                buttonText.text = choice.text;
-            }
-            else
-            {
-                // Fallback to regular Text component if TMP isn't available
-                Text regularText = GetComponentInChildren<Text>();
-                if (regularText != null)
-                {
-                    regularText.text = choice.text;
-                }
-            }
+                buttonText.text = text;
+
+            onClickCallback = callback;
         }
-        
-        private void OnButtonClicked()
+
+        private void OnClick()
         {
-            onChoiceSelected?.Invoke(choiceIndex);
+            onClickCallback?.Invoke();
         }
-        
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            SetColor(hoverColor);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            SetColor(normalColor);
+        }
+
+        private void SetColor(Color color)
+        {
+            if (buttonText != null)
+                buttonText.color = color;
+        }
+
         private void OnDestroy()
         {
             if (button != null)
-            {
-                button.onClick.RemoveListener(OnButtonClicked);
-            }
+                button.onClick.RemoveListener(OnClick);
         }
     }
 }

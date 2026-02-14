@@ -1,7 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using NoiseOverSilent.Data;
 using NoiseOverSilent.Managers;
 
@@ -9,149 +11,166 @@ namespace NoiseOverSilent.UI
 {
     public class SlidingPanel : MonoBehaviour
     {
-        [Header("Panel Settings")]
-        [SerializeField] private RectTransform panelTransform;
-        [SerializeField] private float slideSpeed = 500f;
-        [SerializeField] private bool startHidden = true;
-        
-        [Header("Slide Positions")]
-        [SerializeField] private float hiddenPositionX = -400f;
-        [SerializeField] private float visiblePositionX = 0f;
-        
-        [Header("Choice Buttons")]
-        [SerializeField] private Transform choicesContainer;
+        [Header("References")]
+        [SerializeField] private RectTransform panelRect;
+        [SerializeField] private Image panelBackground;
+        [SerializeField] private TextMeshProUGUI narrativeText;
+        [SerializeField] private Transform choiceContainer;
         [SerializeField] private GameObject choiceButtonPrefab;
-        
-        private bool isVisible = false;
-        private bool isAnimating = false;
-        private List<GameObject> activeChoiceButtons = new List<GameObject>();
+
+        [Header("Settings")]
+        [SerializeField] private float slideSpeed = 0.5f;
+        [SerializeField] private float panelOpacity = 0.8f;
+        [SerializeField] private Color panelColor = new Color(0.1f, 0.1f, 0.1f, 1f);
+
         private GameManager gameManager;
-        
+        private List<GameObject> activeButtons = new List<GameObject>();
+        private bool isAnimating = false;
+        private string currentPosition = "right";
+
         private void Awake()
         {
-            if (panelTransform == null)
-                panelTransform = GetComponent<RectTransform>();
-            
-            // Use the new Unity API instead of the deprecated one
             gameManager = FindFirstObjectByType<GameManager>();
-            
-            if (startHidden)
+
+            if (panelRect == null)
+                panelRect = GetComponent<RectTransform>();
+
+            // Apply opacity
+            if (panelBackground != null)
             {
-                SetPosition(hiddenPositionX);
-                isVisible = false;
+                Color c = panelColor;
+                c.a = panelOpacity;
+                panelBackground.color = c;
             }
-            else
+
+            // Start hidden off-screen
+            MoveOffScreen();
+        }
+
+        public void ShowEvent(GameEvent gameEvent)
+        {
+            // Set text
+            if (narrativeText != null)
+                narrativeText.text = gameEvent.text;
+
+            // Apply panel layout from JSON
+            currentPosition = string.IsNullOrEmpty(gameEvent.text_position) ? "right" : gameEvent.text_position;
+            ApplyPanelLayout(currentPosition, gameEvent.panel_width);
+
+            // Build choices
+            BuildChoices(gameEvent.choices);
+
+            // Slide in
+            Show(null);
+        }
+
+        private void ApplyPanelLayout(string position, float widthRatio)
+        {
+            if (panelRect == null) return;
+
+            float panelWidth = 1920f * (widthRatio > 0 ? widthRatio : 0.33f);
+
+            panelRect.sizeDelta = new Vector2(panelWidth, panelRect.sizeDelta.y);
+
+            switch (position)
             {
-                SetPosition(visiblePositionX);
-                isVisible = true;
+                case "left":
+                    panelRect.anchorMin = new Vector2(0f, 0f);
+                    panelRect.anchorMax = new Vector2(0f, 1f);
+                    panelRect.pivot = new Vector2(0f, 0.5f);
+                    break;
+                case "center":
+                    panelRect.anchorMin = new Vector2(0.5f, 0f);
+                    panelRect.anchorMax = new Vector2(0.5f, 1f);
+                    panelRect.pivot = new Vector2(0.5f, 0.5f);
+                    break;
+                default: // right
+                    panelRect.anchorMin = new Vector2(1f, 0f);
+                    panelRect.anchorMax = new Vector2(1f, 1f);
+                    panelRect.pivot = new Vector2(1f, 0.5f);
+                    break;
             }
         }
-        
-        public void Toggle()
+
+        private void BuildChoices(List<Choice> choices)
         {
-            if (isVisible)
-                Hide();
-            else
-                Show();
-        }
-        
-        public void Show()
-        {
-            if (!isAnimating && !isVisible)
+            foreach (GameObject btn in activeButtons)
+                if (btn != null) Destroy(btn);
+            activeButtons.Clear();
+
+            if (choices == null || choices.Count == 0) return;
+
+            foreach (Choice choice in choices)
             {
-                StartCoroutine(SlideToPosition(visiblePositionX, true));
-            }
-        }
-        
-        public void Hide()
-        {
-            if (!isAnimating && isVisible)
-            {
-                StartCoroutine(SlideToPosition(hiddenPositionX, false));
-            }
-        }
-        
-        private IEnumerator SlideToPosition(float targetX, bool willBeVisible)
-        {
-            isAnimating = true;
-            
-            Vector2 startPos = panelTransform.anchoredPosition;
-            Vector2 targetPos = new Vector2(targetX, startPos.y);
-            
-            float elapsedTime = 0f;
-            float distance = Mathf.Abs(targetX - startPos.x);
-            float duration = distance / slideSpeed;
-            
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                float t = elapsedTime / duration;
-                
-                panelTransform.anchoredPosition = Vector2.Lerp(startPos, targetPos, t);
-                yield return null;
-            }
-            
-            panelTransform.anchoredPosition = targetPos;
-            isVisible = willBeVisible;
-            isAnimating = false;
-        }
-        
-        private void SetPosition(float x)
-        {
-            if (panelTransform != null)
-            {
-                Vector2 pos = panelTransform.anchoredPosition;
-                pos.x = x;
-                panelTransform.anchoredPosition = pos;
-            }
-        }
-        
-        public void DisplayChoices(List<Choice> choices)
-        {
-            ClearChoices();
-            
-            if (choices == null || choices.Count == 0)
-            {
-                Hide();
-                return;
-            }
-            
-            for (int i = 0; i < choices.Count; i++)
-            {
-                GameObject buttonObj = Instantiate(choiceButtonPrefab, choicesContainer);
-                ChoiceButton choiceButton = buttonObj.GetComponent<ChoiceButton>();
-                
+                GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
+                ChoiceButton choiceButton = btnObj.GetComponent<ChoiceButton>();
+
                 if (choiceButton != null)
                 {
-                    int choiceIndex = i; // Capture index for lambda
-                    choiceButton.Setup(choices[i], choiceIndex, OnChoiceSelected);
+                    int nextEvent = choice.next_event; // Capture for lambda
+                    choiceButton.Setup(choice.text, () => gameManager.MakeChoice(nextEvent));
                 }
-                
-                activeChoiceButtons.Add(buttonObj);
+
+                activeButtons.Add(btnObj);
             }
-            
-            Show();
         }
-        
-        private void OnChoiceSelected(int choiceIndex)
+
+        public void Show(Action onComplete)
         {
-            if (gameManager != null)
-            {
-                gameManager.MakeChoice(choiceIndex);
-            }
-            
-            Hide();
+            if (isAnimating) return;
+            StartCoroutine(SlideIn(onComplete));
         }
-        
-        public void ClearChoices()
+
+        public void Hide(Action onComplete)
         {
-            foreach (GameObject button in activeChoiceButtons)
+            if (isAnimating) return;
+            StartCoroutine(SlideOut(onComplete));
+        }
+
+        private IEnumerator SlideIn(Action onComplete)
+        {
+            isAnimating = true;
+
+            Vector2 startPos = panelRect.anchoredPosition;
+            Vector2 targetPos = Vector2.zero;
+
+            float elapsed = 0f;
+            while (elapsed < slideSpeed)
             {
-                if (button != null)
-                    Destroy(button);
+                elapsed += Time.deltaTime;
+                panelRect.anchoredPosition = Vector2.Lerp(startPos, targetPos, Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed));
+                yield return null;
             }
-            
-            activeChoiceButtons.Clear();
+
+            panelRect.anchoredPosition = targetPos;
+            isAnimating = false;
+            onComplete?.Invoke();
+        }
+
+        private IEnumerator SlideOut(Action onComplete)
+        {
+            isAnimating = true;
+
+            Vector2 startPos = panelRect.anchoredPosition;
+            Vector2 targetPos = new Vector2(panelRect.sizeDelta.x + 100f, 0f);
+
+            float elapsed = 0f;
+            while (elapsed < slideSpeed)
+            {
+                elapsed += Time.deltaTime;
+                panelRect.anchoredPosition = Vector2.Lerp(startPos, targetPos, Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed));
+                yield return null;
+            }
+
+            panelRect.anchoredPosition = targetPos;
+            isAnimating = false;
+            onComplete?.Invoke();
+        }
+
+        private void MoveOffScreen()
+        {
+            if (panelRect != null)
+                panelRect.anchoredPosition = new Vector2(panelRect.sizeDelta.x + 100f, 0f);
         }
     }
 }
