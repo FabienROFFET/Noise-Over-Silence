@@ -3,8 +3,12 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 1.4
-// CHANGES : v1.4 - 2026-02-16 - 2-frame delay coroutine, no MoveOffScreen, force color/alpha
+// VERSION : 1.7
+// CHANGES : v1.7 - 2026-02-16 - Force TMP redraw via enable toggle
+//           v1.6 - 2026-02-16 - Restored dark panel color, confirmed working
+//           v1.6 - 2026-02-16 - Slide animation restored, dark panel color
+//           v1.5 - 2026-02-16 - RED panel visibility test
+//           v1.4 - 2026-02-16 - 2-frame delay coroutine, no MoveOffScreen, force color/alpha
 //           v1.3 - 2026-02-16 - Forced panel background color, ForceMeshUpdate
 //           v1.2 - 2026-02-16 - Fixed Start() vs ShowEvent() race condition
 //           v1.1 - 2026-02-15 - Added ShowEvent(), Hide(callback), ApplyLayout()
@@ -51,36 +55,54 @@ namespace NoiseOverSilent.UI
             yield return null;
             yield return null;
 
-            // Panel background
+            // Panel background — bright red for visibility test
             if (panelBackground != null)
                 panelBackground.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
-            // Text
+            // Text — set AFTER layout settles
             if (narrativeText != null)
             {
                 narrativeText.text  = gameEvent.text;
-                narrativeText.color = Color.white;
+                narrativeText.color = new Color(0.9f, 0.9f, 0.9f, 1f);
                 narrativeText.alpha = 1f;
+                narrativeText.enabled = false;
+                narrativeText.enabled = true; // force TMP redraw
                 narrativeText.ForceMeshUpdate();
-                Debug.Log($"[SlidingPanel v1.4] Text='{narrativeText.text}' Color={narrativeText.color}");
+                Debug.Log($"[SlidingPanel v1.7] Text='{narrativeText.text}' Color={narrativeText.color} Alpha={narrativeText.alpha}");
             }
             else
             {
-                Debug.LogError("[SlidingPanel v1.4] narrativeText IS NULL");
+                Debug.LogError("[SlidingPanel v1.7] narrativeText IS NULL");
             }
 
             // Choices
             BuildChoices(gameEvent.choices);
 
-            // Place panel on screen
+            // Slide in from right
             if (panelRect != null)
             {
-                panelRect.anchorMin        = new Vector2(1f, 0f);
-                panelRect.anchorMax        = new Vector2(1f, 1f);
-                panelRect.pivot            = new Vector2(1f, 0.5f);
-                panelRect.sizeDelta        = new Vector2(640f, 0f);
-                panelRect.anchoredPosition = Vector2.zero;
-                Debug.Log($"[SlidingPanel v1.4] Panel pos={panelRect.anchoredPosition} size={panelRect.rect.size}");
+                panelRect.anchorMin = new Vector2(1f, 0f);
+                panelRect.anchorMax = new Vector2(1f, 1f);
+                panelRect.pivot     = new Vector2(1f, 0.5f);
+                panelRect.sizeDelta = new Vector2(640f, 0f);
+
+                // Animate from off-screen to visible
+                Vector2 startPos = new Vector2(740f, 0f);
+                Vector2 endPos   = Vector2.zero;
+                float   elapsed  = 0f;
+
+                panelRect.anchoredPosition = startPos;
+
+                while (elapsed < slideSpeed)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed);
+                    panelRect.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
+                    yield return null;
+                }
+
+                panelRect.anchoredPosition = endPos;
+                Debug.Log($"[SlidingPanel v1.7] Slide complete. pos={panelRect.anchoredPosition}");
             }
         }
 

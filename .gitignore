@@ -109,3 +109,4 @@ NoiseOverSilent-NewUI/NoiseOverSilent-NewUI.slnx
 *.inputactions
 /NoiseOverSilent-NewUI/Assets/Settings
 *.unity
+/NoiseOverSilent-NewUI/Library.old
