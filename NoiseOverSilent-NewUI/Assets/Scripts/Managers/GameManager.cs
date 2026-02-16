@@ -1,3 +1,14 @@
+// ============================================================
+// PROJECT : Noise Over Silence
+// FILE    : GameManager.cs
+// PATH    : Assets/Scripts/Managers/
+// CREATED : 2026-02-14
+// AUTHOR  : Noise Over Silence Dev Team
+// DESC    : Main game controller. Loads episodes via JsonLoader,
+//           navigates events by id, drives ImageDisplay and
+//           SlidingPanel. References wired by UIBuilder at runtime.
+// ============================================================
+
 using UnityEngine;
 using NoiseOverSilent.Core;
 using NoiseOverSilent.Data;
@@ -7,37 +18,39 @@ namespace NoiseOverSilent.Managers
 {
     public class GameManager : MonoBehaviour
     {
-        [Header("References")]
+        [Header("References — wired by UIBuilder")]
         [SerializeField] private JsonLoader jsonLoader;
         [SerializeField] private ImageDisplay imageDisplay;
         [SerializeField] private SlidingPanel slidingPanel;
 
         [Header("Start Settings")]
-        [SerializeField] private int startEpisode = 1;
-        [SerializeField] private int startEventId = 1;
+        [SerializeField] private int startEpisode  = 1;
+        [SerializeField] private int startEventId  = 1;
 
         private EpisodeData currentEpisode;
 
         private void Start()
         {
-            // JsonLoader added by UIBuilder — get it here
+            // JsonLoader is added by UIBuilder on the same GameObject
             if (jsonLoader == null)
                 jsonLoader = GetComponent<JsonLoader>();
 
             LoadEpisode(startEpisode, startEventId);
         }
 
+        /// <summary>Loads an episode by number and jumps to a starting event.</summary>
         public void LoadEpisode(int episodeNumber, int eventId = 1)
         {
-            string episodeName = "episode" + episodeNumber.ToString("D2");
-            currentEpisode = jsonLoader.LoadEpisode(episodeName);
+            string name = "episode" + episodeNumber.ToString("D2");
+            currentEpisode = jsonLoader.LoadEpisode(name);
 
             if (currentEpisode != null)
                 ShowEvent(eventId);
             else
-                Debug.LogError($"Failed to load episode {episodeNumber}.");
+                Debug.LogError($"[GameManager] Failed to load episode {episodeNumber}.");
         }
 
+        /// <summary>Finds event by id and displays it.</summary>
         public void ShowEvent(int eventId)
         {
             if (currentEpisode == null) return;
@@ -46,22 +59,26 @@ namespace NoiseOverSilent.Managers
 
             if (gameEvent == null)
             {
-                Debug.LogError($"Event {eventId} not found.");
+                Debug.LogError($"[GameManager] Event {eventId} not found.");
                 return;
             }
 
+            // Show fullscreen image
             if (imageDisplay != null)
                 imageDisplay.DisplayImage(gameEvent.image_link);
 
+            // Show panel with text and choices
             if (slidingPanel != null)
                 slidingPanel.ShowEvent(gameEvent);
         }
 
+        /// <summary>Called by ChoiceButton when player picks a choice.</summary>
         public void MakeChoice(int nextEventId)
         {
+            // next_event: null in JSON becomes 0 — treat as episode end
             if (nextEventId <= 0)
             {
-                Debug.Log("Episode complete.");
+                Debug.Log("[GameManager] Episode complete.");
                 return;
             }
 

@@ -1,3 +1,14 @@
+// ============================================================
+// PROJECT : Noise Over Silence
+// FILE    : ChoiceButton.cs
+// PATH    : Assets/Scripts/UI/
+// CREATED : 2026-02-14
+// AUTHOR  : Noise Over Silence Dev Team
+// DESC    : Individual choice button with orange hover effect.
+//           Setup() called by SlidingPanel with text and callback.
+//           Uses IPointerEnterHandler / IPointerExitHandler.
+// ============================================================
+
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,24 +19,26 @@ namespace NoiseOverSilent.UI
 {
     public class ChoiceButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        private TextMeshProUGUI buttonText;
-        private Button button;
-        private Action onClickCallback;
+        // Colors
+        private static readonly Color NormalColor = new Color(0.88f, 0.88f, 0.88f, 1f); // #e0e0e0
+        private static readonly Color HoverColor  = new Color(1f,    0.65f, 0f,    1f); // orange
 
-        private Color normalColor = new Color(0.88f, 0.88f, 0.88f, 1f);
-        private Color hoverColor  = new Color(1f, 0.65f, 0f, 1f); // orange
+        private TextMeshProUGUI buttonText;
+        private Button          button;
+        private Action          onClickCallback;
 
         private void Awake()
         {
-            button = GetComponent<Button>();
+            button     = GetComponent<Button>();
             buttonText = GetComponentInChildren<TextMeshProUGUI>();
 
             if (button != null)
                 button.onClick.AddListener(OnClick);
 
-            SetColor(normalColor);
+            SetColor(NormalColor);
         }
 
+        /// <summary>Sets button text and click callback. Called by SlidingPanel.</summary>
         public void Setup(string text, Action callback)
         {
             if (buttonText != null)
@@ -41,12 +54,12 @@ namespace NoiseOverSilent.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            SetColor(hoverColor);
+            SetColor(HoverColor);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            SetColor(normalColor);
+            SetColor(NormalColor);
         }
 
         private void SetColor(Color color)

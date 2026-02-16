@@ -1,3 +1,13 @@
+// ============================================================
+// PROJECT : Noise Over Silence
+// FILE    : GameData.cs
+// PATH    : Assets/Scripts/Data/
+// CREATED : 2026-02-14
+// AUTHOR  : Noise Over Silence Dev Team
+// DESC    : Data structures matching episode01.json exactly.
+//           EpisodeData, GameEvent, Choice, Stats, Inventory.
+// ============================================================
+
 using System;
 using System.Collections.Generic;
 
@@ -22,8 +32,8 @@ namespace NoiseOverSilent.Data
         public Stats stats;
         public Inventory inventory;
         public string text;
-        public string text_position;
-        public float panel_width;
+        public string text_position;  // "left", "right", "center"
+        public float panel_width;     // 0.25 to 0.5 (default 0.33)
         public List<Choice> choices = new List<Choice>();
     }
 
@@ -31,7 +41,7 @@ namespace NoiseOverSilent.Data
     public class Choice
     {
         public string text;
-        public int next_event;
+        public int next_event;        // 0 = end of episode
     }
 
     [Serializable]
