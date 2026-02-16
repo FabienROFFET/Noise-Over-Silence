@@ -3,6 +3,12 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
+// VERSION : 1.4
+// CHANGES : v1.4 - 2026-02-16 - 2-frame delay coroutine, no MoveOffScreen, force color/alpha
+//           v1.3 - 2026-02-16 - Forced panel background color, ForceMeshUpdate
+//           v1.2 - 2026-02-16 - Fixed Start() vs ShowEvent() race condition
+//           v1.1 - 2026-02-15 - Added ShowEvent(), Hide(callback), ApplyLayout()
+//           v1.0 - 2026-02-14 - Initial version
 // ============================================================
 
 using System;
@@ -23,8 +29,7 @@ namespace NoiseOverSilent.UI
         [SerializeField] private TextMeshProUGUI narrativeText;
         [SerializeField] private Transform       choiceContainer;
         [SerializeField] private GameObject      choiceButtonPrefab;
-        [SerializeField] private float           slideSpeed   = 0.4f;
-        [SerializeField] private float           panelOpacity = 0.88f;
+        [SerializeField] private float           slideSpeed = 0.4f;
 
         private GameManager      gameManager;
         private List<GameObject> activeButtons = new List<GameObject>();
@@ -36,58 +41,47 @@ namespace NoiseOverSilent.UI
 
         public void ShowEvent(GameEvent gameEvent)
         {
-            Debug.Log($"[SlidingPanel] ShowEvent called. narrativeText={(narrativeText != null ? "OK" : "NULL")}");
+            StopAllCoroutines();
+            StartCoroutine(Show(gameEvent));
+        }
 
-            // Force panel visible
+        private IEnumerator Show(GameEvent gameEvent)
+        {
+            // Wait 2 frames for everything to settle
+            yield return null;
+            yield return null;
+
+            // Panel background
+            if (panelBackground != null)
+                panelBackground.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
+
+            // Text
+            if (narrativeText != null)
+            {
+                narrativeText.text  = gameEvent.text;
+                narrativeText.color = Color.white;
+                narrativeText.alpha = 1f;
+                narrativeText.ForceMeshUpdate();
+                Debug.Log($"[SlidingPanel v1.4] Text='{narrativeText.text}' Color={narrativeText.color}");
+            }
+            else
+            {
+                Debug.LogError("[SlidingPanel v1.4] narrativeText IS NULL");
+            }
+
+            // Choices
+            BuildChoices(gameEvent.choices);
+
+            // Place panel on screen
             if (panelRect != null)
             {
                 panelRect.anchorMin        = new Vector2(1f, 0f);
                 panelRect.anchorMax        = new Vector2(1f, 1f);
                 panelRect.pivot            = new Vector2(1f, 0.5f);
-                panelRect.anchoredPosition = Vector2.zero;
                 panelRect.sizeDelta        = new Vector2(640f, 0f);
+                panelRect.anchoredPosition = Vector2.zero;
+                Debug.Log($"[SlidingPanel v1.4] Panel pos={panelRect.anchoredPosition} size={panelRect.rect.size}");
             }
-
-            // Force panel background color — Image alpha resets to 0 at runtime
-            if (panelBackground != null)
-                panelBackground.color = new Color(0.08f, 0.08f, 0.08f, 0.88f);
-
-            if (narrativeText != null)
-            {
-                narrativeText.text  = gameEvent.text;
-                narrativeText.color = new Color(0.88f, 0.88f, 0.88f, 1f);
-                narrativeText.alpha = 1f;
-                narrativeText.ForceMeshUpdate();
-                Debug.Log($"[SlidingPanel] Text set to: {narrativeText.text}");
-            }
-            else
-            {
-                Debug.LogError("[SlidingPanel] narrativeText IS NULL!");
-            }
-
-            BuildChoices(gameEvent.choices);
-
-            StopAllCoroutines();
-            StartCoroutine(SlideIn());
-        }
-
-        private IEnumerator SlideIn()
-        {
-            // Start from right side off screen
-            Vector2 startPos = new Vector2(740f, 0f);
-            Vector2 endPos   = Vector2.zero;
-
-            panelRect.anchoredPosition = startPos;
-
-            float elapsed = 0f;
-            while (elapsed < slideSpeed)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed);
-                panelRect.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
-                yield return null;
-            }
-            panelRect.anchoredPosition = endPos;
         }
 
         private void BuildChoices(List<Choice> choices)
@@ -96,14 +90,12 @@ namespace NoiseOverSilent.UI
                 if (btn != null) Destroy(btn);
             activeButtons.Clear();
 
-            if (choices == null || choices.Count == 0) return;
-            if (choiceButtonPrefab == null) return;
+            if (choices == null || choices.Count == 0 || choiceButtonPrefab == null) return;
 
             foreach (Choice choice in choices)
             {
                 GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
                 btnObj.SetActive(true);
-
                 ChoiceButton cb = btnObj.GetComponent<ChoiceButton>();
                 if (cb != null)
                 {
@@ -122,19 +114,19 @@ namespace NoiseOverSilent.UI
 
         private IEnumerator SlideOut(Action onComplete)
         {
-            Vector2 startPos = panelRect.anchoredPosition;
-            Vector2 endPos   = new Vector2(740f, 0f);
-            float   elapsed  = 0f;
+            Vector2 start   = panelRect.anchoredPosition;
+            Vector2 end     = new Vector2(740f, 0f);
+            float   elapsed = 0f;
 
             while (elapsed < slideSpeed)
             {
                 elapsed += Time.deltaTime;
-                float t = Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed);
-                panelRect.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
+                panelRect.anchoredPosition = Vector2.Lerp(start, end,
+                    Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed));
                 yield return null;
             }
 
-            panelRect.anchoredPosition = endPos;
+            panelRect.anchoredPosition = end;
             onComplete?.Invoke();
         }
     }

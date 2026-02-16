@@ -3,7 +3,8 @@
 // FILE    : ImageDisplay.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// AUTHOR  : Noise Over Silence Dev Team
+// VERSION : 1.0
+// CHANGES : v1.0 - 2026-02-14 - Initial version
 // DESC    : Displays fullscreen event images loaded from
 //           Assets/Resources/Images/Events/.
 //           Strips "images/" prefix and file extension

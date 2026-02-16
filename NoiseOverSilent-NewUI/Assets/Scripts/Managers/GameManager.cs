@@ -3,7 +3,8 @@
 // FILE    : GameManager.cs
 // PATH    : Assets/Scripts/Managers/
 // CREATED : 2026-02-14
-// AUTHOR  : Noise Over Silence Dev Team
+// VERSION : 1.0
+// CHANGES : v1.0 - 2026-02-14 - Initial version
 // DESC    : Main game controller. Loads episodes via JsonLoader,
 //           navigates events by id, drives ImageDisplay and
 //           SlidingPanel. References wired by UIBuilder at runtime.

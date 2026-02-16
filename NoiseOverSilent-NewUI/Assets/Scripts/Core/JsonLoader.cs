@@ -3,7 +3,8 @@
 // FILE    : JsonLoader.cs
 // PATH    : Assets/Scripts/Core/
 // CREATED : 2026-02-14
-// AUTHOR  : Noise Over Silence Dev Team
+// VERSION : 1.0
+// CHANGES : v1.0 - 2026-02-14 - Initial version
 // DESC    : Loads episode JSON files from StreamingAssets/Episodes/.
 //           Called by GameManager at startup.
 // ============================================================

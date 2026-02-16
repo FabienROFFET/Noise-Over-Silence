@@ -3,7 +3,8 @@
 // FILE    : GameData.cs
 // PATH    : Assets/Scripts/Data/
 // CREATED : 2026-02-14
-// AUTHOR  : Noise Over Silence Dev Team
+// VERSION : 1.0
+// CHANGES : v1.0 - 2026-02-14 - Initial version
 // DESC    : Data structures matching episode01.json exactly.
 //           EpisodeData, GameEvent, Choice, Stats, Inventory.
 // ============================================================

@@ -3,15 +3,13 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// AUTHOR  : Noise Over Silence Dev Team
-// DESC    : Builds the ENTIRE UI from scratch at runtime.
-//           Attach ONLY to the GameManager GameObject.
-//           No Canvas, no manual Inspector wiring needed.
-//           Fixes:
-//             - RectTransform: UI objects must be parented to
-//               a Canvas BEFORE setting RectTransform values.
-//             - Input System: uses InputSystemUIInputModule
-//               for Unity 6 compatibility.
+// VERSION : 1.5
+// CHANGES : v1.5 - 2026-02-16 - Added versioning, fixed Image alpha
+//           v1.4 - 2026-02-16 - Fixed RectTransform AddComponent vs GetComponent
+//           v1.3 - 2026-02-16 - InputSystemUIInputModule for Unity 6
+//           v1.2 - 2026-02-16 - Canvas built first before UI children
+//           v1.1 - 2026-02-15 - Fixed field names via reflection
+//           v1.0 - 2026-02-14 - Initial version
 // ============================================================
 
 using System;
@@ -19,7 +17,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.UI;   // requires Input System package
+using UnityEngine.InputSystem.UI;
 using TMPro;
 using NoiseOverSilent.Core;
 using NoiseOverSilent.Managers;
@@ -31,9 +29,9 @@ namespace NoiseOverSilent.Setup
     {
         private void Awake()
         {
-            // Canvas MUST exist before any UI RectTransform is touched
-            GameObject canvas = BuildCanvas();
+            Debug.Log("[UIBuilder v1.5] Building scene...");
 
+            GameObject canvas     = BuildCanvas();
             BuildEventSystem();
             BuildCamera();
 
@@ -43,16 +41,15 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder] Scene built successfully!");
+            Debug.Log("[UIBuilder v1.5] Done!");
         }
 
-        // ── 1. CANVAS (first — UI RectTransforms need a canvas parent) ──
         private GameObject BuildCanvas()
         {
             GameObject go = new GameObject("Canvas");
-
             Canvas canvas = go.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 0;
 
             CanvasScaler scaler = go.AddComponent<CanvasScaler>();
             scaler.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -61,42 +58,35 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight  = 1f;
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder] Canvas created.");
+            Debug.Log("[UIBuilder v1.5] Canvas created.");
             return go;
         }
 
-        // ── 2. EVENT SYSTEM ───────────────────────────────────────────
         private void BuildEventSystem()
         {
             if (FindFirstObjectByType<EventSystem>() != null) return;
-
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
-            // Unity 6 + New Input System requires InputSystemUIInputModule
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder] EventSystem created.");
+            Debug.Log("[UIBuilder v1.5] EventSystem created.");
         }
 
-        // ── 3. CAMERA ─────────────────────────────────────────────────
         private void BuildCamera()
         {
             if (FindFirstObjectByType<Camera>() != null) return;
-
             GameObject cam = new GameObject("Main Camera");
             cam.tag = "MainCamera";
             Camera c = cam.AddComponent<Camera>();
             c.clearFlags      = CameraClearFlags.SolidColor;
             c.backgroundColor = Color.black;
-            Debug.Log("[UIBuilder] Camera created.");
+            Debug.Log("[UIBuilder v1.5] Camera created.");
         }
 
-        // ── 4. BACKGROUND IMAGE ───────────────────────────────────────
         private Image BuildBackgroundImage(GameObject canvas)
         {
             GameObject go = new GameObject("BackgroundImage");
             go.transform.SetParent(canvas.transform, false);
 
-            // Explicitly add RectTransform BEFORE accessing it
             RectTransform rect = go.AddComponent<RectTransform>();
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
@@ -106,14 +96,11 @@ namespace NoiseOverSilent.Setup
             Image img = go.AddComponent<Image>();
             img.color         = new Color(0.08f, 0.08f, 0.08f, 1f);
             img.raycastTarget = false;
-            // Force color again — Image alpha resets to 0 on AddComponent
-            img.color = new Color(0.08f, 0.08f, 0.08f, 1f);
 
-            Debug.Log("[UIBuilder] BackgroundImage created.");
+            Debug.Log("[UIBuilder v1.5] BackgroundImage created.");
             return img;
         }
 
-        // ── 4b. IMAGE DISPLAY SCRIPT ──────────────────────────────────
         private ImageDisplay BuildImageDisplay(Image bgImage)
         {
             ImageDisplay id = bgImage.gameObject.AddComponent<ImageDisplay>();
@@ -121,10 +108,9 @@ namespace NoiseOverSilent.Setup
             return id;
         }
 
-        // ── 5. SLIDING PANEL ──────────────────────────────────────────
         private SlidingPanel BuildSlidingPanel(GameObject canvas)
         {
-            // -- Panel root (parent to canvas first!) --
+            // Panel root
             GameObject panelGO = new GameObject("SlidingPanel");
             panelGO.transform.SetParent(canvas.transform, false);
 
@@ -136,9 +122,9 @@ namespace NoiseOverSilent.Setup
             panelRect.anchoredPosition = new Vector2(740f, 0f);
 
             Image panelImg = panelGO.AddComponent<Image>();
-            panelImg.color = new Color(0.08f, 0.08f, 0.08f, 0.88f);
+            panelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
-            // -- Narrative text --
+            // Narrative text
             GameObject textGO = new GameObject("NarrativeText");
             textGO.transform.SetParent(panelGO.transform, false);
 
@@ -149,19 +135,13 @@ namespace NoiseOverSilent.Setup
             textRect.offsetMax = new Vector2(-30f, -40f);
 
             TextMeshProUGUI tmp = textGO.AddComponent<TextMeshProUGUI>();
-            tmp.fontSize          = 22;
-            tmp.alignment         = TextAlignmentOptions.TopLeft;
-            tmp.textWrappingMode  = TextWrappingModes.Normal;
-            tmp.text              = "";
-            tmp.color             = new Color(0.88f, 0.88f, 0.88f, 1f);
+            tmp.fontSize         = 22;
+            tmp.alignment        = TextAlignmentOptions.TopLeft;
+            tmp.textWrappingMode = TextWrappingModes.Normal;
+            tmp.color            = Color.white;
+            tmp.text             = "";
 
-            // CanvasGroup overrides TMP material alpha issues on runtime-created objects
-            CanvasGroup cg = textGO.AddComponent<CanvasGroup>();
-            cg.alpha          = 1f;
-            cg.interactable   = true;
-            cg.blocksRaycasts = false;
-
-            // -- Choice container --
+            // Choice container
             GameObject containerGO = new GameObject("ChoiceContainer");
             containerGO.transform.SetParent(panelGO.transform, false);
 
@@ -181,12 +161,12 @@ namespace NoiseOverSilent.Setup
             vlg.childForceExpandWidth  = true;
             vlg.childForceExpandHeight = false;
 
-            // -- Choice button prefab (hidden template on GameManager) --
+            // Choice button prefab
             GameObject prefab = BuildChoiceButtonPrefab();
             prefab.transform.SetParent(this.transform, false);
             prefab.SetActive(false);
 
-            // -- Wire SlidingPanel script --
+            // Wire SlidingPanel script
             SlidingPanel sp = panelGO.AddComponent<SlidingPanel>();
             SetField(sp, "panelRect",          panelRect);
             SetField(sp, "panelBackground",    panelImg);
@@ -194,17 +174,14 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceContainer",    containerGO.transform);
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
-            SetField(sp, "panelOpacity",       0.88f);
 
-            Debug.Log("[UIBuilder] SlidingPanel created.");
+            Debug.Log("[UIBuilder v1.5] SlidingPanel created.");
             return sp;
         }
 
-        // ── 5b. CHOICE BUTTON PREFAB ──────────────────────────────────
         private GameObject BuildChoiceButtonPrefab()
         {
             GameObject go = new GameObject("ChoiceButton");
-
             go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 45f);
 
             Image img = go.AddComponent<Image>();
@@ -226,23 +203,20 @@ namespace NoiseOverSilent.Setup
             tmp.fontSize         = 19;
             tmp.alignment        = TextAlignmentOptions.MidlineLeft;
             tmp.textWrappingMode = TextWrappingModes.NoWrap;
+            tmp.color            = Color.white;
             tmp.text             = "";
-            tmp.color            = new Color(0.88f, 0.88f, 0.88f, 1f); // set LAST
 
             go.AddComponent<ChoiceButton>();
             return go;
         }
 
-        // ── 6. WIRE GAME MANAGER ──────────────────────────────────────
         private void WireGameManager(ImageDisplay imgDisplay, SlidingPanel panel)
         {
             JsonLoader jl = GetComponent<JsonLoader>();
-            if (jl == null)
-                jl = gameObject.AddComponent<JsonLoader>();
+            if (jl == null) jl = gameObject.AddComponent<JsonLoader>();
 
             GameManager gm = GetComponent<GameManager>();
-            if (gm == null)
-                gm = gameObject.AddComponent<GameManager>();
+            if (gm == null) gm = gameObject.AddComponent<GameManager>();
 
             SetField(gm, "jsonLoader",   jl);
             SetField(gm, "imageDisplay", imgDisplay);
@@ -250,26 +224,23 @@ namespace NoiseOverSilent.Setup
             SetField(gm, "startEpisode", 1);
             SetField(gm, "startEventId", 1);
 
-            Debug.Log("[UIBuilder] GameManager wired.");
+            Debug.Log("[UIBuilder v1.5] GameManager wired.");
         }
 
-        // ── REFLECTION HELPER ─────────────────────────────────────────
         private void SetField(object target, string fieldName, object value)
         {
             Type      type  = target.GetType();
             FieldInfo field = null;
-
             while (type != null && field == null)
             {
                 field = type.GetField(fieldName,
                     BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
                 type = type.BaseType;
             }
-
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v1.5] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }
