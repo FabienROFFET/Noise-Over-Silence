@@ -24,18 +24,18 @@ namespace NoiseOverSilent.UI
 {
     public class SlidingPanel : MonoBehaviour
     {
-        [SerializeField] private RectTransform    panelRect;
-        [SerializeField] private Image            panelBackground;
-        [SerializeField] private TextMeshProUGUI  narrativeText;
-        [SerializeField] private Transform        choiceContainer;
-        [SerializeField] private GameObject       choiceButtonPrefab;
-        [SerializeField] private float            slideSpeed   = 0.4f;
-        [SerializeField] private float            panelOpacity = 0.88f;
-        [SerializeField] private Color            panelColor   = new Color(0.08f, 0.08f, 0.08f, 1f);
+        [SerializeField] private RectTransform   panelRect;
+        [SerializeField] private Image           panelBackground;
+        [SerializeField] private TextMeshProUGUI narrativeText;
+        [SerializeField] private Transform       choiceContainer;
+        [SerializeField] private GameObject      choiceButtonPrefab;
+        [SerializeField] private float           slideSpeed   = 0.4f;
+        [SerializeField] private float           panelOpacity = 0.88f;
+        [SerializeField] private Color           panelColor   = new Color(0.08f, 0.08f, 0.08f, 1f);
 
-        private GameManager         gameManager;
-        private List<GameObject>    activeButtons = new List<GameObject>();
-        private bool                isAnimating   = false;
+        private GameManager      gameManager;
+        private List<GameObject> activeButtons = new List<GameObject>();
+        private bool             eventShown    = false;
 
         private void Awake()
         {
@@ -55,24 +55,30 @@ namespace NoiseOverSilent.UI
 
         private void Start()
         {
-            // Move off-screen after layout is calculated
-            MoveOffScreen();
+            // Only move off-screen if ShowEvent hasn't already been called
+            if (!eventShown)
+                MoveOffScreen();
         }
 
         /// <summary>Displays a game event: sets text, builds choices, slides in.</summary>
         public void ShowEvent(GameEvent gameEvent)
         {
+            eventShown = true;
+
+            Debug.Log($"[SlidingPanel] ShowEvent id={gameEvent.id} text='{gameEvent.text?.Substring(0, Mathf.Min(30, gameEvent.text?.Length ?? 0))}...'");
+            Debug.Log($"[SlidingPanel] narrativeText={narrativeText}, choiceContainer={choiceContainer}, prefab={choiceButtonPrefab}");
+
             if (narrativeText != null)
                 narrativeText.text = gameEvent.text;
+            else
+                Debug.LogError("[SlidingPanel] narrativeText is NULL!");
 
             string pos = string.IsNullOrEmpty(gameEvent.text_position) ? "right" : gameEvent.text_position;
             ApplyLayout(pos, gameEvent.panel_width);
 
             BuildChoices(gameEvent.choices);
 
-            // Force slide in fresh
             StopAllCoroutines();
-            isAnimating = false;
             StartCoroutine(SlideIn(null));
         }
 
@@ -87,19 +93,19 @@ namespace NoiseOverSilent.UI
             switch (position)
             {
                 case "left":
-                    panelRect.anchorMin = new Vector2(0f,    0f);
-                    panelRect.anchorMax = new Vector2(0f,    1f);
-                    panelRect.pivot     = new Vector2(0f,    0.5f);
+                    panelRect.anchorMin = new Vector2(0f,   0f);
+                    panelRect.anchorMax = new Vector2(0f,   1f);
+                    panelRect.pivot     = new Vector2(0f,   0.5f);
                     break;
                 case "center":
-                    panelRect.anchorMin = new Vector2(0.5f,  0f);
-                    panelRect.anchorMax = new Vector2(0.5f,  1f);
-                    panelRect.pivot     = new Vector2(0.5f,  0.5f);
+                    panelRect.anchorMin = new Vector2(0.5f, 0f);
+                    panelRect.anchorMax = new Vector2(0.5f, 1f);
+                    panelRect.pivot     = new Vector2(0.5f, 0.5f);
                     break;
                 default: // right
-                    panelRect.anchorMin = new Vector2(1f,    0f);
-                    panelRect.anchorMax = new Vector2(1f,    1f);
-                    panelRect.pivot     = new Vector2(1f,    0.5f);
+                    panelRect.anchorMin = new Vector2(1f,   0f);
+                    panelRect.anchorMax = new Vector2(1f,   1f);
+                    panelRect.pivot     = new Vector2(1f,   0.5f);
                     break;
             }
         }
@@ -135,20 +141,17 @@ namespace NoiseOverSilent.UI
             }
         }
 
-        /// <summary>Slides the panel out, then calls onComplete callback.</summary>
+        /// <summary>Slides the panel out then calls onComplete.</summary>
         public void Hide(Action onComplete)
         {
             StopAllCoroutines();
-            isAnimating = false;
             StartCoroutine(SlideOut(onComplete));
         }
 
         private IEnumerator SlideIn(Action onComplete)
         {
-            isAnimating = true;
-
             Vector2 start   = panelRect.anchoredPosition;
-            Vector2 target  = Vector2.zero;
+            Vector2 target  = new Vector2(0f, 0f); // anchored at right edge, so 0 = fully visible
             float   elapsed = 0f;
 
             while (elapsed < slideSpeed)
@@ -160,14 +163,11 @@ namespace NoiseOverSilent.UI
             }
 
             panelRect.anchoredPosition = target;
-            isAnimating = false;
             onComplete?.Invoke();
         }
 
         private IEnumerator SlideOut(Action onComplete)
         {
-            isAnimating = true;
-
             Vector2 start   = panelRect.anchoredPosition;
             Vector2 target  = new Vector2(panelRect.sizeDelta.x + 100f, 0f);
             float   elapsed = 0f;
@@ -181,7 +181,6 @@ namespace NoiseOverSilent.UI
             }
 
             panelRect.anchoredPosition = target;
-            isAnimating = false;
             onComplete?.Invoke();
         }
 

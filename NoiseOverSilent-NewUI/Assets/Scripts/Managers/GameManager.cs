@@ -9,6 +9,7 @@
 //           SlidingPanel. References wired by UIBuilder at runtime.
 // ============================================================
 
+using System.Collections;
 using UnityEngine;
 using NoiseOverSilent.Core;
 using NoiseOverSilent.Data;
@@ -31,23 +32,25 @@ namespace NoiseOverSilent.Managers
 
         private void Start()
         {
-            // JsonLoader is added by UIBuilder on the same GameObject
-            if (jsonLoader == null)
-                jsonLoader = GetComponent<JsonLoader>();
-
             LoadEpisode(startEpisode, startEventId);
         }
 
-        /// <summary>Loads an episode by number and jumps to a starting event.</summary>
         public void LoadEpisode(int episodeNumber, int eventId = 1)
         {
             string name = "episode" + episodeNumber.ToString("D2");
             currentEpisode = jsonLoader.LoadEpisode(name);
 
             if (currentEpisode != null)
-                ShowEvent(eventId);
+                StartCoroutine(ShowEventNextFrame(eventId));
             else
                 Debug.LogError($"[GameManager] Failed to load episode {episodeNumber}.");
+        }
+
+        // Wait one frame so all Awake/Start methods finish before showing first event
+        private IEnumerator ShowEventNextFrame(int eventId)
+        {
+            yield return null;
+            ShowEvent(eventId);
         }
 
         /// <summary>Finds event by id and displays it.</summary>

@@ -7,13 +7,11 @@
 // DESC    : Builds the ENTIRE UI from scratch at runtime.
 //           Attach ONLY to the GameManager GameObject.
 //           No Canvas, no manual Inspector wiring needed.
-//           Execution order:
-//             1. BuildEventSystem
-//             2. BuildCamera
-//             3. BuildCanvas
-//             4. BuildBackgroundImage + ImageDisplay
-//             5. BuildSlidingPanel (panel, text, choices, prefab)
-//             6. WireGameManager (JsonLoader + all references)
+//           Fixes:
+//             - RectTransform: UI objects must be parented to
+//               a Canvas BEFORE setting RectTransform values.
+//             - Input System: uses InputSystemUIInputModule
+//               for Unity 6 compatibility.
 // ============================================================
 
 using System;
@@ -21,6 +19,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;   // requires Input System package
 using TMPro;
 using NoiseOverSilent.Core;
 using NoiseOverSilent.Managers;
@@ -32,44 +31,22 @@ namespace NoiseOverSilent.Setup
     {
         private void Awake()
         {
+            // Canvas MUST exist before any UI RectTransform is touched
+            GameObject canvas = BuildCanvas();
+
             BuildEventSystem();
             BuildCamera();
 
-            GameObject    canvas     = BuildCanvas();
-            Image         bgImage   = BuildBackgroundImage(canvas);
-            ImageDisplay  imgDisplay = BuildImageDisplay(bgImage);
-            SlidingPanel  panel      = BuildSlidingPanel(canvas);
+            Image        bgImage    = BuildBackgroundImage(canvas);
+            ImageDisplay imgDisplay = BuildImageDisplay(bgImage);
+            SlidingPanel panel      = BuildSlidingPanel(canvas);
 
             WireGameManager(imgDisplay, panel);
 
             Debug.Log("[UIBuilder] Scene built successfully!");
         }
 
-        // ── 1. EVENT SYSTEM ───────────────────────────────────────────
-        private void BuildEventSystem()
-        {
-            if (FindFirstObjectByType<EventSystem>() != null) return;
-
-            GameObject es = new GameObject("EventSystem");
-            es.AddComponent<EventSystem>();
-            es.AddComponent<StandaloneInputModule>();
-            Debug.Log("[UIBuilder] EventSystem created.");
-        }
-
-        // ── 2. CAMERA ─────────────────────────────────────────────────
-        private void BuildCamera()
-        {
-            if (FindFirstObjectByType<Camera>() != null) return;
-
-            GameObject cam = new GameObject("Main Camera");
-            cam.tag = "MainCamera";
-            Camera c = cam.AddComponent<Camera>();
-            c.clearFlags      = CameraClearFlags.SolidColor;
-            c.backgroundColor = Color.black;
-            Debug.Log("[UIBuilder] Camera created.");
-        }
-
-        // ── 3. CANVAS ─────────────────────────────────────────────────
+        // ── 1. CANVAS (first — UI RectTransforms need a canvas parent) ──
         private GameObject BuildCanvas()
         {
             GameObject go = new GameObject("Canvas");
@@ -88,13 +65,39 @@ namespace NoiseOverSilent.Setup
             return go;
         }
 
+        // ── 2. EVENT SYSTEM ───────────────────────────────────────────
+        private void BuildEventSystem()
+        {
+            if (FindFirstObjectByType<EventSystem>() != null) return;
+
+            GameObject es = new GameObject("EventSystem");
+            es.AddComponent<EventSystem>();
+            // Unity 6 + New Input System requires InputSystemUIInputModule
+            es.AddComponent<InputSystemUIInputModule>();
+            Debug.Log("[UIBuilder] EventSystem created.");
+        }
+
+        // ── 3. CAMERA ─────────────────────────────────────────────────
+        private void BuildCamera()
+        {
+            if (FindFirstObjectByType<Camera>() != null) return;
+
+            GameObject cam = new GameObject("Main Camera");
+            cam.tag = "MainCamera";
+            Camera c = cam.AddComponent<Camera>();
+            c.clearFlags      = CameraClearFlags.SolidColor;
+            c.backgroundColor = Color.black;
+            Debug.Log("[UIBuilder] Camera created.");
+        }
+
         // ── 4. BACKGROUND IMAGE ───────────────────────────────────────
         private Image BuildBackgroundImage(GameObject canvas)
         {
             GameObject go = new GameObject("BackgroundImage");
             go.transform.SetParent(canvas.transform, false);
 
-            RectTransform rect = go.GetComponent<RectTransform>();
+            // Explicitly add RectTransform BEFORE accessing it
+            RectTransform rect = go.AddComponent<RectTransform>();
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
             rect.offsetMin = Vector2.zero;
@@ -119,16 +122,16 @@ namespace NoiseOverSilent.Setup
         // ── 5. SLIDING PANEL ──────────────────────────────────────────
         private SlidingPanel BuildSlidingPanel(GameObject canvas)
         {
-            // -- Panel root --
+            // -- Panel root (parent to canvas first!) --
             GameObject panelGO = new GameObject("SlidingPanel");
             panelGO.transform.SetParent(canvas.transform, false);
 
-            RectTransform panelRect    = panelGO.GetComponent<RectTransform>();
+            RectTransform panelRect    = panelGO.AddComponent<RectTransform>();
             panelRect.anchorMin        = new Vector2(1f, 0f);
             panelRect.anchorMax        = new Vector2(1f, 1f);
             panelRect.pivot            = new Vector2(1f, 0.5f);
             panelRect.sizeDelta        = new Vector2(640f, 0f);
-            panelRect.anchoredPosition = new Vector2(740f, 0f); // off-screen
+            panelRect.anchoredPosition = new Vector2(740f, 0f);
 
             Image panelImg = panelGO.AddComponent<Image>();
             panelImg.color = new Color(0.08f, 0.08f, 0.08f, 0.88f);
@@ -137,18 +140,18 @@ namespace NoiseOverSilent.Setup
             GameObject textGO = new GameObject("NarrativeText");
             textGO.transform.SetParent(panelGO.transform, false);
 
-            RectTransform textRect = textGO.GetComponent<RectTransform>();
+            RectTransform textRect = textGO.AddComponent<RectTransform>();
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
             textRect.offsetMin = new Vector2(30f,  220f);
             textRect.offsetMax = new Vector2(-30f, -40f);
 
             TextMeshProUGUI tmp = textGO.AddComponent<TextMeshProUGUI>();
-            tmp.fontSize            = 22;
-            tmp.color               = new Color(0.88f, 0.88f, 0.88f, 1f);
-            tmp.alignment           = TextAlignmentOptions.TopLeft;
-            tmp.enableWordWrapping  = true;
-            tmp.text                = "";
+            tmp.fontSize          = 22;
+            tmp.color             = new Color(0.88f, 0.88f, 0.88f, 1f);
+            tmp.alignment         = TextAlignmentOptions.TopLeft;
+            tmp.textWrappingMode  = TextWrappingModes.Normal;
+            tmp.text              = "";
 
             // -- Choice container --
             GameObject containerGO = new GameObject("ChoiceContainer");
@@ -170,7 +173,7 @@ namespace NoiseOverSilent.Setup
             vlg.childForceExpandWidth  = true;
             vlg.childForceExpandHeight = false;
 
-            // -- Choice button prefab (hidden template) --
+            // -- Choice button prefab (hidden template on GameManager) --
             GameObject prefab = BuildChoiceButtonPrefab();
             prefab.transform.SetParent(this.transform, false);
             prefab.SetActive(false);
@@ -194,16 +197,14 @@ namespace NoiseOverSilent.Setup
         {
             GameObject go = new GameObject("ChoiceButton");
 
-            RectTransform rect = go.AddComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(0f, 45f);
+            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 45f);
 
             Image img = go.AddComponent<Image>();
-            img.color = new Color(0f, 0f, 0f, 0f); // transparent background
+            img.color = new Color(0f, 0f, 0f, 0f);
 
             Button btn = go.AddComponent<Button>();
             btn.transition = Selectable.Transition.None;
 
-            // Text child
             GameObject textChild = new GameObject("Text");
             textChild.transform.SetParent(go.transform, false);
 
@@ -214,11 +215,11 @@ namespace NoiseOverSilent.Setup
             tRect.offsetMax = new Vector2(-5f, 0f);
 
             TextMeshProUGUI tmp = textChild.AddComponent<TextMeshProUGUI>();
-            tmp.fontSize            = 19;
-            tmp.color               = new Color(0.88f, 0.88f, 0.88f, 1f);
-            tmp.alignment           = TextAlignmentOptions.MidlineLeft;
-            tmp.enableWordWrapping  = false;
-            tmp.text                = "";
+            tmp.fontSize         = 19;
+            tmp.color            = new Color(0.88f, 0.88f, 0.88f, 1f);
+            tmp.alignment        = TextAlignmentOptions.MidlineLeft;
+            tmp.textWrappingMode = TextWrappingModes.NoWrap;
+            tmp.text             = "";
 
             go.AddComponent<ChoiceButton>();
             return go;
@@ -227,12 +228,10 @@ namespace NoiseOverSilent.Setup
         // ── 6. WIRE GAME MANAGER ──────────────────────────────────────
         private void WireGameManager(ImageDisplay imgDisplay, SlidingPanel panel)
         {
-            // JsonLoader on same GameObject
             JsonLoader jl = GetComponent<JsonLoader>();
             if (jl == null)
                 jl = gameObject.AddComponent<JsonLoader>();
 
-            // GameManager on same GameObject
             GameManager gm = GetComponent<GameManager>();
             if (gm == null)
                 gm = gameObject.AddComponent<GameManager>();
@@ -247,7 +246,6 @@ namespace NoiseOverSilent.Setup
         }
 
         // ── REFLECTION HELPER ─────────────────────────────────────────
-        /// <summary>Sets a private or public SerializeField by name using reflection.</summary>
         private void SetField(object target, string fieldName, object value)
         {
             Type      type  = target.GetType();
