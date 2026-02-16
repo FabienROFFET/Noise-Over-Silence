@@ -106,6 +106,8 @@ namespace NoiseOverSilent.Setup
             Image img = go.AddComponent<Image>();
             img.color         = new Color(0.08f, 0.08f, 0.08f, 1f);
             img.raycastTarget = false;
+            // Force color again — Image alpha resets to 0 on AddComponent
+            img.color = new Color(0.08f, 0.08f, 0.08f, 1f);
 
             Debug.Log("[UIBuilder] BackgroundImage created.");
             return img;
@@ -148,10 +150,16 @@ namespace NoiseOverSilent.Setup
 
             TextMeshProUGUI tmp = textGO.AddComponent<TextMeshProUGUI>();
             tmp.fontSize          = 22;
-            tmp.color             = new Color(0.88f, 0.88f, 0.88f, 1f);
             tmp.alignment         = TextAlignmentOptions.TopLeft;
             tmp.textWrappingMode  = TextWrappingModes.Normal;
             tmp.text              = "";
+            tmp.color             = new Color(0.88f, 0.88f, 0.88f, 1f);
+
+            // CanvasGroup overrides TMP material alpha issues on runtime-created objects
+            CanvasGroup cg = textGO.AddComponent<CanvasGroup>();
+            cg.alpha          = 1f;
+            cg.interactable   = true;
+            cg.blocksRaycasts = false;
 
             // -- Choice container --
             GameObject containerGO = new GameObject("ChoiceContainer");
@@ -216,10 +224,10 @@ namespace NoiseOverSilent.Setup
 
             TextMeshProUGUI tmp = textChild.AddComponent<TextMeshProUGUI>();
             tmp.fontSize         = 19;
-            tmp.color            = new Color(0.88f, 0.88f, 0.88f, 1f);
             tmp.alignment        = TextAlignmentOptions.MidlineLeft;
             tmp.textWrappingMode = TextWrappingModes.NoWrap;
             tmp.text             = "";
+            tmp.color            = new Color(0.88f, 0.88f, 0.88f, 1f); // set LAST
 
             go.AddComponent<ChoiceButton>();
             return go;
