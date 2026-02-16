@@ -3,8 +3,9 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 1.5
-// CHANGES : v1.5 - 2026-02-16 - Added versioning, fixed Image alpha
+// VERSION : 1.6
+// CHANGES : v1.6 - 2026-02-16 - SlidingPanel on separate Canvas sortingOrder=10 to render above background
+//           v1.5 - 2026-02-16 - Added versioning, fixed Image alpha
 //           v1.4 - 2026-02-16 - Fixed RectTransform AddComponent vs GetComponent
 //           v1.3 - 2026-02-16 - InputSystemUIInputModule for Unity 6
 //           v1.2 - 2026-02-16 - Canvas built first before UI children
@@ -29,7 +30,7 @@ namespace NoiseOverSilent.Setup
     {
         private void Awake()
         {
-            Debug.Log("[UIBuilder v1.5] Building scene...");
+            Debug.Log("[UIBuilder v1.6] Building scene...");
 
             GameObject canvas     = BuildCanvas();
             BuildEventSystem();
@@ -41,7 +42,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v1.5] Done!");
+            Debug.Log("[UIBuilder v1.6] Done!");
         }
 
         private GameObject BuildCanvas()
@@ -58,7 +59,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight  = 1f;
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v1.5] Canvas created.");
+            Debug.Log("[UIBuilder v1.6] Canvas created.");
             return go;
         }
 
@@ -68,7 +69,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v1.5] EventSystem created.");
+            Debug.Log("[UIBuilder v1.6] EventSystem created.");
         }
 
         private void BuildCamera()
@@ -79,7 +80,7 @@ namespace NoiseOverSilent.Setup
             Camera c = cam.AddComponent<Camera>();
             c.clearFlags      = CameraClearFlags.SolidColor;
             c.backgroundColor = Color.black;
-            Debug.Log("[UIBuilder v1.5] Camera created.");
+            Debug.Log("[UIBuilder v1.6] Camera created.");
         }
 
         private Image BuildBackgroundImage(GameObject canvas)
@@ -97,7 +98,7 @@ namespace NoiseOverSilent.Setup
             img.color         = new Color(0.08f, 0.08f, 0.08f, 1f);
             img.raycastTarget = false;
 
-            Debug.Log("[UIBuilder v1.5] BackgroundImage created.");
+            Debug.Log("[UIBuilder v1.6] BackgroundImage created.");
             return img;
         }
 
@@ -110,9 +111,23 @@ namespace NoiseOverSilent.Setup
 
         private SlidingPanel BuildSlidingPanel(GameObject canvas)
         {
+            // Panel on a SEPARATE canvas with higher sort order so it renders over background
+            GameObject panelCanvas = new GameObject("PanelCanvas");
+            Canvas pc = panelCanvas.AddComponent<Canvas>();
+            pc.renderMode   = RenderMode.ScreenSpaceOverlay;
+            pc.sortingOrder = 10; // renders above main canvas (sortingOrder 0)
+
+            CanvasScaler pcs = panelCanvas.AddComponent<CanvasScaler>();
+            pcs.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            pcs.referenceResolution = new Vector2(1920, 1080);
+            pcs.screenMatchMode     = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            pcs.matchWidthOrHeight  = 1f;
+
+            panelCanvas.AddComponent<GraphicRaycaster>();
+
             // Panel root
             GameObject panelGO = new GameObject("SlidingPanel");
-            panelGO.transform.SetParent(canvas.transform, false);
+            panelGO.transform.SetParent(panelCanvas.transform, false);
 
             RectTransform panelRect    = panelGO.AddComponent<RectTransform>();
             panelRect.anchorMin        = new Vector2(1f, 0f);
@@ -175,7 +190,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v1.5] SlidingPanel created.");
+            Debug.Log("[UIBuilder v1.6] SlidingPanel created.");
             return sp;
         }
 
@@ -224,7 +239,7 @@ namespace NoiseOverSilent.Setup
             SetField(gm, "startEpisode", 1);
             SetField(gm, "startEventId", 1);
 
-            Debug.Log("[UIBuilder v1.5] GameManager wired.");
+            Debug.Log("[UIBuilder v1.6] GameManager wired.");
         }
 
         private void SetField(object target, string fieldName, object value)
@@ -240,7 +255,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v1.5] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v1.6] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }
