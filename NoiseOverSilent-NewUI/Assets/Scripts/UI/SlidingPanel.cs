@@ -3,9 +3,13 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 1.7
-// CHANGES : v1.7 - 2026-02-16 - Force TMP redraw via enable toggle
-//           v1.6 - 2026-02-16 - Restored dark panel color, confirmed working
+// VERSION : 2.1
+// CHANGES : v1.6 - 2026-02-16 - Restored dark panel color, confirmed working
+//           v2.1 - 2026-02-16 - Panel 400px, slide positions updated
+//           v2.0 - 2026-02-16 - Panel width 600px, slide positions updated
+//           v1.9 - 2026-02-16 - Slide animation enabled, panel width 800px
+//           v1.8 - 2026-02-16 - Updated for 800px panel width
+//           v1.7 - 2026-02-16 - Force TMP redraw via enable toggle
 //           v1.6 - 2026-02-16 - Slide animation restored, dark panel color
 //           v1.5 - 2026-02-16 - RED panel visibility test
 //           v1.4 - 2026-02-16 - 2-frame delay coroutine, no MoveOffScreen, force color/alpha
@@ -68,11 +72,11 @@ namespace NoiseOverSilent.UI
                 narrativeText.enabled = false;
                 narrativeText.enabled = true; // force TMP redraw
                 narrativeText.ForceMeshUpdate();
-                Debug.Log($"[SlidingPanel v1.7] Text='{narrativeText.text}' Color={narrativeText.color} Alpha={narrativeText.alpha}");
+                Debug.Log($"[SlidingPanel v2.1] Text='{narrativeText.text}' Color={narrativeText.color} Alpha={narrativeText.alpha}");
             }
             else
             {
-                Debug.LogError("[SlidingPanel v1.7] narrativeText IS NULL");
+                Debug.LogError("[SlidingPanel v2.1] narrativeText IS NULL");
             }
 
             // Choices
@@ -84,10 +88,10 @@ namespace NoiseOverSilent.UI
                 panelRect.anchorMin = new Vector2(1f, 0f);
                 panelRect.anchorMax = new Vector2(1f, 1f);
                 panelRect.pivot     = new Vector2(1f, 0.5f);
-                panelRect.sizeDelta = new Vector2(640f, 0f);
+                panelRect.sizeDelta = new Vector2(400f, 0f);
 
                 // Animate from off-screen to visible
-                Vector2 startPos = new Vector2(740f, 0f);
+                Vector2 startPos = new Vector2(500f, 0f);
                 Vector2 endPos   = Vector2.zero;
                 float   elapsed  = 0f;
 
@@ -102,7 +106,7 @@ namespace NoiseOverSilent.UI
                 }
 
                 panelRect.anchoredPosition = endPos;
-                Debug.Log($"[SlidingPanel v1.7] Slide complete. pos={panelRect.anchoredPosition}");
+                Debug.Log($"[SlidingPanel v2.1] Slide complete. pos={panelRect.anchoredPosition}");
             }
         }
 
@@ -137,7 +141,7 @@ namespace NoiseOverSilent.UI
         private IEnumerator SlideOut(Action onComplete)
         {
             Vector2 start   = panelRect.anchoredPosition;
-            Vector2 end     = new Vector2(740f, 0f);
+            Vector2 end     = new Vector2(500f, 0f);
             float   elapsed = 0f;
 
             while (elapsed < slideSpeed)

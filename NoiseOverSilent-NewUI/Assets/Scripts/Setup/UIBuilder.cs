@@ -3,8 +3,19 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 1.8
-// CHANGES : v1.8 - 2026-02-16 - Use TMP prefab from Resources to fix HDR material issue
+// VERSION : 2.9
+// CHANGES : v2.9 - 2026-02-16 - Menu dropdown with Exit and Settings at y=-60
+//           v2.8 - 2026-02-16 - EXIT button position adjusted (y=-10 instead of -20)
+//           v2.7 - 2026-02-16 - Panel 400px, text right=10, EXIT button upper left
+//           v2.6 - 2026-02-16 - Panel width 600px (25% smaller), narrative text size 30
+//           v2.5 - 2026-02-16 - Choice button text padding reduced to 1px
+//           v2.4 - 2026-02-16 - Canvas Scaler match=0.5 for balanced width/height scaling
+//           v2.3 - 2026-02-16 - Background image preserveAspect=true
+//           v2.2 - 2026-02-16 - Choice button: height=55, text padding=15, wrapping enabled
+//           v2.1 - 2026-02-16 - Text right=-400, bottom=220, choices at y=220
+//           v2.0 - 2026-02-16 - Panel 800px wide, text area top=200px bottom=40px
+//           v1.9 - 2026-02-16 - Fixed text area bounds (40px bottom instead of 220px)
+//           v1.8 - 2026-02-16 - Use TMP prefab from Resources to fix HDR material issue
 //           v1.7 - 2026-02-16 - Fixed HDR intensity=0 on TMP material
 //           v1.6 - 2026-02-16 - SlidingPanel on separate Canvas sortingOrder=10
 //           v1.5 - 2026-02-16 - Added versioning, fixed Image alpha
@@ -36,7 +47,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v1.8] Building scene...");
+            Debug.Log("[UIBuilder v2.9] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -45,10 +56,11 @@ namespace NoiseOverSilent.Setup
             Image        bgImage    = BuildBackgroundImage(canvas);
             ImageDisplay imgDisplay = BuildImageDisplay(bgImage);
             SlidingPanel panel      = BuildSlidingPanel(canvas);
+            BuildExitButton(canvas);
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v1.8] Done!");
+            Debug.Log("[UIBuilder v2.9] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -63,10 +75,10 @@ namespace NoiseOverSilent.Setup
             scaler.uiScaleMode        = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920, 1080);
             scaler.screenMatchMode    = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            scaler.matchWidthOrHeight = 1f;
+            scaler.matchWidthOrHeight = 0.5f; // balanced between width and height
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v1.8] Canvas created.");
+            Debug.Log("[UIBuilder v2.9] Canvas created.");
             return go;
         }
 
@@ -77,7 +89,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v1.8] EventSystem created.");
+            Debug.Log("[UIBuilder v2.9] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -103,11 +115,12 @@ namespace NoiseOverSilent.Setup
             rect.offsetMin = Vector2.zero;
             rect.offsetMax = Vector2.zero;
 
-            Image img     = go.AddComponent<Image>();
+            Image img         = go.AddComponent<Image>();
             img.color         = new Color(0.08f, 0.08f, 0.08f, 1f);
             img.raycastTarget = false;
+            img.preserveAspect = true;
 
-            Debug.Log("[UIBuilder v1.8] BackgroundImage created.");
+            Debug.Log("[UIBuilder v2.9] BackgroundImage created.");
             return img;
         }
 
@@ -131,7 +144,7 @@ namespace NoiseOverSilent.Setup
             pcs.uiScaleMode         = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             pcs.referenceResolution = new Vector2(1920, 1080);
             pcs.screenMatchMode     = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            pcs.matchWidthOrHeight  = 1f;
+            pcs.matchWidthOrHeight  = 0.5f;
             panelCanvas.AddComponent<GraphicRaycaster>();
 
             // Panel root
@@ -142,15 +155,15 @@ namespace NoiseOverSilent.Setup
             panelRect.anchorMin        = new Vector2(1f, 0f);
             panelRect.anchorMax        = new Vector2(1f, 1f);
             panelRect.pivot            = new Vector2(1f, 0.5f);
-            panelRect.sizeDelta        = new Vector2(640f, 0f);
-            panelRect.anchoredPosition = new Vector2(740f, 0f);
+            panelRect.sizeDelta        = new Vector2(400f, 0f);
+            panelRect.anchoredPosition = new Vector2(500f, 0f);
 
             Image panelImg = panelGO.AddComponent<Image>();
             panelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
             // ── Narrative text ────────────────────────────────────────────────
             TextMeshProUGUI tmp = CreateTMPText(panelGO, "NarrativeText",
-                new Vector2(30f, 220f), new Vector2(-30f, -40f), 22);
+                new Vector2(30f, 220f), new Vector2(-10f, -200f), 30);
 
             // ── Choice container ──────────────────────────────────────────────
             GameObject containerGO = new GameObject("ChoiceContainer");
@@ -160,8 +173,8 @@ namespace NoiseOverSilent.Setup
             cr.anchorMin        = new Vector2(0f,   0f);
             cr.anchorMax        = new Vector2(1f,   0f);
             cr.pivot            = new Vector2(0.5f, 0f);
-            cr.sizeDelta        = new Vector2(-60f, 210f);
-            cr.anchoredPosition = new Vector2(0f,   20f);
+            cr.sizeDelta        = new Vector2(-60f, 180f);
+            cr.anchoredPosition = new Vector2(0f,   220f);
 
             VerticalLayoutGroup vlg = containerGO.AddComponent<VerticalLayoutGroup>();
             vlg.spacing               = 12f;
@@ -186,7 +199,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v1.8] SlidingPanel created.");
+            Debug.Log("[UIBuilder v2.9] SlidingPanel created.");
             return sp;
         }
 
@@ -229,7 +242,7 @@ namespace NoiseOverSilent.Setup
             tmp.color            = Color.white;
             tmp.text             = "";
 
-            Debug.Log($"[UIBuilder v1.8] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v2.9] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -237,7 +250,7 @@ namespace NoiseOverSilent.Setup
         private GameObject BuildChoiceButtonPrefab()
         {
             GameObject go = new GameObject("ChoiceButton");
-            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 45f);
+            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 55f);
 
             Image img  = go.AddComponent<Image>();
             img.color  = new Color(0f, 0f, 0f, 0f);
@@ -247,12 +260,135 @@ namespace NoiseOverSilent.Setup
 
             // Text child
             TextMeshProUGUI tmp = CreateTMPText(go, "Text",
-                new Vector2(5f, 0f), new Vector2(-5f, 0f), 19);
+                new Vector2(1f, 5f), new Vector2(-1f, -5f), 19);
             tmp.alignment        = TextAlignmentOptions.MidlineLeft;
-            tmp.textWrappingMode = TextWrappingModes.NoWrap;
+            tmp.textWrappingMode = TextWrappingModes.Normal;
 
             go.AddComponent<ChoiceButton>();
             return go;
+        }
+
+        // ── Menu Dropdown ────────────────────────────────────────────────
+        private void BuildExitButton(GameObject canvas)
+        {
+            // Menu button
+            GameObject menuBtn = new GameObject("MenuButton");
+            menuBtn.transform.SetParent(canvas.transform, false);
+
+            RectTransform menuRect = menuBtn.AddComponent<RectTransform>();
+            menuRect.anchorMin        = new Vector2(0f, 1f);
+            menuRect.anchorMax        = new Vector2(0f, 1f);
+            menuRect.pivot            = new Vector2(0f, 1f);
+            menuRect.sizeDelta        = new Vector2(100f, 40f);
+            menuRect.anchoredPosition = new Vector2(20f, -60f);
+
+            Image menuImg = menuBtn.AddComponent<Image>();
+            menuImg.color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
+
+            Button menuButton = menuBtn.AddComponent<Button>();
+
+            // Menu button text
+            GameObject menuTextGO = new GameObject("Text");
+            menuTextGO.transform.SetParent(menuBtn.transform, false);
+            
+            RectTransform menuTextRect = menuTextGO.AddComponent<RectTransform>();
+            menuTextRect.anchorMin = Vector2.zero;
+            menuTextRect.anchorMax = Vector2.one;
+            menuTextRect.offsetMin = Vector2.zero;
+            menuTextRect.offsetMax = Vector2.zero;
+
+            TextMeshProUGUI menuText = CreateMenuText(menuTextGO, "MENU");
+
+            // Dropdown panel
+            GameObject dropdown = new GameObject("MenuDropdown");
+            dropdown.transform.SetParent(canvas.transform, false);
+            dropdown.SetActive(false);
+
+            RectTransform dropRect = dropdown.AddComponent<RectTransform>();
+            dropRect.anchorMin        = new Vector2(0f, 1f);
+            dropRect.anchorMax        = new Vector2(0f, 1f);
+            dropRect.pivot            = new Vector2(0f, 1f);
+            dropRect.sizeDelta        = new Vector2(100f, 80f);
+            dropRect.anchoredPosition = new Vector2(20f, -100f);
+
+            Image dropImg = dropdown.AddComponent<Image>();
+            dropImg.color = new Color(0.08f, 0.08f, 0.08f, 0.95f);
+
+            // Exit option
+            CreateMenuOption(dropdown, "Exit", 0, () => {
+                #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                    Application.Quit();
+                #endif
+            });
+
+            // Settings option  
+            CreateMenuOption(dropdown, "Settings", 1, () => {
+                Debug.Log("[Menu] Settings (not implemented yet)");
+            });
+
+            // Toggle dropdown
+            menuButton.onClick.AddListener(() => dropdown.SetActive(!dropdown.activeSelf));
+
+            Debug.Log("[UIBuilder v2.9] Menu dropdown created.");
+        }
+
+        private TextMeshProUGUI CreateMenuText(GameObject parent, string text)
+        {
+            TextMeshProUGUI tmp = parent.AddComponent<TextMeshProUGUI>();
+            
+            TMP_FontAsset font = TMP_Settings.defaultFontAsset;
+            if (font != null)
+            {
+                tmp.font = font;
+                Material mat = new Material(font.material);
+                mat.SetColor(ShaderUtilities.ID_FaceColor, Color.white);
+                tmp.fontSharedMaterial = mat;
+            }
+
+            tmp.text      = text;
+            tmp.fontSize  = 16;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.color     = Color.white;
+            return tmp;
+        }
+
+        private void CreateMenuOption(GameObject parent, string label, int index, UnityEngine.Events.UnityAction action)
+        {
+            GameObject option = new GameObject(label);
+            option.transform.SetParent(parent.transform, false);
+
+            RectTransform rect = option.AddComponent<RectTransform>();
+            rect.anchorMin        = new Vector2(0f, 1f);
+            rect.anchorMax        = new Vector2(1f, 1f);
+            rect.pivot            = new Vector2(0.5f, 1f);
+            rect.sizeDelta        = new Vector2(0f, 40f);
+            rect.anchoredPosition = new Vector2(0f, -index * 40f);
+
+            Image img = option.AddComponent<Image>();
+            img.color = new Color(0.15f, 0.15f, 0.15f, 0f);
+
+            Button btn = option.AddComponent<Button>();
+            btn.onClick.AddListener(action);
+
+            ColorBlock colors = btn.colors;
+            colors.normalColor      = new Color(1f, 1f, 1f, 0f);
+            colors.highlightedColor = new Color(1f, 1f, 1f, 0.2f);
+            colors.pressedColor     = new Color(1f, 1f, 1f, 0.3f);
+            btn.colors = colors;
+
+            // Text
+            GameObject textGO = new GameObject("Text");
+            textGO.transform.SetParent(option.transform, false);
+
+            RectTransform textRect = textGO.AddComponent<RectTransform>();
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = new Vector2(5f, 0f);
+            textRect.offsetMax = new Vector2(-5f, 0f);
+
+            CreateMenuText(textGO, label);
         }
 
         // ── GameManager wiring ───────────────────────────────────────────────
@@ -267,7 +403,7 @@ namespace NoiseOverSilent.Setup
             SetField(gm, "startEpisode", 1);
             SetField(gm, "startEventId", 1);
 
-            Debug.Log("[UIBuilder v1.8] GameManager wired.");
+            Debug.Log("[UIBuilder v2.9] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -284,7 +420,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v1.8] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v2.9] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }
