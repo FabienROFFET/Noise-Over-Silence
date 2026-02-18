@@ -1,0 +1,310 @@
+{
+  "episode": 1,
+  "title": "The Day Still Starts",
+  "events": [
+
+    {
+      "id": 1,
+      "location": "Flat",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Cold communist apartment, Brno 2157, peeling walls, weak morning light, hopeless atmosphere",
+      "image_link": "images/ep1_event1.jpg",
+      "stats": { "physical": 100, "mental": 85 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "The radiator clicks like a dying insect. Morning exists only because the clock says so. You sit on the bed, already tired.",
+      "choices": [
+        { "text": "Get up", "next_event": 2 },
+        { "text": "Stay seated and think", "next_event": 3 }
+      ]
+    },
+
+    {
+      "id": 2,
+      "location": "Flat",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Small kitchen in a decaying apartment, empty shelves, cold light",
+      "image_link": "images/ep1_event2.png",
+      "stats": { "physical": 100, "mental": 84 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "You stand. Your legs respond out of habit, not will.",
+      "choices": [
+        { "text": "Check the kitchen", "next_event": 4 },
+        { "text": "Put on your coat and leave", "next_event": 6 }
+      ]
+    },
+
+    {
+      "id": 3,
+      "location": "Flat",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Man sitting on bed, head down, grey walls, silence",
+      "image_link": "images/ep1_event3.png",
+      "stats": { "physical": 100, "mental": 82 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "You remember winters that felt shorter. Maybe they weren’t. Maybe you were.",
+      "choices": [
+        { "text": "Get up anyway", "next_event": 2 }
+      ]
+    },
+
+    {
+      "id": 4,
+      "location": "Flat",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Cold kitchen table with a single sausage on it",
+      "image_link": "images/ep1_event4.png",
+      "stats": { "physical": 100, "mental": 84 },
+      "inventory": { "items": ["cold_sausage"], "tapes": [] },
+      "text": "A cold Polish sausage lies on the table. No bread. Still food.",
+      "choices": [
+        { "text": "Eat the sausage", "next_event": 5, "lose_items": ["cold_sausage"] },
+        { "text": "Save it for later", "next_event": 6 }
+      ]
+    },
+
+    {
+      "id": 5,
+      "location": "Flat",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Man eating alone in silence",
+      "image_link": "images/ep1_event5.png",
+      "stats": { "physical": 105, "mental": 83 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "It tastes like nothing. But your hands shake less.",
+      "choices": [
+        { "text": "Leave the flat", "next_event": 6 }
+      ]
+    },
+
+    {
+      "id": 6,
+      "location": "Stairwell",
+      "soundscape_mp3": "audio/stairwell_echo.mp3",
+      "image_prompt": "Dark stairwell, broken lights, concrete walls",
+      "image_link": "images/ep1_event6.png",
+      "stats": { "physical": 100, "mental": 83 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "The stairwell smells of mold and resignation.",
+      "choices": [
+        { "text": "Go down", "next_event": 7 }
+      ]
+    },
+
+    {
+      "id": 7,
+      "location": "Street",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Frozen communist street, propaganda banners, snow",
+      "image_link": "images/ep1_event7.png",
+      "stats": { "physical": 98, "mental": 82 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Wind cuts your face. Loudspeakers praise productivity.",
+      "choices": [
+        { "text": "Walk toward the pub", "next_event": 8 },
+        { "text": "Wander the street", "next_event": 9 }
+      ]
+    },
+
+    {
+      "id": 8,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Dark underground pub, tired faces, smoke",
+      "image_link": "images/ep1_event8.png",
+      "stats": { "physical": 98, "mental": 80 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "The pub is warm. That’s already dangerous.",
+      "choices": [
+        { "text": "Talk to the owner", "next_event": 10 },
+        { "text": "Sit silently", "next_event": 11 }
+      ]
+    },
+
+    {
+      "id": 9,
+      "location": "Street",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Empty street corner with propaganda poster",
+      "image_link": "images/ep1_event9.png",
+      "stats": { "physical": 97, "mental": 80 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "A poster says: *The State Knows You.*",
+      "choices": [
+        { "text": "Tear it down", "next_event": 12 },
+        { "text": "Keep walking", "next_event": 8 }
+      ]
+    },
+
+    {
+      "id": 10,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Pub owner leaning on counter, suspicious eyes",
+      "image_link": "images/ep1_event10.png",
+      "stats": { "physical": 98, "mental": 78 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "“You’re early,” the owner says. “That’s never good.”",
+      "choices": [
+        { "text": "Ask about work", "next_event": 13 },
+        { "text": "Ask about rumors", "next_event": 14 }
+      ]
+    },
+
+    {
+      "id": 11,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Man sitting alone at a pub table",
+      "image_link": "images/ep1_event11.png",
+      "stats": { "physical": 98, "mental": 77 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "People avoid your eyes. They learned that skill early.",
+      "choices": [
+        { "text": "Leave the pub", "next_event": 15 }
+      ]
+    },
+
+    {
+      "id": 12,
+      "location": "Street",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Ripped propaganda poster flapping in wind",
+      "image_link": "images/ep1_event12.png",
+      "stats": { "physical": 97, "mental": 76 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "The paper tears too easily. Resistance feels the same.",
+      "choices": [
+        { "text": "Go to the pub", "next_event": 8 }
+      ]
+    },
+
+    {
+      "id": 13,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Whispered conversation in a dark pub corner",
+      "image_link": "images/ep1_event13.png",
+      "stats": { "physical": 98, "mental": 75 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "“No jobs,” he says. “But there are deliveries.”",
+      "choices": [
+        { "text": "Accept delivery", "next_event": 16 },
+        { "text": "Refuse", "next_event": 15 }
+      ]
+    },
+
+    {
+      "id": 14,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Man passing a small cassette tape discreetly",
+      "image_link": "images/ep1_event14.png",
+      "stats": { "physical": 98, "mental": 74 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "He slides a tape toward you. “Listen alone.”",
+      "choices": [
+        { "text": "Hide the tape", "next_event": 16 }
+      ]
+    },
+
+    {
+      "id": 15,
+      "location": "Street",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Street outside pub, dim light, snow",
+      "image_link": "images/ep1_event15.png",
+      "stats": { "physical": 96, "mental": 74 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "The cold welcomes you back like an old enemy.",
+      "choices": [
+        { "text": "Walk toward warehouse", "next_event": 16 }
+      ]
+    },
+
+    {
+      "id": 16,
+      "location": "Warehouse",
+      "soundscape_mp3": "audio/warehouse_drip.mp3",
+      "image_prompt": "Abandoned warehouse, concrete, shadows",
+      "image_link": "images/ep1_event16.png",
+      "stats": { "physical": 95, "mental": 73 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "The warehouse is too quiet.",
+      "choices": [
+        { "text": "Enter deeper", "next_event": 17 }
+      ]
+    },
+
+    {
+      "id": 17,
+      "location": "Warehouse",
+      "soundscape_mp3": "audio/warehouse_drip.mp3",
+      "image_prompt": "Two figures arguing in the dark",
+      "image_link": "images/ep1_event17.png",
+      "stats": { "physical": 95, "mental": 72 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "A fight breaks out. A knife flashes.",
+      "choices": [
+        { "text": "Fight back", "next_event": 18 },
+        { "text": "Run", "next_event": 19 }
+      ]
+    },
+
+    {
+      "id": 18,
+      "location": "Warehouse",
+      "soundscape_mp3": "audio/warehouse_drip.mp3",
+      "image_prompt": "Knife fight in darkness",
+      "image_link": "images/ep1_event18.png",
+      "stats": { "physical": 80, "mental": 70 },
+      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
+      "text": "You survive. Barely.",
+      "choices": [
+        { "text": "Leave the warehouse", "next_event": 20 }
+      ]
+    },
+
+    {
+      "id": 19,
+      "location": "Street",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Man running into snowy street",
+      "image_link": "images/ep1_event19.png",
+      "stats": { "physical": 85, "mental": 68 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "Cowardice keeps you alive.",
+      "choices": [
+        { "text": "Hide in alley", "next_event": 20 }
+      ]
+    },
+
+    {
+      "id": 20,
+      "location": "Alley",
+      "soundscape_mp3": "audio/alley_drip.mp3",
+      "image_prompt": "Narrow alley, police lights in distance",
+      "image_link": "images/ep1_event20.png",
+      "stats": { "physical": 82, "mental": 65 },
+      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
+      "text": "Sirens. Not for you. Not yet.",
+      "choices": [
+        { "text": "Watch from the shadows", "next_event": 40 }
+      ]
+    },
+
+    {
+      "id": 40,
+      "location": "Street",
+      "soundscape_mp3": "audio/police_steps.mp3",
+      "image_prompt": "State police arresting someone under floodlight",
+      "image_link": "images/ep1_event40.png",
+      "stats": { "physical": 82, "mental": 60 },
+      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
+      "text": "They arrest a man. He screams a name. Your name.",
+      "choices": [
+        { "text": "Fade to black", "next_event": null }
+      ]
+    }
+
+  ]
+}
