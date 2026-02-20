@@ -3,11 +3,10 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 2.3
-// CHANGES : v2.3 - 2026-02-16 - SetGameManager() instead of FindFirstObjectByType
-//           v2.2 - 2026-02-16 - Added debug logs for choice clicks
-//           v2.1 - 2026-02-16 - Panel 400px, slide positions updated
-//           v2.0 - 2026-02-16 - Panel width 600px, slide positions updated
+// VERSION : 2.4
+// CHANGES : v2.4 - 2026-02-16 - Added typewriter effect support
+//           v2.3 - 2026-02-16 - SetGameManager() instead of FindFirstObjectByType
+//           v2.2 - 2026-02-16 - Added debug logs
 // ============================================================
 
 using System;
@@ -29,19 +28,27 @@ namespace NoiseOverSilent.UI
         [SerializeField] private Transform       choiceContainer;
         [SerializeField] private GameObject      choiceButtonPrefab;
         [SerializeField] private float           slideSpeed = 0.4f;
+        [SerializeField] private bool            useTypewriter = true;
+        [SerializeField] private float           typewriterSpeed = 40f;
 
         private GameManager      gameManager;
         private List<GameObject> activeButtons = new List<GameObject>();
+        private TypewriterEffect typewriter;
 
         public void SetGameManager(GameManager gm)
         {
             gameManager = gm;
-            Debug.Log($"[SlidingPanel v2.3] GameManager set: {(gameManager != null ? gameManager.name : "NULL")}");
+            Debug.Log($"[SlidingPanel v2.4] GameManager set: {(gameManager != null ? gameManager.name : "NULL")}");
         }
 
         private void Awake()
         {
-            // GameManager will be set by UIBuilder after it's created
+            if (narrativeText != null && useTypewriter)
+            {
+                typewriter = narrativeText.gameObject.GetComponent<TypewriterEffect>();
+                if (typewriter == null)
+                    typewriter = narrativeText.gameObject.AddComponent<TypewriterEffect>();
+            }
         }
 
         public void ShowEvent(GameEvent gameEvent)
@@ -66,7 +73,14 @@ namespace NoiseOverSilent.UI
                 narrativeText.enabled = false;
                 narrativeText.enabled = true;
                 narrativeText.ForceMeshUpdate();
-                Debug.Log($"[SlidingPanel v2.3] Text='{narrativeText.text}' Color={narrativeText.color} Alpha={narrativeText.alpha}");
+                
+                // Apply typewriter effect
+                if (useTypewriter && typewriter != null)
+                {
+                    typewriter.TypeText(gameEvent.text);
+                }
+                
+                Debug.Log($"[SlidingPanel v2.4] Text shown (typewriter={(useTypewriter ? "ON" : "OFF")})");
             }
 
             BuildChoices(gameEvent.choices);
@@ -93,7 +107,6 @@ namespace NoiseOverSilent.UI
                 }
 
                 panelRect.anchoredPosition = endPos;
-                Debug.Log($"[SlidingPanel v2.3] Slide complete. pos={panelRect.anchoredPosition}");
             }
         }
 
@@ -105,11 +118,8 @@ namespace NoiseOverSilent.UI
 
             if (choices == null || choices.Count == 0 || choiceButtonPrefab == null)
             {
-                Debug.Log($"[SlidingPanel v2.3] No choices to build");
                 return;
             }
-
-            Debug.Log($"[SlidingPanel v2.3] Building {choices.Count} choices, gameManager={(gameManager != null ? "OK" : "NULL")}");
 
             foreach (Choice choice in choices)
             {
@@ -119,13 +129,9 @@ namespace NoiseOverSilent.UI
                 if (cb != null)
                 {
                     int next = choice.next_event;
-                    Debug.Log($"[SlidingPanel v2.3] Setting up choice '{choice.text}' → event {next}");
                     cb.Setup(choice.text, () => {
-                        Debug.Log($"[SlidingPanel v2.3] Choice callback fired! next={next}, gameManager={(gameManager != null ? "OK" : "NULL")}");
                         if (gameManager != null)
                             gameManager.MakeChoice(next);
-                        else
-                            Debug.LogError("[SlidingPanel v2.3] gameManager is NULL in callback!");
                     });
                 }
                 activeButtons.Add(btnObj);
@@ -135,6 +141,11 @@ namespace NoiseOverSilent.UI
         public void Hide(Action onComplete)
         {
             StopAllCoroutines();
+            
+            // Skip typewriter to end before hiding
+            if (typewriter != null)
+                typewriter.SkipToEnd();
+            
             StartCoroutine(SlideOut(onComplete));
         }
 

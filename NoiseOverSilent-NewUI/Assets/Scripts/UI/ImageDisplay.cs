@@ -3,14 +3,12 @@
 // FILE    : ImageDisplay.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 1.0
-// CHANGES : v1.0 - 2026-02-14 - Initial version
-// DESC    : Displays fullscreen event images loaded from
-//           Assets/Resources/Images/Events/.
-//           Strips "images/" prefix and file extension
-//           before calling Resources.Load.
+// VERSION : 1.1
+// CHANGES : v1.1 - 2026-02-16 - Added fade transition between images
+//           v1.0 - 2026-02-14 - Initial version
 // ============================================================
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,11 +17,11 @@ namespace NoiseOverSilent.UI
     public class ImageDisplay : MonoBehaviour
     {
         [SerializeField] private Image eventImage;
+        [SerializeField] private float fadeDuration = 0.5f;
+        [SerializeField] private bool useFade = true;
 
-        /// <summary>
-        /// Loads and displays a sprite from Resources/Images/Events/.
-        /// imagePath format: "images/ep1_event1.png"
-        /// </summary>
+        private Coroutine fadeCoroutine;
+
         public void DisplayImage(string imagePath)
         {
             if (eventImage == null)
@@ -53,18 +51,58 @@ namespace NoiseOverSilent.UI
 
             if (sprite != null)
             {
-                eventImage.sprite = sprite;
-                eventImage.color  = Color.white;
-                Debug.Log($"[ImageDisplay] Loaded: Images/Events/{path}");
+                if (useFade)
+                {
+                    if (fadeCoroutine != null)
+                        StopCoroutine(fadeCoroutine);
+                    fadeCoroutine = StartCoroutine(FadeToNewImage(sprite));
+                }
+                else
+                {
+                    eventImage.sprite = sprite;
+                    eventImage.color  = Color.white;
+                }
+                
+                Debug.Log($"[ImageDisplay v1.1] Loaded: Images/Events/{path}");
             }
             else
             {
-                Debug.LogWarning($"[ImageDisplay] Not found: Images/Events/{path}");
+                Debug.LogWarning($"[ImageDisplay v1.1] Not found: Images/Events/{path}");
                 SetPlaceholder();
             }
         }
 
-        /// <summary>Shows a dark placeholder when no image is available.</summary>
+        private IEnumerator FadeToNewImage(Sprite newSprite)
+        {
+            // Fade out
+            float elapsed = 0f;
+            Color startColor = eventImage.color;
+            
+            while (elapsed < fadeDuration / 2f)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(1f, 0f, elapsed / (fadeDuration / 2f));
+                eventImage.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+                yield return null;
+            }
+
+            // Change sprite
+            eventImage.sprite = newSprite;
+
+            // Fade in
+            elapsed = 0f;
+            while (elapsed < fadeDuration / 2f)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(0f, 1f, elapsed / (fadeDuration / 2f));
+                eventImage.color = new Color(1f, 1f, 1f, alpha);
+                yield return null;
+            }
+
+            eventImage.color = Color.white;
+            fadeCoroutine = null;
+        }
+
         private void SetPlaceholder()
         {
             eventImage.sprite = null;
