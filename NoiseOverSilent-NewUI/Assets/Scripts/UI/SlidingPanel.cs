@@ -3,8 +3,9 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 2.4
-// CHANGES : v2.4 - 2026-02-16 - Added typewriter effect support
+// VERSION : 2.5
+// CHANGES : v2.5 - 2026-02-16 - Staggered choice animations
+//           v2.4 - 2026-02-16 - Added typewriter effect support
 //           v2.3 - 2026-02-16 - SetGameManager() instead of FindFirstObjectByType
 //           v2.2 - 2026-02-16 - Added debug logs
 // ============================================================
@@ -121,10 +122,12 @@ namespace NoiseOverSilent.UI
                 return;
             }
 
+            int index = 0;
             foreach (Choice choice in choices)
             {
                 GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
                 btnObj.SetActive(true);
+                
                 ChoiceButton cb = btnObj.GetComponent<ChoiceButton>();
                 if (cb != null)
                 {
@@ -133,8 +136,13 @@ namespace NoiseOverSilent.UI
                         if (gameManager != null)
                             gameManager.MakeChoice(next);
                     });
+                    
+                    // Staggered slide-in animation
+                    cb.AnimateEntry(index * 0.1f);
                 }
+                
                 activeButtons.Add(btnObj);
+                index++;
             }
         }
 

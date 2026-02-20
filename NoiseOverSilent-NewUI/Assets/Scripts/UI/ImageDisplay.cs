@@ -3,8 +3,10 @@
 // FILE    : ImageDisplay.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 1.1
-// CHANGES : v1.1 - 2026-02-16 - Added fade transition between images
+// VERSION : 1.3
+// CHANGES : v1.3 - 2026-02-16 - Fade DISABLED (useFade=false)
+//           v1.2 - 2026-02-16 - Slower fade (1.5s) for visibility
+//           v1.1 - 2026-02-16 - Added fade transition between images
 //           v1.0 - 2026-02-14 - Initial version
 // ============================================================
 
@@ -17,8 +19,8 @@ namespace NoiseOverSilent.UI
     public class ImageDisplay : MonoBehaviour
     {
         [SerializeField] private Image eventImage;
-        [SerializeField] private float fadeDuration = 0.5f;
-        [SerializeField] private bool useFade = true;
+        [SerializeField] private float fadeDuration = 1.5f;
+        [SerializeField] private bool useFade = false; // DISABLED - instant change
 
         private Coroutine fadeCoroutine;
 

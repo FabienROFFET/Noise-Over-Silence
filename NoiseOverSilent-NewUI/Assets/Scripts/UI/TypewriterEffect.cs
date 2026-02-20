@@ -3,8 +3,9 @@
 // FILE    : TypewriterEffect.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-16
-// VERSION : 1.0
-// CHANGES : v1.0 - 2026-02-16 - Initial version
+// VERSION : 1.1
+// CHANGES : v1.1 - 2026-02-16 - Slower speed (15 chars/sec) for visibility
+//           v1.0 - 2026-02-16 - Initial version
 // DESC    : Animates text character-by-character with typing sound
 // ============================================================
 
@@ -16,7 +17,7 @@ namespace NoiseOverSilent.UI
 {
     public class TypewriterEffect : MonoBehaviour
     {
-        [SerializeField] private float charsPerSecond = 30f;
+        [SerializeField] private float charsPerSecond = 15f; // Slower = more visible
         [SerializeField] private AudioSource typingAudio;
         
         private TextMeshProUGUI textComponent;

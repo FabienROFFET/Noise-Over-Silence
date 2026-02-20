@@ -3,8 +3,12 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 3.4
-// CHANGES : v3.4 - 2026-02-16 - Call panel.SetGameManager() to fix choice clicks
+// VERSION : 3.8
+// CHANGES : v3.8 - 2026-02-16 - Button spacing 20px (fix overlap)
+//           v3.7 - 2026-02-16 - Button height 70px, removed PanelGlow (grey panel)
+//           v3.6 - 2026-02-16 - Choice button text padding 10px (fix overlap)
+//           v3.5 - 2026-02-16 - Premium polish: vignette, panel glow, menu animations
+//           v3.4 - 2026-02-16 - Call panel.SetGameManager() to fix choice clicks
 //           v3.3 - 2026-02-16 - MENU at (0,0) absolute corner
 //           v3.2 - 2026-02-16 - MENU at (5,-5), text top=-50, raycastTarget=true on buttons
 //           v3.1 - 2026-02-16 - MENU at (10,-10), text top=-100, choices at y=40
@@ -52,7 +56,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v3.4] Building scene...");
+            Debug.Log("[UIBuilder v3.8] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -60,12 +64,13 @@ namespace NoiseOverSilent.Setup
 
             Image        bgImage    = BuildBackgroundImage(canvas);
             ImageDisplay imgDisplay = BuildImageDisplay(bgImage);
+            BuildVignette(canvas);
             SlidingPanel panel      = BuildSlidingPanel(canvas);
             BuildExitButton(canvas);
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v3.4] Done!");
+            Debug.Log("[UIBuilder v3.8] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -83,7 +88,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v3.4] Canvas created.");
+            Debug.Log("[UIBuilder v3.8] Canvas created.");
             return go;
         }
 
@@ -94,7 +99,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v3.4] EventSystem created.");
+            Debug.Log("[UIBuilder v3.8] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -125,7 +130,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v3.4] BackgroundImage created.");
+            Debug.Log("[UIBuilder v3.8] BackgroundImage created.");
             return img;
         }
 
@@ -134,6 +139,59 @@ namespace NoiseOverSilent.Setup
             ImageDisplay id = bgImage.gameObject.AddComponent<ImageDisplay>();
             SetField(id, "eventImage", bgImage);
             return id;
+        }
+
+        // ── Vignette Effect ──────────────────────────────────────────────────
+        private void BuildVignette(GameObject canvas)
+        {
+            GameObject vignetteGO = new GameObject("VignetteOverlay");
+            vignetteGO.transform.SetParent(canvas.transform, false);
+
+            RectTransform rect = vignetteGO.AddComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            Image img = vignetteGO.AddComponent<Image>();
+            img.color = new Color(0f, 0f, 0f, 0.4f);
+            img.raycastTarget = false;
+            
+            // Radial gradient vignette
+            img.sprite = CreateVignetteSprite();
+            img.type = Image.Type.Simple;
+
+            vignetteGO.AddComponent<VignetteEffect>();
+
+            Debug.Log("[UIBuilder v3.8] Vignette overlay created.");
+        }
+
+        private Sprite CreateVignetteSprite()
+        {
+            // Create a simple radial gradient texture
+            int size = 512;
+            Texture2D tex = new Texture2D(size, size);
+            Color[] pixels = new Color[size * size];
+
+            Vector2 center = new Vector2(size / 2f, size / 2f);
+            float maxDist = size * 0.7f;
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    Vector2 pos = new Vector2(x, y);
+                    float dist = Vector2.Distance(pos, center);
+                    float alpha = Mathf.Clamp01((dist / maxDist) - 0.3f);
+                    alpha = Mathf.Pow(alpha, 1.5f); // Soften edges
+                    pixels[y * size + x] = new Color(0f, 0f, 0f, alpha);
+                }
+            }
+
+            tex.SetPixels(pixels);
+            tex.Apply();
+
+            return Sprite.Create(tex, new Rect(0, 0, size, size), new Vector2(0.5f, 0.5f));
         }
 
         // ── Sliding Panel ────────────────────────────────────────────────────
@@ -166,6 +224,8 @@ namespace NoiseOverSilent.Setup
             Image panelImg = panelGO.AddComponent<Image>();
             panelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
+            // Glow removed - clean dark grey panel
+
             // ── Narrative text ────────────────────────────────────────────────
             TextMeshProUGUI tmp = CreateTMPText(panelGO, "NarrativeText",
                 new Vector2(30f, 40f), new Vector2(-10f, -50f), 30);
@@ -182,7 +242,7 @@ namespace NoiseOverSilent.Setup
             cr.anchoredPosition = new Vector2(0f,   40f);
 
             VerticalLayoutGroup vlg = containerGO.AddComponent<VerticalLayoutGroup>();
-            vlg.spacing               = 12f;
+            vlg.spacing               = 20f; // More space between buttons
             vlg.padding               = new RectOffset(10, 10, 5, 5);
             vlg.childAlignment        = TextAnchor.LowerLeft;
             vlg.childControlWidth     = true;
@@ -204,7 +264,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v3.4] SlidingPanel created.");
+            Debug.Log("[UIBuilder v3.8] SlidingPanel created.");
             return sp;
         }
 
@@ -247,7 +307,7 @@ namespace NoiseOverSilent.Setup
             tmp.color            = Color.white;
             tmp.text             = "";
 
-            Debug.Log($"[UIBuilder v3.4] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v3.8] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -255,7 +315,7 @@ namespace NoiseOverSilent.Setup
         private GameObject BuildChoiceButtonPrefab()
         {
             GameObject go = new GameObject("ChoiceButton");
-            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 55f);
+            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 70f); // Taller buttons
 
             Image img  = go.AddComponent<Image>();
             img.color  = new Color(0f, 0f, 0f, 0f);
@@ -266,7 +326,7 @@ namespace NoiseOverSilent.Setup
 
             // Text child
             TextMeshProUGUI tmp = CreateTMPText(go, "Text",
-                new Vector2(1f, 5f), new Vector2(-1f, -5f), 19);
+                new Vector2(10f, 5f), new Vector2(-10f, -5f), 19);
             tmp.alignment        = TextAlignmentOptions.MidlineLeft;
             tmp.textWrappingMode = TextWrappingModes.Normal;
 
@@ -334,10 +394,38 @@ namespace NoiseOverSilent.Setup
                 Debug.Log("[Menu] Settings (not implemented yet)");
             });
 
-            // Toggle dropdown
-            menuButton.onClick.AddListener(() => dropdown.SetActive(!dropdown.activeSelf));
+            // Toggle dropdown with smooth animation
+            menuButton.onClick.AddListener(() => {
+                if (dropdown.activeSelf)
+                {
+                    dropdown.SetActive(false);
+                }
+                else
+                {
+                    dropdown.SetActive(true);
+                    // Add slight scale animation
+                    dropdown.transform.localScale = new Vector3(1f, 0f, 1f);
+                    StartCoroutine(AnimateDropdown(dropdown.transform));
+                }
+            });
 
-            Debug.Log("[UIBuilder v3.4] Menu dropdown created.");
+            Debug.Log("[UIBuilder v3.8] Menu dropdown created.");
+        }
+
+        private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
+        {
+            float elapsed = 0f;
+            float duration = 0.15f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
+                dropdown.localScale = new Vector3(1f, t, 1f);
+                yield return null;
+            }
+
+            dropdown.localScale = Vector3.one;
         }
 
         private TextMeshProUGUI CreateMenuText(GameObject parent, string text)
@@ -412,7 +500,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v3.4] GameManager wired.");
+            Debug.Log("[UIBuilder v3.8] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -429,7 +517,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v3.4] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v3.8] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }
