@@ -3,20 +3,10 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 2.1
-// CHANGES : v1.6 - 2026-02-16 - Restored dark panel color, confirmed working
+// VERSION : 2.2
+// CHANGES : v2.2 - 2026-02-16 - Added debug logs for choice clicks
 //           v2.1 - 2026-02-16 - Panel 400px, slide positions updated
 //           v2.0 - 2026-02-16 - Panel width 600px, slide positions updated
-//           v1.9 - 2026-02-16 - Slide animation enabled, panel width 800px
-//           v1.8 - 2026-02-16 - Updated for 800px panel width
-//           v1.7 - 2026-02-16 - Force TMP redraw via enable toggle
-//           v1.6 - 2026-02-16 - Slide animation restored, dark panel color
-//           v1.5 - 2026-02-16 - RED panel visibility test
-//           v1.4 - 2026-02-16 - 2-frame delay coroutine, no MoveOffScreen, force color/alpha
-//           v1.3 - 2026-02-16 - Forced panel background color, ForceMeshUpdate
-//           v1.2 - 2026-02-16 - Fixed Start() vs ShowEvent() race condition
-//           v1.1 - 2026-02-15 - Added ShowEvent(), Hide(callback), ApplyLayout()
-//           v1.0 - 2026-02-14 - Initial version
 // ============================================================
 
 using System;
@@ -45,6 +35,10 @@ namespace NoiseOverSilent.UI
         private void Awake()
         {
             gameManager = FindFirstObjectByType<GameManager>();
+            if (gameManager == null)
+                Debug.LogError("[SlidingPanel v2.2] GameManager NOT FOUND!");
+            else
+                Debug.Log($"[SlidingPanel v2.2] GameManager found: {gameManager.name}");
         }
 
         public void ShowEvent(GameEvent gameEvent)
@@ -55,34 +49,25 @@ namespace NoiseOverSilent.UI
 
         private IEnumerator Show(GameEvent gameEvent)
         {
-            // Wait 2 frames for everything to settle
             yield return null;
             yield return null;
 
-            // Panel background — bright red for visibility test
             if (panelBackground != null)
                 panelBackground.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
-            // Text — set AFTER layout settles
             if (narrativeText != null)
             {
                 narrativeText.text  = gameEvent.text;
                 narrativeText.color = new Color(0.9f, 0.9f, 0.9f, 1f);
                 narrativeText.alpha = 1f;
                 narrativeText.enabled = false;
-                narrativeText.enabled = true; // force TMP redraw
+                narrativeText.enabled = true;
                 narrativeText.ForceMeshUpdate();
-                Debug.Log($"[SlidingPanel v2.1] Text='{narrativeText.text}' Color={narrativeText.color} Alpha={narrativeText.alpha}");
-            }
-            else
-            {
-                Debug.LogError("[SlidingPanel v2.1] narrativeText IS NULL");
+                Debug.Log($"[SlidingPanel v2.2] Text='{narrativeText.text}' Color={narrativeText.color} Alpha={narrativeText.alpha}");
             }
 
-            // Choices
             BuildChoices(gameEvent.choices);
 
-            // Slide in from right
             if (panelRect != null)
             {
                 panelRect.anchorMin = new Vector2(1f, 0f);
@@ -90,7 +75,6 @@ namespace NoiseOverSilent.UI
                 panelRect.pivot     = new Vector2(1f, 0.5f);
                 panelRect.sizeDelta = new Vector2(400f, 0f);
 
-                // Animate from off-screen to visible
                 Vector2 startPos = new Vector2(500f, 0f);
                 Vector2 endPos   = Vector2.zero;
                 float   elapsed  = 0f;
@@ -106,7 +90,7 @@ namespace NoiseOverSilent.UI
                 }
 
                 panelRect.anchoredPosition = endPos;
-                Debug.Log($"[SlidingPanel v2.1] Slide complete. pos={panelRect.anchoredPosition}");
+                Debug.Log($"[SlidingPanel v2.2] Slide complete. pos={panelRect.anchoredPosition}");
             }
         }
 
@@ -116,7 +100,13 @@ namespace NoiseOverSilent.UI
                 if (btn != null) Destroy(btn);
             activeButtons.Clear();
 
-            if (choices == null || choices.Count == 0 || choiceButtonPrefab == null) return;
+            if (choices == null || choices.Count == 0 || choiceButtonPrefab == null)
+            {
+                Debug.Log($"[SlidingPanel v2.2] No choices to build");
+                return;
+            }
+
+            Debug.Log($"[SlidingPanel v2.2] Building {choices.Count} choices, gameManager={(gameManager != null ? "OK" : "NULL")}");
 
             foreach (Choice choice in choices)
             {
@@ -126,7 +116,14 @@ namespace NoiseOverSilent.UI
                 if (cb != null)
                 {
                     int next = choice.next_event;
-                    cb.Setup(choice.text, () => gameManager.MakeChoice(next));
+                    Debug.Log($"[SlidingPanel v2.2] Setting up choice '{choice.text}' → event {next}");
+                    cb.Setup(choice.text, () => {
+                        Debug.Log($"[SlidingPanel v2.2] Choice callback fired! next={next}, gameManager={(gameManager != null ? "OK" : "NULL")}");
+                        if (gameManager != null)
+                            gameManager.MakeChoice(next);
+                        else
+                            Debug.LogError("[SlidingPanel v2.2] gameManager is NULL in callback!");
+                    });
                 }
                 activeButtons.Add(btnObj);
             }
@@ -147,8 +144,8 @@ namespace NoiseOverSilent.UI
             while (elapsed < slideSpeed)
             {
                 elapsed += Time.deltaTime;
-                panelRect.anchoredPosition = Vector2.Lerp(start, end,
-                    Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed));
+                float t = Mathf.SmoothStep(0f, 1f, elapsed / slideSpeed);
+                panelRect.anchoredPosition = Vector2.Lerp(start, end, t);
                 yield return null;
             }
 

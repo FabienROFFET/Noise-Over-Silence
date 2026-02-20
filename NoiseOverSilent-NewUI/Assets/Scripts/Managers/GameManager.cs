@@ -3,11 +3,9 @@
 // FILE    : GameManager.cs
 // PATH    : Assets/Scripts/Managers/
 // CREATED : 2026-02-14
-// VERSION : 1.0
-// CHANGES : v1.0 - 2026-02-14 - Initial version
-// DESC    : Main game controller. Loads episodes via JsonLoader,
-//           navigates events by id, drives ImageDisplay and
-//           SlidingPanel. References wired by UIBuilder at runtime.
+// VERSION : 1.1
+// CHANGES : v1.1 - 2026-02-16 - Added debug logs for event flow
+//           v1.0 - 2026-02-14 - Initial version
 // ============================================================
 
 using System.Collections;
@@ -44,17 +42,15 @@ namespace NoiseOverSilent.Managers
             if (currentEpisode != null)
                 StartCoroutine(ShowEventNextFrame(eventId));
             else
-                Debug.LogError($"[GameManager] Failed to load episode {episodeNumber}.");
+                Debug.LogError($"[GameManager v1.1] Failed to load episode {episodeNumber}.");
         }
 
-        // Wait one frame so all Awake/Start methods finish before showing first event
         private IEnumerator ShowEventNextFrame(int eventId)
         {
             yield return null;
             ShowEvent(eventId);
         }
 
-        /// <summary>Finds event by id and displays it.</summary>
         public void ShowEvent(int eventId)
         {
             if (currentEpisode == null) return;
@@ -63,33 +59,39 @@ namespace NoiseOverSilent.Managers
 
             if (gameEvent == null)
             {
-                Debug.LogError($"[GameManager] Event {eventId} not found.");
+                Debug.LogError($"[GameManager v1.1] Event {eventId} not found.");
                 return;
             }
 
-            // Show fullscreen image
+            Debug.Log($"[GameManager v1.1] Showing event {eventId}: '{gameEvent.text?.Substring(0, System.Math.Min(40, gameEvent.text?.Length ?? 0))}...'");
+
             if (imageDisplay != null)
                 imageDisplay.DisplayImage(gameEvent.image_link);
 
-            // Show panel with text and choices
             if (slidingPanel != null)
                 slidingPanel.ShowEvent(gameEvent);
         }
 
-        /// <summary>Called by ChoiceButton when player picks a choice.</summary>
         public void MakeChoice(int nextEventId)
         {
-            // next_event: null in JSON becomes 0 — treat as episode end
+            Debug.Log($"[GameManager v1.1] MakeChoice called: nextEventId={nextEventId}");
+
             if (nextEventId <= 0)
             {
-                Debug.Log("[GameManager] Episode complete.");
+                Debug.Log("[GameManager v1.1] Episode complete (nextEventId <= 0).");
                 return;
             }
 
             if (slidingPanel != null)
+            {
+                Debug.Log($"[GameManager v1.1] Hiding panel, then showing event {nextEventId}");
                 slidingPanel.Hide(() => ShowEvent(nextEventId));
+            }
             else
+            {
+                Debug.LogWarning("[GameManager v1.1] No slidingPanel! Showing event directly.");
                 ShowEvent(nextEventId);
+            }
         }
     }
 }
