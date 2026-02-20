@@ -3,8 +3,9 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 3.3
-// CHANGES : v3.3 - 2026-02-16 - MENU at (0,0) absolute corner
+// VERSION : 3.4
+// CHANGES : v3.4 - 2026-02-16 - Call panel.SetGameManager() to fix choice clicks
+//           v3.3 - 2026-02-16 - MENU at (0,0) absolute corner
 //           v3.2 - 2026-02-16 - MENU at (5,-5), text top=-50, raycastTarget=true on buttons
 //           v3.1 - 2026-02-16 - MENU at (10,-10), text top=-100, choices at y=40
 //           v3.0 - 2026-02-16 - Canvas match=0 (width), preserveAspect=false to fill screen
@@ -51,7 +52,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v3.3] Building scene...");
+            Debug.Log("[UIBuilder v3.4] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -64,7 +65,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v3.3] Done!");
+            Debug.Log("[UIBuilder v3.4] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -82,7 +83,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v3.3] Canvas created.");
+            Debug.Log("[UIBuilder v3.4] Canvas created.");
             return go;
         }
 
@@ -93,7 +94,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v3.3] EventSystem created.");
+            Debug.Log("[UIBuilder v3.4] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -124,7 +125,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v3.3] BackgroundImage created.");
+            Debug.Log("[UIBuilder v3.4] BackgroundImage created.");
             return img;
         }
 
@@ -203,7 +204,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v3.3] SlidingPanel created.");
+            Debug.Log("[UIBuilder v3.4] SlidingPanel created.");
             return sp;
         }
 
@@ -246,7 +247,7 @@ namespace NoiseOverSilent.Setup
             tmp.color            = Color.white;
             tmp.text             = "";
 
-            Debug.Log($"[UIBuilder v3.3] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v3.4] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -336,7 +337,7 @@ namespace NoiseOverSilent.Setup
             // Toggle dropdown
             menuButton.onClick.AddListener(() => dropdown.SetActive(!dropdown.activeSelf));
 
-            Debug.Log("[UIBuilder v3.3] Menu dropdown created.");
+            Debug.Log("[UIBuilder v3.4] Menu dropdown created.");
         }
 
         private TextMeshProUGUI CreateMenuText(GameObject parent, string text)
@@ -408,7 +409,10 @@ namespace NoiseOverSilent.Setup
             SetField(gm, "startEpisode", 1);
             SetField(gm, "startEventId", 1);
 
-            Debug.Log("[UIBuilder v3.3] GameManager wired.");
+            // CRITICAL: Set GameManager reference in SlidingPanel
+            panel.SetGameManager(gm);
+
+            Debug.Log("[UIBuilder v3.4] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -425,7 +429,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v3.3] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v3.4] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }
