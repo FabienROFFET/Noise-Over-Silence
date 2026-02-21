@@ -3,7 +3,7 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 5.2
+// VERSION : 5.3
 // CHANGES : v4.7 - 2026-02-21 - Added SoundManager creation
 //           v4.6 - 2026-02-16 - Button Image alpha=0.01 (ensure raycasting works)
 //           v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
@@ -65,7 +65,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v5.2] Building scene...");
+            Debug.Log("[UIBuilder v5.3] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -82,7 +82,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v5.2] Done!");
+            Debug.Log("[UIBuilder v5.3] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -100,7 +100,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v5.2] Canvas created.");
+            Debug.Log("[UIBuilder v5.3] Canvas created.");
             return go;
         }
 
@@ -111,7 +111,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v5.2] EventSystem created.");
+            Debug.Log("[UIBuilder v5.3] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ namespace NoiseOverSilent.Setup
             if (pSlide != null) SetField(sm, "panelSlide", pSlide);
             if (typing != null) SetField(sm, "typing", typing);
             
-            Debug.Log("[UIBuilder v5.2] SoundManager created.");
+            Debug.Log("[UIBuilder v5.3] SoundManager created.");
         }
 
         // ── Tape Player ──────────────────────────────────────────────────────
@@ -152,7 +152,7 @@ namespace NoiseOverSilent.Setup
         {
             GameObject go = new GameObject("TapePlayer");
             go.AddComponent<TapePlayer>();
-            Debug.Log("[UIBuilder v5.2] TapePlayer created.");
+            Debug.Log("[UIBuilder v5.3] TapePlayer created.");
         }
 
         // ── Background Image ─────────────────────────────────────────────────
@@ -172,7 +172,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v5.2] BackgroundImage created.");
+            Debug.Log("[UIBuilder v5.3] BackgroundImage created.");
             return img;
         }
 
@@ -205,7 +205,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v5.2] Vignette overlay created.");
+            Debug.Log("[UIBuilder v5.3] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -306,7 +306,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v5.2] SlidingPanel created.");
+            Debug.Log("[UIBuilder v5.3] SlidingPanel created.");
             return sp;
         }
 
@@ -350,7 +350,7 @@ namespace NoiseOverSilent.Setup
             tmp.text             = "";
             tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v5.2] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v5.3] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -399,13 +399,13 @@ namespace NoiseOverSilent.Setup
             {
                 panelImg.sprite = cassetteSprite;
                 panelImg.color = Color.white; // Full color
-                Debug.Log("[UIBuilder v5.2] Cassette player sprite loaded!");
+                Debug.Log("[UIBuilder v5.3] Cassette player sprite loaded!");
             }
             else
             {
                 // Fallback color if sprite not found
                 panelImg.color = new Color(0.8f, 0.78f, 0.7f, 1f); // Beige
-                Debug.LogWarning("[UIBuilder v5.2] Cassette player sprite not found at Resources/Images/UI/cassette_player");
+                Debug.LogWarning("[UIBuilder v5.3] Cassette player sprite not found at Resources/Images/UI/cassette_player");
             }
 
             // Pull tab on TOP edge
@@ -472,8 +472,18 @@ namespace NoiseOverSilent.Setup
             SetField(deckUI, "prevButton", prevBtn.GetComponent<Button>());
             SetField(deckUI, "closeButton", tabBtn); // Tab toggles
             SetField(deckUI, "playButtonText", tapeTitle); // Will show play state
+            
+            // Wire up the pull tab AFTER fields are set
+            if (tabBtn != null)
+            {
+                tabBtn.onClick.AddListener(() => {
+                    Debug.Log("[UIBuilder v5.3] Pull tab clicked!");
+                    deckUI.Toggle();
+                });
+                Debug.Log("[UIBuilder v5.3] Pull tab manually wired in UIBuilder.");
+            }
 
-            Debug.Log("[UIBuilder v5.2] TapeDeckUI created with pixel art cassette player.");
+            Debug.Log("[UIBuilder v5.3] TapeDeckUI created with pixel art cassette player.");
         }
 
         private GameObject CreateInvisibleButton(GameObject parent, string name, Vector2 position, Vector2 size)
@@ -617,7 +627,7 @@ namespace NoiseOverSilent.Setup
                 }
             });
 
-            Debug.Log("[UIBuilder v5.2] Menu dropdown created.");
+            Debug.Log("[UIBuilder v5.3] Menu dropdown created.");
         }
 
         private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
@@ -708,7 +718,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v5.2] GameManager wired.");
+            Debug.Log("[UIBuilder v5.3] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -725,7 +735,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v5.2] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v5.3] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }

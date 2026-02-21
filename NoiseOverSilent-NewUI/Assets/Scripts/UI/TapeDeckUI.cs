@@ -3,7 +3,7 @@
 // FILE    : TapeDeckUI.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-21
-// VERSION : 1.4
+// VERSION : 1.5
 // CHANGES : v1.3 - 2026-02-21 - Added debug logs and Start() to ensure hidden state
 //           v1.2 - 2026-02-21 - Cassette slides from BOTTOM-LEFT, arrow on cassette = next tape
 //           v1.1 - 2026-02-21 - Pull tab from RIGHT side with pixel art support
@@ -98,9 +98,9 @@ namespace NoiseOverSilent.UI
             }
             else
             {
-                if (tapeTitle != null) tapeTitle.text = "No Tape";
-                if (tapeArtist != null) tapeArtist.text = "---";
-                if (tapeDescription != null) tapeDescription.text = "Insert a tape to play";
+                if (tapeTitle != null) tapeTitle.text = "---";
+                if (tapeArtist != null) tapeArtist.text = "";
+                if (tapeDescription != null) tapeDescription.text = "";
             }
 
             // Update play button text

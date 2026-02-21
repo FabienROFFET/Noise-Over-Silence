@@ -6,7 +6,7 @@
     {
       "id": 1,
       "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
+      "soundscape_mp3": "audio/City-of-Dread.mp3",
       "image_prompt": "Cold communist apartment, Brno 2157, peeling walls, weak morning light, hopeless atmosphere",
       "image_link": "images/ep1_event1.jpg",
       "stats": { "physical": 100, "mental": 85 },
