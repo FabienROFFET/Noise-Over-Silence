@@ -3,7 +3,7 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 5.3
+// VERSION : 5.7
 // CHANGES : v4.7 - 2026-02-21 - Added SoundManager creation
 //           v4.6 - 2026-02-16 - Button Image alpha=0.01 (ensure raycasting works)
 //           v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
@@ -65,7 +65,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v5.3] Building scene...");
+            Debug.Log("[UIBuilder v5.7] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -82,7 +82,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v5.3] Done!");
+            Debug.Log("[UIBuilder v5.7] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -100,7 +100,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v5.3] Canvas created.");
+            Debug.Log("[UIBuilder v5.7] Canvas created.");
             return go;
         }
 
@@ -111,7 +111,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v5.3] EventSystem created.");
+            Debug.Log("[UIBuilder v5.7] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -144,7 +144,7 @@ namespace NoiseOverSilent.Setup
             if (pSlide != null) SetField(sm, "panelSlide", pSlide);
             if (typing != null) SetField(sm, "typing", typing);
             
-            Debug.Log("[UIBuilder v5.3] SoundManager created.");
+            Debug.Log("[UIBuilder v5.7] SoundManager created.");
         }
 
         // ── Tape Player ──────────────────────────────────────────────────────
@@ -152,7 +152,7 @@ namespace NoiseOverSilent.Setup
         {
             GameObject go = new GameObject("TapePlayer");
             go.AddComponent<TapePlayer>();
-            Debug.Log("[UIBuilder v5.3] TapePlayer created.");
+            Debug.Log("[UIBuilder v5.7] TapePlayer created.");
         }
 
         // ── Background Image ─────────────────────────────────────────────────
@@ -172,7 +172,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v5.3] BackgroundImage created.");
+            Debug.Log("[UIBuilder v5.7] BackgroundImage created.");
             return img;
         }
 
@@ -205,7 +205,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v5.3] Vignette overlay created.");
+            Debug.Log("[UIBuilder v5.7] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -266,7 +266,9 @@ namespace NoiseOverSilent.Setup
             Image panelImg = panelGO.AddComponent<Image>();
             panelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
-            // Glow removed - clean dark grey panel
+            // Add subtle glow effect
+            PanelGlow panelGlow = panelGO.AddComponent<PanelGlow>();
+            Debug.Log("[UIBuilder v5.7] PanelGlow added with subtle light grey glow (top only)");
 
             // ── Narrative text ────────────────────────────────────────────────
             TextMeshProUGUI tmp = CreateTMPText(panelGO, "NarrativeText",
@@ -305,8 +307,14 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceContainer",    containerGO.transform);
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
+            
+            // Add TypewriterEffect AFTER narrativeText is assigned
+            TypewriterEffect typewriter = tmp.gameObject.AddComponent<TypewriterEffect>();
+            SetField(sp, "typewriter", typewriter);
+            SetField(sp, "useTypewriter", true);
+            Debug.Log("[UIBuilder v5.7] TypewriterEffect added to narrativeText!");
 
-            Debug.Log("[UIBuilder v5.3] SlidingPanel created.");
+            Debug.Log("[UIBuilder v5.7] SlidingPanel created.");
             return sp;
         }
 
@@ -350,7 +358,7 @@ namespace NoiseOverSilent.Setup
             tmp.text             = "";
             tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v5.3] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v5.7] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -399,34 +407,34 @@ namespace NoiseOverSilent.Setup
             {
                 panelImg.sprite = cassetteSprite;
                 panelImg.color = Color.white; // Full color
-                Debug.Log("[UIBuilder v5.3] Cassette player sprite loaded!");
+                Debug.Log("[UIBuilder v5.7] Cassette player sprite loaded!");
             }
             else
             {
                 // Fallback color if sprite not found
                 panelImg.color = new Color(0.8f, 0.78f, 0.7f, 1f); // Beige
-                Debug.LogWarning("[UIBuilder v5.3] Cassette player sprite not found at Resources/Images/UI/cassette_player");
+                Debug.LogWarning("[UIBuilder v5.7] Cassette player sprite not found at Resources/Images/UI/cassette_player");
             }
 
-            // Pull tab on TOP edge
+            // Pull tab on TOP edge - at LEFT side
             GameObject tabGO = new GameObject("PullTab");
             tabGO.transform.SetParent(panelGO.transform, false);
 
             RectTransform tabRect = tabGO.AddComponent<RectTransform>();
-            tabRect.anchorMin = new Vector2(0.5f, 1f); // Top center
-            tabRect.anchorMax = new Vector2(0.5f, 1f);
-            tabRect.pivot = new Vector2(0.5f, 0f);
-            tabRect.sizeDelta = new Vector2(100f, 40f); // Horizontal tab
-            tabRect.anchoredPosition = new Vector2(0f, 0f);
+            tabRect.anchorMin = new Vector2(0f, 1f); // Top-left
+            tabRect.anchorMax = new Vector2(0f, 1f); // Top-left
+            tabRect.pivot = new Vector2(0f, 0f);     // Pivot at bottom-left
+            tabRect.sizeDelta = new Vector2(100f, 40f); // Same size as menu
+            tabRect.anchoredPosition = new Vector2(0f, 0f); // At left edge, touching border
 
             Image tabImg = tabGO.AddComponent<Image>();
-            tabImg.color = new Color(0.9f, 0.2f, 0.2f, 1f); // Red tab
+            tabImg.color = new Color(0.55f, 0.6f, 0.5f, 1f); // Grey-green like cassette tape
 
             TextMeshProUGUI tabText = CreateTMPText(tabGO, "TabText", 
-                new Vector2(5f, 5f), new Vector2(-5f, -5f), 24);
-            tabText.text = "PULL"; // Simple text instead of Unicode
+                new Vector2(5f, 5f), new Vector2(-5f, -5f), 20);
+            tabText.text = "TAPE"; // Matches cassette theme
             tabText.alignment = TextAlignmentOptions.Center;
-            tabText.color = Color.white;
+            tabText.color = new Color(0.2f, 0.2f, 0.2f, 1f); // Dark grey text
 
             Button tabBtn = tabGO.AddComponent<Button>();
             tabBtn.targetGraphic = tabImg;
@@ -477,13 +485,13 @@ namespace NoiseOverSilent.Setup
             if (tabBtn != null)
             {
                 tabBtn.onClick.AddListener(() => {
-                    Debug.Log("[UIBuilder v5.3] Pull tab clicked!");
+                    Debug.Log("[UIBuilder v5.7] Pull tab clicked!");
                     deckUI.Toggle();
                 });
-                Debug.Log("[UIBuilder v5.3] Pull tab manually wired in UIBuilder.");
+                Debug.Log("[UIBuilder v5.7] Pull tab manually wired in UIBuilder.");
             }
 
-            Debug.Log("[UIBuilder v5.3] TapeDeckUI created with pixel art cassette player.");
+            Debug.Log("[UIBuilder v5.7] TapeDeckUI created with pixel art cassette player.");
         }
 
         private GameObject CreateInvisibleButton(GameObject parent, string name, Vector2 position, Vector2 size)
@@ -555,7 +563,7 @@ namespace NoiseOverSilent.Setup
         // ── Menu Dropdown ────────────────────────────────────────────────
         private void BuildExitButton(GameObject canvas)
         {
-            // Menu button
+            // Menu button - matches cassette tape style
             GameObject menuBtn = new GameObject("MenuButton");
             menuBtn.transform.SetParent(canvas.transform, false);
 
@@ -563,11 +571,11 @@ namespace NoiseOverSilent.Setup
             menuRect.anchorMin        = new Vector2(0f, 1f);
             menuRect.anchorMax        = new Vector2(0f, 1f);
             menuRect.pivot            = new Vector2(0f, 1f);
-            menuRect.sizeDelta        = new Vector2(100f, 40f);
+            menuRect.sizeDelta        = new Vector2(100f, 40f); // Same size as tape tab
             menuRect.anchoredPosition = new Vector2(0f, 0f);
 
             Image menuImg = menuBtn.AddComponent<Image>();
-            menuImg.color = new Color(0.1f, 0.1f, 0.1f, 0.8f);
+            menuImg.color = new Color(0.55f, 0.6f, 0.5f, 1f); // Grey-green like tape tab
 
             Button menuButton = menuBtn.AddComponent<Button>();
 
@@ -582,6 +590,7 @@ namespace NoiseOverSilent.Setup
             menuTextRect.offsetMax = Vector2.zero;
 
             TextMeshProUGUI menuText = CreateMenuText(menuTextGO, "MENU");
+            menuText.color = new Color(0.2f, 0.2f, 0.2f, 1f); // Dark grey text like tape tab
 
             // Dropdown panel
             GameObject dropdown = new GameObject("MenuDropdown");
@@ -627,7 +636,7 @@ namespace NoiseOverSilent.Setup
                 }
             });
 
-            Debug.Log("[UIBuilder v5.3] Menu dropdown created.");
+            Debug.Log("[UIBuilder v5.7] Menu dropdown created.");
         }
 
         private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
@@ -718,7 +727,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v5.3] GameManager wired.");
+            Debug.Log("[UIBuilder v5.7] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -735,7 +744,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v5.3] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v5.7] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }

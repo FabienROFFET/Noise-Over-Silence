@@ -17,10 +17,10 @@ namespace NoiseOverSilent.UI
     public class VignetteEffect : MonoBehaviour
     {
         [Header("Vignette Settings")]
-        [SerializeField] private float vignetteIntensity = 0.8f;
-        [SerializeField] private bool enablePulse = false; // DISABLED - no pulse
-        [SerializeField] private float pulseSpeed = 2f;
-        [SerializeField] private float pulseAmount = 0.2f;
+        [SerializeField] private float vignetteIntensity = 0.4f; // Darkness
+        [SerializeField] private bool enablePulse = true; // DISABLED - no pulse
+        [SerializeField] private float pulseSpeed = 0.5f; // Speed 
+        [SerializeField] private float pulseAmount = 0.3f; // breathing effect 
 
         private Image vignetteImage;
         private Material vignetteMaterial;

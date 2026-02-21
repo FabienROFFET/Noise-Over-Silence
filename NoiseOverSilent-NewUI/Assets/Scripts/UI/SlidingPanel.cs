@@ -3,7 +3,7 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 3.3
+// VERSION : 3.6
 // CHANGES : v2.9 - 2026-02-16 - Button_1: full height (5 to -75) | Button_2: top area (60 to -10)
 //           v3.0 - 2026-02-16 - REVERTED to simple uniform padding (10,5,-10,-5) - works!
 //           v2.9 - 2026-02-16 - Button_1 text limited to top 40px (prevent overlap)
@@ -49,12 +49,7 @@ namespace NoiseOverSilent.UI
 
         private void Awake()
         {
-            if (narrativeText != null && useTypewriter)
-            {
-                typewriter = narrativeText.gameObject.GetComponent<TypewriterEffect>();
-                if (typewriter == null)
-                    typewriter = narrativeText.gameObject.AddComponent<TypewriterEffect>();
-            }
+            // TypewriterEffect will be added by UIBuilder after fields are set
         }
 
         public void ShowEvent(GameEvent gameEvent)
@@ -73,7 +68,6 @@ namespace NoiseOverSilent.UI
 
             if (narrativeText != null)
             {
-                narrativeText.text  = gameEvent.text;
                 narrativeText.color = new Color(0.9f, 0.9f, 0.9f, 1f);
                 narrativeText.alpha = 1f;
                 narrativeText.enabled = false;
@@ -83,10 +77,16 @@ namespace NoiseOverSilent.UI
                 // Apply typewriter effect
                 if (useTypewriter && typewriter != null)
                 {
+                    narrativeText.text = ""; // Clear text first!
                     typewriter.TypeText(gameEvent.text);
                 }
+                else
+                {
+                    // No typewriter - show text instantly
+                    narrativeText.text = gameEvent.text;
+                }
                 
-                Debug.Log($"[SlidingPanel v2.4] Text shown (typewriter={(useTypewriter ? "ON" : "OFF")})");
+                Debug.Log($"[SlidingPanel v3.4] Text shown (typewriter={(useTypewriter ? "ON" : "OFF")})");
             }
 
             BuildChoices(gameEvent.choices);

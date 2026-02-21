@@ -3,8 +3,10 @@
 // FILE    : TypewriterEffect.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-16
-// VERSION : 1.2
-// CHANGES : v1.2 - 2026-02-21 - Added debug log
+// VERSION : 1.4
+// CHANGES : v1.4 - 2026-02-21 - Speed increased to 30 chars/sec (2x faster)
+//           v1.3 - 2026-02-21 - More detailed debug logs
+//           v1.2 - 2026-02-21 - Added debug log
 //           v1.1 - 2026-02-16 - Slower speed (15 chars/sec) for visibility
 //           v1.0 - 2026-02-16 - Initial version
 // DESC    : Animates text character-by-character with typing sound
@@ -18,7 +20,7 @@ namespace NoiseOverSilent.UI
 {
     public class TypewriterEffect : MonoBehaviour
     {
-        [SerializeField] private float charsPerSecond = 15f; // Slower = more visible
+        [SerializeField] private float charsPerSecond = 30f; // 2x faster (was 15)
         [SerializeField] private AudioSource typingAudio;
         
         private TextMeshProUGUI textComponent;
@@ -49,6 +51,8 @@ namespace NoiseOverSilent.UI
 
         private IEnumerator TypeTextCoroutine(string fullText, System.Action onComplete)
         {
+            Debug.Log($"[TypewriterEffect v1.3] Coroutine started! Text length: {fullText.Length}");
+            
             textComponent.text = "";
             textComponent.maxVisibleCharacters = 0;
             
@@ -57,6 +61,8 @@ namespace NoiseOverSilent.UI
             
             int totalChars = fullText.Length;
             float delay = 1f / charsPerSecond;
+            
+            Debug.Log($"[TypewriterEffect v1.3] Delay per char: {delay}s (speed: {charsPerSecond} chars/sec)");
             
             for (int i = 0; i <= totalChars; i++)
             {
@@ -72,6 +78,7 @@ namespace NoiseOverSilent.UI
                 yield return new WaitForSeconds(delay);
             }
             
+            Debug.Log($"[TypewriterEffect v1.3] Typing complete!");
             typeCoroutine = null;
             onComplete?.Invoke();
         }
