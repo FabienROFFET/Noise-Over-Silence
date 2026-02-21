@@ -3,8 +3,9 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 4.5
-// CHANGES : v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
+// VERSION : 4.6
+// CHANGES : v4.6 - 2026-02-16 - Button Image alpha=0.01 (ensure raycasting works)
+//           v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
 //           v4.4 - 2026-02-16 - Text TopLeft alignment with 5px padding
 //           v4.3 - 2026-02-16 - Button height 80px, spacing 25px, text centered with 15px padding
 //           v4.2 - 2026-02-16 - Choices at y=50, text bottom=50
@@ -63,7 +64,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v4.5] Building scene...");
+            Debug.Log("[UIBuilder v4.6] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -77,7 +78,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v4.5] Done!");
+            Debug.Log("[UIBuilder v4.6] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -95,7 +96,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v4.5] Canvas created.");
+            Debug.Log("[UIBuilder v4.6] Canvas created.");
             return go;
         }
 
@@ -106,7 +107,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v4.5] EventSystem created.");
+            Debug.Log("[UIBuilder v4.6] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -137,7 +138,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v4.5] BackgroundImage created.");
+            Debug.Log("[UIBuilder v4.6] BackgroundImage created.");
             return img;
         }
 
@@ -170,7 +171,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v4.5] Vignette overlay created.");
+            Debug.Log("[UIBuilder v4.6] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -271,7 +272,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v4.5] SlidingPanel created.");
+            Debug.Log("[UIBuilder v4.6] SlidingPanel created.");
             return sp;
         }
 
@@ -315,7 +316,7 @@ namespace NoiseOverSilent.Setup
             tmp.text             = "";
             tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v4.5] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v4.6] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -326,7 +327,7 @@ namespace NoiseOverSilent.Setup
             go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 80f); // Taller buttons
 
             Image img  = go.AddComponent<Image>();
-            img.color  = new Color(0f, 0f, 0f, 0f);
+            img.color  = new Color(0f, 0f, 0f, 0.01f); // Nearly invisible but raycasts work
             img.raycastTarget = true; // MUST be true for clicks to register
 
             Button btn = go.AddComponent<Button>();
@@ -417,7 +418,7 @@ namespace NoiseOverSilent.Setup
                 }
             });
 
-            Debug.Log("[UIBuilder v4.5] Menu dropdown created.");
+            Debug.Log("[UIBuilder v4.6] Menu dropdown created.");
         }
 
         private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
@@ -508,7 +509,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v4.5] GameManager wired.");
+            Debug.Log("[UIBuilder v4.6] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -525,7 +526,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v4.5] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v4.6] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }

@@ -3,8 +3,9 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 2.9
+// VERSION : 3.0
 // CHANGES : v2.9 - 2026-02-16 - Button_1: full height (5 to -75) | Button_2: top area (60 to -10)
+//           v3.0 - 2026-02-16 - REVERTED to simple uniform padding (10,5,-10,-5) - works!
 //           v2.9 - 2026-02-16 - Button_1 text limited to top 40px (prevent overlap)
 //           v2.8 - 2026-02-16 - Text padding adjusted AFTER Setup (fix click bug)
 //           v2.7 - 2026-02-16 - Button_1: left=0, top=5 | Button_2+: left=0, top=70
@@ -151,18 +152,9 @@ namespace NoiseOverSilent.UI
                 if (textComponent != null)
                 {
                     RectTransform textRect = textComponent.GetComponent<RectTransform>();
-                    if (index == 0)
-                    {
-                        // First button: keep text in top area only
-                        textRect.offsetMin = new Vector2(0f, 40f);  // Start 40px from bottom (top half)
-                        textRect.offsetMax = new Vector2(-10f, -5f); // End 5px from top
-                    }
-                    else
-                    {
-                        // Second+ buttons: text at top
-                        textRect.offsetMin = new Vector2(0f, 60f); // Start 60px from bottom
-                        textRect.offsetMax = new Vector2(-10f, -10f); // End 10px from top
-                    }
+                    // Same padding for all buttons - simple and working
+                    textRect.offsetMin = new Vector2(10f, 5f);   // left=10, bottom=5
+                    textRect.offsetMax = new Vector2(-10f, -5f); // right=-10, top=-5
                 }
                 
                 activeButtons.Add(btnObj);
