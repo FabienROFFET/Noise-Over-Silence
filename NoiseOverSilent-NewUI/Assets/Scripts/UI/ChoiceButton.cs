@@ -3,8 +3,9 @@
 // FILE    : ChoiceButton.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 3.0
-// CHANGES : v3.0 - 2026-02-21 - SIMPLIFIED - removed ALL animations
+// VERSION : 3.1
+// CHANGES : v3.1 - 2026-02-21 - Added subtle scale on hover (1.05x)
+//           v3.0 - 2026-02-21 - SIMPLIFIED - removed ALL animations
 // ============================================================
 
 using System;
@@ -23,16 +24,37 @@ namespace NoiseOverSilent.UI
         private TextMeshProUGUI buttonText;
         private Button button;
         private Action onClickCallback;
+        private RectTransform rectTransform;
+        
+        private Vector3 normalScale = Vector3.one;
+        private Vector3 targetScale = Vector3.one;
+        private float scaleSpeed = 10f;
+        private float hoverScale = 1.05f; // 5% bigger
 
         private void Awake()
         {
             button = GetComponent<Button>();
             buttonText = GetComponentInChildren<TextMeshProUGUI>();
+            rectTransform = GetComponent<RectTransform>();
 
             if (button != null)
                 button.onClick.AddListener(OnClick);
 
+            normalScale = rectTransform.localScale;
             SetColor(NormalColor);
+        }
+
+        private void Update()
+        {
+            // Smooth scale animation
+            if (rectTransform.localScale != targetScale)
+            {
+                rectTransform.localScale = Vector3.Lerp(
+                    rectTransform.localScale,
+                    targetScale,
+                    Time.deltaTime * scaleSpeed
+                );
+            }
         }
 
         public void Setup(string text, Action callback)
@@ -51,11 +73,13 @@ namespace NoiseOverSilent.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            targetScale = normalScale * hoverScale; // Grow to 1.05x
             SetColor(HoverColor);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            targetScale = normalScale; // Back to normal size
             SetColor(NormalColor);
         }
 

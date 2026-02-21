@@ -3,8 +3,9 @@
 // FILE    : TypewriterEffect.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-16
-// VERSION : 1.1
-// CHANGES : v1.1 - 2026-02-16 - Slower speed (15 chars/sec) for visibility
+// VERSION : 1.2
+// CHANGES : v1.2 - 2026-02-21 - Added debug log
+//           v1.1 - 2026-02-16 - Slower speed (15 chars/sec) for visibility
 //           v1.0 - 2026-02-16 - Initial version
 // DESC    : Animates text character-by-character with typing sound
 // ============================================================
@@ -33,6 +34,7 @@ namespace NoiseOverSilent.UI
             if (typeCoroutine != null)
                 StopCoroutine(typeCoroutine);
             
+            Debug.Log($"[TypewriterEffect v1.2] Starting typewriter for {fullText.Length} chars at {charsPerSecond} chars/sec");
             typeCoroutine = StartCoroutine(TypeTextCoroutine(fullText, onComplete));
         }
 
