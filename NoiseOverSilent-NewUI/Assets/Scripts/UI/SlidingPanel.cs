@@ -3,7 +3,7 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 3.0
+// VERSION : 3.1
 // CHANGES : v2.9 - 2026-02-16 - Button_1: full height (5 to -75) | Button_2: top area (60 to -10)
 //           v3.0 - 2026-02-16 - REVERTED to simple uniform padding (10,5,-10,-5) - works!
 //           v2.9 - 2026-02-16 - Button_1 text limited to top 40px (prevent overlap)
@@ -142,9 +142,6 @@ namespace NoiseOverSilent.UI
                         if (gameManager != null)
                             gameManager.MakeChoice(next);
                     });
-                    
-                    // Staggered slide-in animation
-                    cb.AnimateEntry(index * 0.1f);
                 }
                 
                 // Adjust text padding AFTER Setup
