@@ -3,7 +3,7 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 3.1
+// VERSION : 3.3
 // CHANGES : v2.9 - 2026-02-16 - Button_1: full height (5 to -75) | Button_2: top area (60 to -10)
 //           v3.0 - 2026-02-16 - REVERTED to simple uniform padding (10,5,-10,-5) - works!
 //           v2.9 - 2026-02-16 - Button_1 text limited to top 40px (prevent overlap)
@@ -93,6 +93,9 @@ namespace NoiseOverSilent.UI
 
             if (panelRect != null)
             {
+                // Play slide sound
+                NoiseOverSilent.Managers.SoundManager.PlayPanelSlide();
+                
                 panelRect.anchorMin = new Vector2(1f, 0f);
                 panelRect.anchorMax = new Vector2(1f, 1f);
                 panelRect.pivot     = new Vector2(1f, 0.5f);
@@ -137,10 +140,10 @@ namespace NoiseOverSilent.UI
                 ChoiceButton cb = btnObj.GetComponent<ChoiceButton>();
                 if (cb != null)
                 {
-                    int next = choice.next_event;
+                    Choice currentChoice = choice; // Capture for lambda
                     cb.Setup(choice.text, () => {
                         if (gameManager != null)
-                            gameManager.MakeChoice(next);
+                            gameManager.MakeChoice(currentChoice);
                     });
                 }
                 

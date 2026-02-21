@@ -3,7 +3,7 @@
 // FILE    : GameManager.cs
 // PATH    : Assets/Scripts/Managers/
 // CREATED : 2026-02-14
-// VERSION : 1.1
+// VERSION : 1.2
 // CHANGES : v1.1 - 2026-02-16 - Added debug logs for event flow
 //           v1.0 - 2026-02-14 - Initial version
 // ============================================================
@@ -63,7 +63,14 @@ namespace NoiseOverSilent.Managers
                 return;
             }
 
-            Debug.Log($"[GameManager v1.1] Showing event {eventId}: '{gameEvent.text?.Substring(0, System.Math.Min(40, gameEvent.text?.Length ?? 0))}...'");
+            Debug.Log($"[GameManager v1.2] Showing event {eventId}: '{gameEvent.text?.Substring(0, System.Math.Min(40, gameEvent.text?.Length ?? 0))}...'");
+
+            // Handle soundscape/background music
+            if (!string.IsNullOrEmpty(gameEvent.soundscape_mp3))
+            {
+                Managers.SoundManager.SetMusicVolume(0.15f); // Lower background music
+                Debug.Log($"[GameManager v1.2] Soundscape: {gameEvent.soundscape_mp3}");
+            }
 
             if (imageDisplay != null)
                 imageDisplay.DisplayImage(gameEvent.image_link);
@@ -72,24 +79,37 @@ namespace NoiseOverSilent.Managers
                 slidingPanel.ShowEvent(gameEvent);
         }
 
-        public void MakeChoice(int nextEventId)
+        public void MakeChoice(Choice choice)
         {
-            Debug.Log($"[GameManager v1.1] MakeChoice called: nextEventId={nextEventId}");
+            Debug.Log($"[GameManager v1.2] MakeChoice called: nextEventId={choice.next_event}");
+
+            // Handle tape unlocking
+            if (!string.IsNullOrEmpty(choice.unlock_tape))
+            {
+                Managers.TapePlayer tapePlayer = Managers.TapePlayer.Instance;
+                if (tapePlayer != null)
+                {
+                    tapePlayer.UnlockTape(choice.unlock_tape);
+                    Debug.Log($"[GameManager v1.2] Unlocked tape: {choice.unlock_tape}");
+                }
+            }
+
+            int nextEventId = choice.next_event;
 
             if (nextEventId <= 0)
             {
-                Debug.Log("[GameManager v1.1] Episode complete (nextEventId <= 0).");
+                Debug.Log("[GameManager v1.2] Episode complete (nextEventId <= 0).");
                 return;
             }
 
             if (slidingPanel != null)
             {
-                Debug.Log($"[GameManager v1.1] Hiding panel, then showing event {nextEventId}");
+                Debug.Log($"[GameManager v1.2] Hiding panel, then showing event {nextEventId}");
                 slidingPanel.Hide(() => ShowEvent(nextEventId));
             }
             else
             {
-                Debug.LogWarning("[GameManager v1.1] No slidingPanel! Showing event directly.");
+                Debug.LogWarning("[GameManager v1.2] No slidingPanel! Showing event directly.");
                 ShowEvent(nextEventId);
             }
         }

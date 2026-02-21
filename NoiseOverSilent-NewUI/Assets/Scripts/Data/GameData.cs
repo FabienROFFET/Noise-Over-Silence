@@ -3,8 +3,9 @@
 // FILE    : GameData.cs
 // PATH    : Assets/Scripts/Data/
 // CREATED : 2026-02-14
-// VERSION : 1.0
-// CHANGES : v1.0 - 2026-02-14 - Initial version
+// VERSION : 1.1
+// CHANGES : v1.1 - 2026-02-21 - Added unlock_tape to Choice
+//           v1.0 - 2026-02-14 - Initial version
 // DESC    : Data structures matching episode01.json exactly.
 //           EpisodeData, GameEvent, Choice, Stats, Inventory.
 // ============================================================
@@ -43,6 +44,7 @@ namespace NoiseOverSilent.Data
     {
         public string text;
         public int next_event;        // 0 = end of episode
+        public string unlock_tape;    // "tape_02" - unlocks tape when choice is selected
     }
 
     [Serializable]

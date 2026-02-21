@@ -3,8 +3,9 @@
 // FILE    : ChoiceButton.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 3.1
-// CHANGES : v3.1 - 2026-02-21 - Added subtle scale on hover (1.05x)
+// VERSION : 3.2
+// CHANGES : v3.2 - 2026-02-21 - Integrated button hover and click sounds
+//           v3.1 - 2026-02-21 - Added subtle scale on hover (1.05x)
 //           v3.0 - 2026-02-21 - SIMPLIFIED - removed ALL animations
 // ============================================================
 
@@ -67,7 +68,8 @@ namespace NoiseOverSilent.UI
 
         private void OnClick()
         {
-            Debug.Log($"[ChoiceButton v3.0 SIMPLE] CLICKED: '{buttonText?.text}'");
+            Debug.Log($"[ChoiceButton v3.2] CLICKED: '{buttonText?.text}'");
+            NoiseOverSilent.Managers.SoundManager.PlayButtonClick();
             onClickCallback?.Invoke();
         }
 
@@ -75,6 +77,7 @@ namespace NoiseOverSilent.UI
         {
             targetScale = normalScale * hoverScale; // Grow to 1.05x
             SetColor(HoverColor);
+            NoiseOverSilent.Managers.SoundManager.PlayButtonHover();
         }
 
         public void OnPointerExit(PointerEventData eventData)
