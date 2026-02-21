@@ -3,8 +3,15 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 3.8
-// CHANGES : v3.8 - 2026-02-16 - Button spacing 20px (fix overlap)
+// VERSION : 4.5
+// CHANGES : v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
+//           v4.4 - 2026-02-16 - Text TopLeft alignment with 5px padding
+//           v4.3 - 2026-02-16 - Button height 80px, spacing 25px, text centered with 15px padding
+//           v4.2 - 2026-02-16 - Choices at y=50, text bottom=50
+//           v4.1 - 2026-02-16 - Choice button text padding 10px all sides
+//           v4.0 - 2026-02-16 - Text area: bottom=100, top=-100 (more space for choices)
+//           v3.9 - 2026-02-16 - Choice container y=100 (more space from bottom)
+//           v3.8 - 2026-02-16 - Button spacing 20px (fix overlap)
 //           v3.7 - 2026-02-16 - Button height 70px, removed PanelGlow (grey panel)
 //           v3.6 - 2026-02-16 - Choice button text padding 10px (fix overlap)
 //           v3.5 - 2026-02-16 - Premium polish: vignette, panel glow, menu animations
@@ -56,7 +63,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v3.8] Building scene...");
+            Debug.Log("[UIBuilder v4.5] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -70,7 +77,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v3.8] Done!");
+            Debug.Log("[UIBuilder v4.5] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -88,7 +95,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v3.8] Canvas created.");
+            Debug.Log("[UIBuilder v4.5] Canvas created.");
             return go;
         }
 
@@ -99,7 +106,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v3.8] EventSystem created.");
+            Debug.Log("[UIBuilder v4.5] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -130,7 +137,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v3.8] BackgroundImage created.");
+            Debug.Log("[UIBuilder v4.5] BackgroundImage created.");
             return img;
         }
 
@@ -163,7 +170,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v3.8] Vignette overlay created.");
+            Debug.Log("[UIBuilder v4.5] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -228,7 +235,7 @@ namespace NoiseOverSilent.Setup
 
             // ── Narrative text ────────────────────────────────────────────────
             TextMeshProUGUI tmp = CreateTMPText(panelGO, "NarrativeText",
-                new Vector2(30f, 40f), new Vector2(-10f, -50f), 30);
+                new Vector2(30f, 50f), new Vector2(-10f, -100f), 30);
 
             // ── Choice container ──────────────────────────────────────────────
             GameObject containerGO = new GameObject("ChoiceContainer");
@@ -239,10 +246,10 @@ namespace NoiseOverSilent.Setup
             cr.anchorMax        = new Vector2(1f,   0f);
             cr.pivot            = new Vector2(0.5f, 0f);
             cr.sizeDelta        = new Vector2(-60f, 180f);
-            cr.anchoredPosition = new Vector2(0f,   40f);
+            cr.anchoredPosition = new Vector2(0f,   50f); // 50px from bottom
 
             VerticalLayoutGroup vlg = containerGO.AddComponent<VerticalLayoutGroup>();
-            vlg.spacing               = 20f; // More space between buttons
+            vlg.spacing               = 25f; // More space between buttons
             vlg.padding               = new RectOffset(10, 10, 5, 5);
             vlg.childAlignment        = TextAnchor.LowerLeft;
             vlg.childControlWidth     = true;
@@ -264,7 +271,7 @@ namespace NoiseOverSilent.Setup
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
 
-            Debug.Log("[UIBuilder v3.8] SlidingPanel created.");
+            Debug.Log("[UIBuilder v4.5] SlidingPanel created.");
             return sp;
         }
 
@@ -306,8 +313,9 @@ namespace NoiseOverSilent.Setup
             tmp.overflowMode     = TextOverflowModes.Overflow;
             tmp.color            = Color.white;
             tmp.text             = "";
+            tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v3.8] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v4.5] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -315,7 +323,7 @@ namespace NoiseOverSilent.Setup
         private GameObject BuildChoiceButtonPrefab()
         {
             GameObject go = new GameObject("ChoiceButton");
-            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 70f); // Taller buttons
+            go.AddComponent<RectTransform>().sizeDelta = new Vector2(0f, 80f); // Taller buttons
 
             Image img  = go.AddComponent<Image>();
             img.color  = new Color(0f, 0f, 0f, 0f);
@@ -324,10 +332,10 @@ namespace NoiseOverSilent.Setup
             Button btn = go.AddComponent<Button>();
             btn.transition = Selectable.Transition.None;
 
-            // Text child
+            // Text child - top-left aligned
             TextMeshProUGUI tmp = CreateTMPText(go, "Text",
                 new Vector2(10f, 5f), new Vector2(-10f, -5f), 19);
-            tmp.alignment        = TextAlignmentOptions.MidlineLeft;
+            tmp.alignment        = TextAlignmentOptions.TopLeft;
             tmp.textWrappingMode = TextWrappingModes.Normal;
 
             go.AddComponent<ChoiceButton>();
@@ -409,7 +417,7 @@ namespace NoiseOverSilent.Setup
                 }
             });
 
-            Debug.Log("[UIBuilder v3.8] Menu dropdown created.");
+            Debug.Log("[UIBuilder v4.5] Menu dropdown created.");
         }
 
         private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
@@ -500,7 +508,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v3.8] GameManager wired.");
+            Debug.Log("[UIBuilder v4.5] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -517,7 +525,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v3.8] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v4.5] Field '{fieldName}' not found on {target.GetType().Name}");
         }
     }
 }

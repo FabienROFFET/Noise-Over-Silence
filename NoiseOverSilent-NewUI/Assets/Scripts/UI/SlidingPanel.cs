@@ -3,8 +3,13 @@
 // FILE    : SlidingPanel.cs
 // PATH    : Assets/Scripts/UI/
 // CREATED : 2026-02-14
-// VERSION : 2.5
-// CHANGES : v2.5 - 2026-02-16 - Staggered choice animations
+// VERSION : 2.9
+// CHANGES : v2.9 - 2026-02-16 - Button_1: full height (5 to -75) | Button_2: top area (60 to -10)
+//           v2.9 - 2026-02-16 - Button_1 text limited to top 40px (prevent overlap)
+//           v2.8 - 2026-02-16 - Text padding adjusted AFTER Setup (fix click bug)
+//           v2.7 - 2026-02-16 - Button_1: left=0, top=5 | Button_2+: left=0, top=70
+//           v2.6 - 2026-02-16 - Unique button names (ChoiceButton_1, ChoiceButton_2, etc.)
+//           v2.5 - 2026-02-16 - Staggered choice animations
 //           v2.4 - 2026-02-16 - Added typewriter effect support
 //           v2.3 - 2026-02-16 - SetGameManager() instead of FindFirstObjectByType
 //           v2.2 - 2026-02-16 - Added debug logs
@@ -30,7 +35,6 @@ namespace NoiseOverSilent.UI
         [SerializeField] private GameObject      choiceButtonPrefab;
         [SerializeField] private float           slideSpeed = 0.4f;
         [SerializeField] private bool            useTypewriter = true;
-        [SerializeField] private float           typewriterSpeed = 40f;
 
         private GameManager      gameManager;
         private List<GameObject> activeButtons = new List<GameObject>();
@@ -64,7 +68,7 @@ namespace NoiseOverSilent.UI
             yield return null;
 
             if (panelBackground != null)
-                panelBackground.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
+                panelBackground.color = new Color(0.05f, 0.05f, 0.05f, 0.92f); // Dark grey
 
             if (narrativeText != null)
             {
@@ -126,6 +130,7 @@ namespace NoiseOverSilent.UI
             foreach (Choice choice in choices)
             {
                 GameObject btnObj = Instantiate(choiceButtonPrefab, choiceContainer);
+                btnObj.name = $"ChoiceButton_{index + 1}";
                 btnObj.SetActive(true);
                 
                 ChoiceButton cb = btnObj.GetComponent<ChoiceButton>();
@@ -139,6 +144,25 @@ namespace NoiseOverSilent.UI
                     
                     // Staggered slide-in animation
                     cb.AnimateEntry(index * 0.1f);
+                }
+                
+                // Adjust text padding AFTER Setup
+                TextMeshProUGUI textComponent = btnObj.GetComponentInChildren<TextMeshProUGUI>();
+                if (textComponent != null)
+                {
+                    RectTransform textRect = textComponent.GetComponent<RectTransform>();
+                    if (index == 0)
+                    {
+                        // First button: keep text in top area only
+                        textRect.offsetMin = new Vector2(0f, 40f);  // Start 40px from bottom (top half)
+                        textRect.offsetMax = new Vector2(-10f, -5f); // End 5px from top
+                    }
+                    else
+                    {
+                        // Second+ buttons: text at top
+                        textRect.offsetMin = new Vector2(0f, 60f); // Start 60px from bottom
+                        textRect.offsetMax = new Vector2(-10f, -10f); // End 10px from top
+                    }
                 }
                 
                 activeButtons.Add(btnObj);

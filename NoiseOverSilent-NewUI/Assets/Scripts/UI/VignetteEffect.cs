@@ -18,7 +18,6 @@ namespace NoiseOverSilent.UI
     {
         [Header("Vignette Settings")]
         [SerializeField] private float vignetteIntensity = 0.8f;
-        [SerializeField] private float vignetteSoftness = 0.4f;
         [SerializeField] private bool enablePulse = false; // DISABLED - no pulse
         [SerializeField] private float pulseSpeed = 2f;
         [SerializeField] private float pulseAmount = 0.2f;
