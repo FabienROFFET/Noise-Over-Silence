@@ -3,7 +3,7 @@
 // FILE    : GameData.cs
 // PATH    : Assets/Scripts/Data/
 // CREATED : 2026-02-14
-// VERSION : 1.1
+// VERSION : 1.2
 // CHANGES : v1.1 - 2026-02-21 - Added unlock_tape to Choice
 //           v1.0 - 2026-02-14 - Initial version
 // DESC    : Data structures matching episode01.json exactly.
@@ -29,6 +29,7 @@ namespace NoiseOverSilent.Data
         public int id;
         public string location;
         public string soundscape_mp3;
+        public string voice_over;     // NEW: path to voice over audio file (e.g. "vo/ep1_event1_en")
         public string image_prompt;
         public string image_link;
         public Stats stats;

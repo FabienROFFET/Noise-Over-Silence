@@ -1,0 +1,310 @@
+{
+  "episode": 1,
+  "title": "Dzień i tak się zaczyna",
+  "events": [
+
+    {
+      "id": 1,
+      "location": "Mieszkanie",
+      "soundscape_mp3": "audio/City-of-Dread.mp3",
+      "image_prompt": "Zimne komunistyczne mieszkanie, Brno 2157, łuszczące się ściany, słabe poranne światło, beznadziejna atmosfera",
+      "image_link": "images/ep1_event1.jpg",
+      "stats": { "physical": 100, "mental": 85 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Kaloryfer klika jak umierający owad. Poranek istnieje tylko dlatego, że zegar tak mówi. Siedzisz na łóżku, już zmęczony.",
+      "choices": [
+        { "text": "Wstać", "next_event": 2 },
+        { "text": "Siedzieć i myśleć", "next_event": 3 }
+      ]
+    },
+
+    {
+      "id": 2,
+      "location": "Mieszkanie",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Mała kuchnia w rozpadającym się mieszkaniu, puste półki, zimne światło",
+      "image_link": "images/ep1_event2.png",
+      "stats": { "physical": 100, "mental": 84 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Wstajesz. Twoje nogi reagują z przyzwyczajenia, nie z woli.",
+      "choices": [
+        { "text": "Sprawdzić kuchnię", "next_event": 4 },
+        { "text": "Założyć płaszcz i wyjść", "next_event": 6 }
+      ]
+    },
+
+    {
+      "id": 3,
+      "location": "Mieszkanie",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Mężczyzna siedzący na łóżku, głowa spuszczona, szare ściany, cisza",
+      "image_link": "images/ep1_event3.png",
+      "stats": { "physical": 100, "mental": 82 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Pamiętasz zimy, które wydawały się krótsze. Może takie nie były. Może to ty byłeś inny.",
+      "choices": [
+        { "text": "I tak wstać", "next_event": 2 }
+      ]
+    },
+
+    {
+      "id": 4,
+      "location": "Mieszkanie",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Zimny kuchenny stół z jedną kiełbasą",
+      "image_link": "images/ep1_event4.png",
+      "stats": { "physical": 100, "mental": 84 },
+      "inventory": { "items": ["cold_sausage"], "tapes": [] },
+      "text": "Na stole leży zimna polska kiełbasa. Bez chleba. Ale to wciąż jedzenie.",
+      "choices": [
+        { "text": "Zjeść kiełbasę", "next_event": 5, "lose_items": ["cold_sausage"] },
+        { "text": "Zostawić na później", "next_event": 6 }
+      ]
+    },
+
+    {
+      "id": 5,
+      "location": "Mieszkanie",
+      "soundscape_mp3": "audio/flat_hum.mp3",
+      "image_prompt": "Mężczyzna jedzący samotnie w ciszy",
+      "image_link": "images/ep1_event5.png",
+      "stats": { "physical": 105, "mental": 83 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Nie smakuje niczym. Ale twoje ręce mniej się trzęsą.",
+      "choices": [
+        { "text": "Wyjść z mieszkania", "next_event": 6 }
+      ]
+    },
+
+    {
+      "id": 6,
+      "location": "Klatka schodowa",
+      "soundscape_mp3": "audio/stairwell_echo.mp3",
+      "image_prompt": "Ciemna klatka schodowa, zepsute światła, betonowe ściany",
+      "image_link": "images/ep1_event6.png",
+      "stats": { "physical": 100, "mental": 83 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Klatka schodowa pachnie pleśnią i rezygnacją.",
+      "choices": [
+        { "text": "Zejść na dół", "next_event": 7 }
+      ]
+    },
+
+    {
+      "id": 7,
+      "location": "Ulica",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Zamarznięta komunistyczna ulica, transparenty propagandowe, śnieg",
+      "image_link": "images/ep1_event7.png",
+      "stats": { "physical": 98, "mental": 82 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Wiatr tnie twarz. Głośniki chwalą produktywność.",
+      "choices": [
+        { "text": "Iść w stronę pubu", "next_event": 8 },
+        { "text": "Włóczyć się po ulicy", "next_event": 9 }
+      ]
+    },
+
+    {
+      "id": 8,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Ciemny podziemny pub, zmęczone twarze, dym",
+      "image_link": "images/ep1_event8.png",
+      "stats": { "physical": 98, "mental": 80 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "W pubie jest ciepło. To już niebezpieczne.",
+      "choices": [
+        { "text": "Porozmawiać z właścicielem", "next_event": 10 },
+        { "text": "Usiąść w ciszy", "next_event": 11 }
+      ]
+    },
+
+    {
+      "id": 9,
+      "location": "Ulica",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Pusty róg ulicy z plakatem propagandowym",
+      "image_link": "images/ep1_event9.png",
+      "stats": { "physical": 97, "mental": 80 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Plakat mówi: *Państwo wie kim jesteś.*",
+      "choices": [
+        { "text": "Zerwać go", "next_event": 12 },
+        { "text": "Iść dalej", "next_event": 8 }
+      ]
+    },
+
+    {
+      "id": 10,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Właściciel pubu oparty o ladę, podejrzliwe spojrzenie",
+      "image_link": "images/ep1_event10.png",
+      "stats": { "physical": 98, "mental": 78 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "„Jesteś wcześnie”, mówi właściciel. „To nigdy nie jest dobre.”",
+      "choices": [
+        { "text": "Zapytać o pracę", "next_event": 13 },
+        { "text": "Zapytać o plotki", "next_event": 14 }
+      ]
+    },
+
+    {
+      "id": 11,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Mężczyzna siedzący samotnie przy stole w pubie",
+      "image_link": "images/ep1_event11.png",
+      "stats": { "physical": 98, "mental": 77 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Ludzie unikają twojego spojrzenia. Nauczyli się tego wcześnie.",
+      "choices": [
+        { "text": "Wyjść z pubu", "next_event": 15 }
+      ]
+    },
+
+    {
+      "id": 12,
+      "location": "Ulica",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Podarty plakat propagandowy trzepoczący na wietrze",
+      "image_link": "images/ep1_event12.png",
+      "stats": { "physical": 97, "mental": 76 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Papier rwie się zbyt łatwo. Opór też.",
+      "choices": [
+        { "text": "Iść do pubu", "next_event": 8 }
+      ]
+    },
+
+    {
+      "id": 13,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Szeptana rozmowa w ciemnym rogu pubu",
+      "image_link": "images/ep1_event13.png",
+      "stats": { "physical": 98, "mental": 75 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "„Nie ma pracy”, mówi. „Ale są dostawy.”",
+      "choices": [
+        { "text": "Przyjąć dostawę", "next_event": 16 },
+        { "text": "Odmówić", "next_event": 15 }
+      ]
+    },
+
+    {
+      "id": 14,
+      "location": "Pub",
+      "soundscape_mp3": "audio/pub_murmur.mp3",
+      "image_prompt": "Mężczyzna dyskretnie podaje małą kasetę",
+      "image_link": "images/ep1_event14.png",
+      "stats": { "physical": 98, "mental": 74 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "Podsuwa ci kasetę. „Posłuchaj jej sam.”",
+      "choices": [
+        { "text": "Schować kasetę", "next_event": 16 }
+      ]
+    },
+
+    {
+      "id": 15,
+      "location": "Ulica",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Ulica przed pubem, słabe światło, śnieg",
+      "image_link": "images/ep1_event15.png",
+      "stats": { "physical": 96, "mental": 74 },
+      "inventory": { "items": [], "tapes": [] },
+      "text": "Zimno wita cię jak starego wroga.",
+      "choices": [
+        { "text": "Iść w stronę magazynu", "next_event": 16 }
+      ]
+    },
+
+    {
+      "id": 16,
+      "location": "Magazyn",
+      "soundscape_mp3": "audio/warehouse_drip.mp3",
+      "image_prompt": "Opuszczony magazyn, beton, cienie",
+      "image_link": "images/ep1_event16.png",
+      "stats": { "physical": 95, "mental": 73 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "W magazynie jest zbyt cicho.",
+      "choices": [
+        { "text": "Wejść głębiej", "next_event": 17 }
+      ]
+    },
+
+    {
+      "id": 17,
+      "location": "Magazyn",
+      "soundscape_mp3": "audio/warehouse_drip.mp3",
+      "image_prompt": "Dwie postacie kłócące się w ciemności",
+      "image_link": "images/ep1_event17.png",
+      "stats": { "physical": 95, "mental": 72 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "Wybucha bójka. Błyska nóż.",
+      "choices": [
+        { "text": "Walcz", "next_event": 18 },
+        { "text": "Uciekaj", "next_event": 19 }
+      ]
+    },
+
+    {
+      "id": 18,
+      "location": "Magazyn",
+      "soundscape_mp3": "audio/warehouse_drip.mp3",
+      "image_prompt": "Walka na noże w ciemności",
+      "image_link": "images/ep1_event18.png",
+      "stats": { "physical": 80, "mental": 70 },
+      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
+      "text": "Przeżywasz. Ledwo.",
+      "choices": [
+        { "text": "Opuścić magazyn", "next_event": 20 }
+      ]
+    },
+
+    {
+      "id": 19,
+      "location": "Ulica",
+      "soundscape_mp3": "audio/street_wind.mp3",
+      "image_prompt": "Mężczyzna biegnący w zaśnieżoną ulicę",
+      "image_link": "images/ep1_event19.png",
+      "stats": { "physical": 85, "mental": 68 },
+      "inventory": { "items": [], "tapes": ["tape_1"] },
+      "text": "Tchórzostwo utrzymuje cię przy życiu.",
+      "choices": [
+        { "text": "Ukryć się w zaułku", "next_event": 20 }
+      ]
+    },
+
+    {
+      "id": 20,
+      "location": "Zaułek",
+      "soundscape_mp3": "audio/alley_drip.mp3",
+      "image_prompt": "Wąski zaułek, światła policji w oddali",
+      "image_link": "images/ep1_event20.png",
+      "stats": { "physical": 82, "mental": 65 },
+      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
+      "text": "Syreny. Nie po ciebie. Jeszcze nie.",
+      "choices": [
+        { "text": "Obserwować z cienia", "next_event": 40 }
+      ]
+    },
+
+    {
+      "id": 40,
+      "location": "Ulica",
+      "soundscape_mp3": "audio/police_steps.mp3",
+      "image_prompt": "Policja państwowa aresztuje kogoś pod reflektorem",
+      "image_link": "images/ep1_event40.png",
+      "stats": { "physical": 82, "mental": 60 },
+      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
+      "text": "Aresztują mężczyznę. Krzyczy imię. Twoje imię.",
+      "choices": [
+        { "text": "Zanik obrazu", "next_event": null }
+      ]
+    }
+
+  ]
+}

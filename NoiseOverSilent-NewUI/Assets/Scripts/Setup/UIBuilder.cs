@@ -3,7 +3,7 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 5.7
+// VERSION : 5.8
 // CHANGES : v4.7 - 2026-02-21 - Added SoundManager creation
 //           v4.6 - 2026-02-16 - Button Image alpha=0.01 (ensure raycasting works)
 //           v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
@@ -265,10 +265,6 @@ namespace NoiseOverSilent.Setup
 
             Image panelImg = panelGO.AddComponent<Image>();
             panelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
-
-            // Add subtle glow effect
-            PanelGlow panelGlow = panelGO.AddComponent<PanelGlow>();
-            Debug.Log("[UIBuilder v5.7] PanelGlow added with subtle light grey glow (top only)");
 
             // ── Narrative text ────────────────────────────────────────────────
             TextMeshProUGUI tmp = CreateTMPText(panelGO, "NarrativeText",
