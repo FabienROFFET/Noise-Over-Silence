@@ -3,8 +3,10 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 5.8
-// CHANGES : v4.7 - 2026-02-21 - Added SoundManager creation
+// VERSION : 5.9
+// CHANGES : v5.9 - 2026-02-22 - Added landing page with PLAY button
+//           v5.8 - 2026-02-22 - PanelGlow removed, menu matches tape colors
+//           v4.7 - 2026-02-21 - Added SoundManager creation
 //           v4.6 - 2026-02-16 - Button Image alpha=0.01 (ensure raycasting works)
 //           v4.5 - 2026-02-16 - TMP raycastTarget=false (fix button click blocking)
 //           v4.4 - 2026-02-16 - Text TopLeft alignment with 5px padding
@@ -65,10 +67,14 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v5.7] Building scene...");
+            Debug.Log("[UIBuilder v5.9] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
+            
+            // Build landing page FIRST (shown on startup)
+            BuildLandingPage(canvas);
+            
             BuildCamera();
             BuildSoundManager(); // Sound system
             BuildTapePlayer(); // Tape player system
@@ -82,7 +88,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v5.7] Done!");
+            Debug.Log("[UIBuilder v5.9] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -100,7 +106,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v5.7] Canvas created.");
+            Debug.Log("[UIBuilder v5.9] Canvas created.");
             return go;
         }
 
@@ -111,7 +117,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v5.7] EventSystem created.");
+            Debug.Log("[UIBuilder v5.9] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -144,7 +150,7 @@ namespace NoiseOverSilent.Setup
             if (pSlide != null) SetField(sm, "panelSlide", pSlide);
             if (typing != null) SetField(sm, "typing", typing);
             
-            Debug.Log("[UIBuilder v5.7] SoundManager created.");
+            Debug.Log("[UIBuilder v5.9] SoundManager created.");
         }
 
         // ── Tape Player ──────────────────────────────────────────────────────
@@ -152,7 +158,7 @@ namespace NoiseOverSilent.Setup
         {
             GameObject go = new GameObject("TapePlayer");
             go.AddComponent<TapePlayer>();
-            Debug.Log("[UIBuilder v5.7] TapePlayer created.");
+            Debug.Log("[UIBuilder v5.9] TapePlayer created.");
         }
 
         // ── Background Image ─────────────────────────────────────────────────
@@ -172,7 +178,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v5.7] BackgroundImage created.");
+            Debug.Log("[UIBuilder v5.9] BackgroundImage created.");
             return img;
         }
 
@@ -205,7 +211,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v5.7] Vignette overlay created.");
+            Debug.Log("[UIBuilder v5.9] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -308,9 +314,9 @@ namespace NoiseOverSilent.Setup
             TypewriterEffect typewriter = tmp.gameObject.AddComponent<TypewriterEffect>();
             SetField(sp, "typewriter", typewriter);
             SetField(sp, "useTypewriter", true);
-            Debug.Log("[UIBuilder v5.7] TypewriterEffect added to narrativeText!");
+            Debug.Log("[UIBuilder v5.9] TypewriterEffect added to narrativeText!");
 
-            Debug.Log("[UIBuilder v5.7] SlidingPanel created.");
+            Debug.Log("[UIBuilder v5.9] SlidingPanel created.");
             return sp;
         }
 
@@ -354,7 +360,7 @@ namespace NoiseOverSilent.Setup
             tmp.text             = "";
             tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v5.7] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v5.9] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -403,13 +409,13 @@ namespace NoiseOverSilent.Setup
             {
                 panelImg.sprite = cassetteSprite;
                 panelImg.color = Color.white; // Full color
-                Debug.Log("[UIBuilder v5.7] Cassette player sprite loaded!");
+                Debug.Log("[UIBuilder v5.9] Cassette player sprite loaded!");
             }
             else
             {
                 // Fallback color if sprite not found
                 panelImg.color = new Color(0.8f, 0.78f, 0.7f, 1f); // Beige
-                Debug.LogWarning("[UIBuilder v5.7] Cassette player sprite not found at Resources/Images/UI/cassette_player");
+                Debug.LogWarning("[UIBuilder v5.9] Cassette player sprite not found at Resources/Images/UI/cassette_player");
             }
 
             // Pull tab on TOP edge - at LEFT side
@@ -481,13 +487,13 @@ namespace NoiseOverSilent.Setup
             if (tabBtn != null)
             {
                 tabBtn.onClick.AddListener(() => {
-                    Debug.Log("[UIBuilder v5.7] Pull tab clicked!");
+                    Debug.Log("[UIBuilder v5.9] Pull tab clicked!");
                     deckUI.Toggle();
                 });
-                Debug.Log("[UIBuilder v5.7] Pull tab manually wired in UIBuilder.");
+                Debug.Log("[UIBuilder v5.9] Pull tab manually wired in UIBuilder.");
             }
 
-            Debug.Log("[UIBuilder v5.7] TapeDeckUI created with pixel art cassette player.");
+            Debug.Log("[UIBuilder v5.9] TapeDeckUI created with pixel art cassette player.");
         }
 
         private GameObject CreateInvisibleButton(GameObject parent, string name, Vector2 position, Vector2 size)
@@ -632,7 +638,7 @@ namespace NoiseOverSilent.Setup
                 }
             });
 
-            Debug.Log("[UIBuilder v5.7] Menu dropdown created.");
+            Debug.Log("[UIBuilder v5.9] Menu dropdown created.");
         }
 
         private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
@@ -723,7 +729,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v5.7] GameManager wired.");
+            Debug.Log("[UIBuilder v5.9] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -740,7 +746,110 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v5.7] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v5.9] Field '{fieldName}' not found on {target.GetType().Name}");
+        }
+
+        // ══════════════════════════════════════════════════════════════════
+        // LANDING PAGE
+        // ══════════════════════════════════════════════════════════════════
+
+        private void BuildLandingPage(GameObject canvas)
+        {
+            // Landing page container - HIGH PRIORITY (renders on top)
+            GameObject landingPage = new GameObject("LandingPage");
+            landingPage.transform.SetParent(canvas.transform, false);
+            
+            RectTransform landingRect = landingPage.AddComponent<RectTransform>();
+            landingRect.anchorMin = Vector2.zero;
+            landingRect.anchorMax = Vector2.one;
+            landingRect.offsetMin = Vector2.zero;
+            landingRect.offsetMax = Vector2.zero;
+            
+            // Add Canvas to landing page for layering control
+            Canvas landingCanvas = landingPage.AddComponent<Canvas>();
+            landingCanvas.overrideSorting = true;
+            landingCanvas.sortingOrder = 100; // On top of everything
+            
+            GraphicRaycaster raycaster = landingPage.AddComponent<GraphicRaycaster>();
+            
+            // Background image
+            GameObject bgGO = new GameObject("LandingBackground");
+            bgGO.transform.SetParent(landingPage.transform, false);
+            
+            RectTransform bgRect = bgGO.AddComponent<RectTransform>();
+            bgRect.anchorMin = Vector2.zero;
+            bgRect.anchorMax = Vector2.one;
+            bgRect.offsetMin = Vector2.zero;
+            bgRect.offsetMax = Vector2.zero;
+            
+            Image bgImage = bgGO.AddComponent<Image>();
+            
+            // Load landing background
+            Sprite landingSprite = Resources.Load<Sprite>("Images/UI/landing_background");
+            if (landingSprite != null)
+            {
+                bgImage.sprite = landingSprite;
+                bgImage.color = Color.white;
+                Debug.Log("[UIBuilder v5.9] Landing background loaded!");
+            }
+            else
+            {
+                bgImage.color = new Color(0.1f, 0.1f, 0.1f, 1f); // Dark fallback
+                Debug.LogWarning("[UIBuilder v5.9] Landing background not found at Resources/Images/UI/landing_background");
+            }
+            
+            // PLAY button - centered, lower third
+            GameObject playBtn = new GameObject("PlayButton");
+            playBtn.transform.SetParent(landingPage.transform, false);
+            
+            RectTransform playRect = playBtn.AddComponent<RectTransform>();
+            playRect.anchorMin = new Vector2(0.5f, 0.35f); // Centered horizontally, lower area
+            playRect.anchorMax = new Vector2(0.5f, 0.35f);
+            playRect.pivot = new Vector2(0.5f, 0.5f);
+            playRect.sizeDelta = new Vector2(200f, 60f); // Wide button
+            playRect.anchoredPosition = Vector2.zero;
+            
+            Image playImg = playBtn.AddComponent<Image>();
+            playImg.color = new Color(0f, 0f, 0f, 0.7f); // Semi-transparent black
+            
+            Button playButton = playBtn.AddComponent<Button>();
+            
+            // PLAY text
+            TextMeshProUGUI playText = CreateTMPText(playBtn, "PlayText", 
+                new Vector2(10f, 10f), new Vector2(-10f, -10f), 32);
+            playText.text = "PLAY";
+            playText.alignment = TextAlignmentOptions.Center;
+            playText.color = new Color(0.9f, 0.85f, 0.7f, 1f); // Beige/tan like the title
+            playText.fontStyle = FontStyles.Bold;
+            
+            // Button click - hide landing page and start game
+            playButton.onClick.AddListener(() => {
+                Debug.Log("[UIBuilder v5.9] PLAY button clicked - starting game");
+                
+                // Play landing music → game music transition
+                SoundManager.PlayGameMusic();
+                
+                // Hide landing page
+                landingPage.SetActive(false);
+                
+                // Start the game
+                GameManager gm = FindFirstObjectByType<GameManager>();
+                if (gm != null)
+                {
+                    gm.LoadEpisode(1, 1);
+                }
+            });
+            
+            // Hover effect
+            playButton.transition = Selectable.Transition.ColorTint;
+            ColorBlock colors = playButton.colors;
+            colors.normalColor = new Color(0f, 0f, 0f, 0.7f);
+            colors.highlightedColor = new Color(0.2f, 0.2f, 0.2f, 0.9f); // Lighter on hover
+            colors.pressedColor = new Color(0.1f, 0.1f, 0.1f, 1f);
+            colors.selectedColor = new Color(0f, 0f, 0f, 0.7f);
+            playButton.colors = colors;
+            
+            Debug.Log("[UIBuilder v5.9] Landing page created with PLAY button");
         }
     }
 }

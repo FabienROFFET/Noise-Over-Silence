@@ -23,6 +23,7 @@
       "id": 2,
       "location": "Flat",
       "soundscape_mp3": "audio/flat_hum.mp3",
+      "voice_over": "vo/ep1_event2_en",
       "image_prompt": "Small kitchen in a decaying apartment, empty shelves, cold light",
       "image_link": "images/ep1_event2.png",
       "stats": { "physical": 100, "mental": 84 },
