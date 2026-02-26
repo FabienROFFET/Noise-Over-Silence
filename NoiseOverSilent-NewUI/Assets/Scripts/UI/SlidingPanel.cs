@@ -96,13 +96,9 @@ namespace NoiseOverSilent.UI
                 // Play slide sound
                 NoiseOverSilent.Managers.SoundManager.PlayPanelSlide();
                 
-                panelRect.anchorMin = new Vector2(1f, 0f);
-                panelRect.anchorMax = new Vector2(1f, 1f);
-                panelRect.pivot     = new Vector2(1f, 0.5f);
-                panelRect.sizeDelta = new Vector2(400f, 0f);
-
-                Vector2 startPos = new Vector2(500f, 0f);
-                Vector2 endPos   = Vector2.zero;
+                // Right panel slides in from right
+                Vector2 startPos = new Vector2(450f, 0f); // Off-screen right
+                Vector2 endPos   = Vector2.zero;          // At right edge
                 float   elapsed  = 0f;
 
                 panelRect.anchoredPosition = startPos;
@@ -176,7 +172,7 @@ namespace NoiseOverSilent.UI
         private IEnumerator SlideOut(Action onComplete)
         {
             Vector2 start   = panelRect.anchoredPosition;
-            Vector2 end     = new Vector2(500f, 0f);
+            Vector2 end     = new Vector2(450f, 0f); // Slide right off-screen
             float   elapsed = 0f;
 
             while (elapsed < slideSpeed)

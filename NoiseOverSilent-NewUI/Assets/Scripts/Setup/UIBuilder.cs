@@ -3,8 +3,10 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 5.9
-// CHANGES : v5.9 - 2026-02-22 - Added landing page with PLAY button
+// VERSION : 6.1
+// CHANGES : v6.1 - 2026-02-22 - Two-panel layout: text bottom, choices right
+//           v6.0 - 2026-02-22 - Tape system disabled, cleanup for narrative focus
+//           v5.9 - 2026-02-22 - Added landing page with PLAY button
 //           v5.8 - 2026-02-22 - PanelGlow removed, menu matches tape colors
 //           v4.7 - 2026-02-21 - Added SoundManager creation
 //           v4.6 - 2026-02-16 - Button Image alpha=0.01 (ensure raycasting works)
@@ -67,7 +69,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v5.9] Building scene...");
+            Debug.Log("[UIBuilder v6.1] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -77,18 +79,18 @@ namespace NoiseOverSilent.Setup
             
             BuildCamera();
             BuildSoundManager(); // Sound system
-            BuildTapePlayer(); // Tape player system
+            // BuildTapePlayer(); // DISABLED - Tape system removed
+            // BuildTapeDeckUI(canvas); // DISABLED - Tape UI removed
 
             Image        bgImage    = BuildBackgroundImage(canvas);
             ImageDisplay imgDisplay = BuildImageDisplay(bgImage);
             BuildVignette(canvas);
             SlidingPanel panel      = BuildSlidingPanel(canvas);
-            BuildTapeDeckUI(canvas); // Tape deck panel
             BuildExitButton(canvas);
 
             WireGameManager(imgDisplay, panel);
 
-            Debug.Log("[UIBuilder v5.9] Done!");
+            Debug.Log("[UIBuilder v6.1] Done! (Tape system disabled)");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -106,7 +108,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v5.9] Canvas created.");
+            Debug.Log("[UIBuilder v6.1] Canvas created.");
             return go;
         }
 
@@ -117,7 +119,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v5.9] EventSystem created.");
+            Debug.Log("[UIBuilder v6.1] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -150,7 +152,7 @@ namespace NoiseOverSilent.Setup
             if (pSlide != null) SetField(sm, "panelSlide", pSlide);
             if (typing != null) SetField(sm, "typing", typing);
             
-            Debug.Log("[UIBuilder v5.9] SoundManager created.");
+            Debug.Log("[UIBuilder v6.1] SoundManager created.");
         }
 
         // ── Tape Player ──────────────────────────────────────────────────────
@@ -158,7 +160,7 @@ namespace NoiseOverSilent.Setup
         {
             GameObject go = new GameObject("TapePlayer");
             go.AddComponent<TapePlayer>();
-            Debug.Log("[UIBuilder v5.9] TapePlayer created.");
+            Debug.Log("[UIBuilder v6.1] TapePlayer created.");
         }
 
         // ── Background Image ─────────────────────────────────────────────────
@@ -178,7 +180,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v5.9] BackgroundImage created.");
+            Debug.Log("[UIBuilder v6.1] BackgroundImage created.");
             return img;
         }
 
@@ -211,7 +213,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v5.9] Vignette overlay created.");
+            Debug.Log("[UIBuilder v6.1] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -258,39 +260,61 @@ namespace NoiseOverSilent.Setup
             pcs.matchWidthOrHeight  = 0f;
             panelCanvas.AddComponent<GraphicRaycaster>();
 
-            // Panel root
-            GameObject    panelGO  = new GameObject("SlidingPanel");
-            panelGO.transform.SetParent(panelCanvas.transform, false);
+            // ═══════════════════════════════════════════════════════════════
+            // TEXT PANEL (BOTTOM) - Just narrative text
+            // ═══════════════════════════════════════════════════════════════
+            
+            GameObject textPanelGO = new GameObject("TextPanel");
+            textPanelGO.transform.SetParent(panelCanvas.transform, false);
 
-            RectTransform panelRect    = panelGO.AddComponent<RectTransform>();
-            panelRect.anchorMin        = new Vector2(1f, 0f);
-            panelRect.anchorMax        = new Vector2(1f, 1f);
-            panelRect.pivot            = new Vector2(1f, 0.5f);
-            panelRect.sizeDelta        = new Vector2(400f, 0f);
-            panelRect.anchoredPosition = new Vector2(500f, 0f);
+            RectTransform textPanelRect = textPanelGO.AddComponent<RectTransform>();
+            textPanelRect.anchorMin        = new Vector2(0f, 0f);      // Bottom-left
+            textPanelRect.anchorMax        = new Vector2(1f, 0f);      // Bottom-right
+            textPanelRect.pivot            = new Vector2(0.5f, 0f);    // Pivot bottom-center
+            textPanelRect.sizeDelta        = new Vector2(0f, 180f);    // Full width, 180px tall
+            textPanelRect.anchoredPosition = new Vector2(0f, 0f);      // At bottom edge
 
-            Image panelImg = panelGO.AddComponent<Image>();
-            panelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
+            Image textPanelImg = textPanelGO.AddComponent<Image>();
+            textPanelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.4f); // Very light (40% opacity)
 
-            // ── Narrative text ────────────────────────────────────────────────
-            TextMeshProUGUI tmp = CreateTMPText(panelGO, "NarrativeText",
-                new Vector2(30f, 50f), new Vector2(-10f, -100f), 30);
+            // Narrative text (centered in text panel)
+            TextMeshProUGUI tmp = CreateTMPText(textPanelGO, "NarrativeText",
+                new Vector2(100f, 20f), new Vector2(-100f, -20f), 28);
+            tmp.alignment = TextAlignmentOptions.Center; // Centered
+
+            // ═══════════════════════════════════════════════════════════════
+            // CHOICE PANEL (RIGHT-TOP) - Just choice buttons
+            // ═══════════════════════════════════════════════════════════════
+            
+            GameObject choicePanelGO = new GameObject("ChoicePanel");
+            choicePanelGO.transform.SetParent(panelCanvas.transform, false);
+
+            RectTransform choicePanelRect = choicePanelGO.AddComponent<RectTransform>();
+            choicePanelRect.anchorMin        = new Vector2(1f, 1f);     // Right-TOP
+            choicePanelRect.anchorMax        = new Vector2(1f, 1f);     // Right-TOP
+            choicePanelRect.pivot            = new Vector2(1f, 1f);     // Pivot right-top
+            choicePanelRect.sizeDelta        = new Vector2(400f, 600f); // 400px wide, 600px tall
+            choicePanelRect.anchoredPosition = new Vector2(450f, 0f);   // Start off-screen (right)
+
+            Image choicePanelImg = choicePanelGO.AddComponent<Image>();
+            choicePanelImg.color = new Color(0.05f, 0.05f, 0.05f, 0.92f);
 
             // ── Choice container ──────────────────────────────────────────────
+            // Inside choice panel - positioned at TOP
             GameObject containerGO = new GameObject("ChoiceContainer");
-            containerGO.transform.SetParent(panelGO.transform, false);
+            containerGO.transform.SetParent(choicePanelGO.transform, false);
 
             RectTransform cr    = containerGO.AddComponent<RectTransform>();
-            cr.anchorMin        = new Vector2(0f,   0f);
-            cr.anchorMax        = new Vector2(1f,   0f);
-            cr.pivot            = new Vector2(0.5f, 0f);
-            cr.sizeDelta        = new Vector2(-60f, 180f);
-            cr.anchoredPosition = new Vector2(0f,   50f); // 50px from bottom
+            cr.anchorMin        = new Vector2(0f, 1f);     // Top-left
+            cr.anchorMax        = new Vector2(1f, 1f);     // Top-right
+            cr.pivot            = new Vector2(0.5f, 1f);   // Pivot at top
+            cr.sizeDelta        = new Vector2(-40f, 500f); // Full width minus padding, 500px tall
+            cr.anchoredPosition = new Vector2(0f, -20f);   // 20px from top edge
 
             VerticalLayoutGroup vlg = containerGO.AddComponent<VerticalLayoutGroup>();
-            vlg.spacing               = 25f; // More space between buttons
-            vlg.padding               = new RectOffset(10, 10, 5, 5);
-            vlg.childAlignment        = TextAnchor.LowerLeft;
+            vlg.spacing               = 20f;
+            vlg.padding               = new RectOffset(20, 20, 20, 20);
+            vlg.childAlignment        = TextAnchor.UpperCenter; // Align to top
             vlg.childControlWidth     = true;
             vlg.childControlHeight    = false;
             vlg.childForceExpandWidth  = true;
@@ -302,10 +326,11 @@ namespace NoiseOverSilent.Setup
             prefab.SetActive(false);
 
             // ── Wire SlidingPanel script ──────────────────────────────────────
-            SlidingPanel sp = panelGO.AddComponent<SlidingPanel>();
-            SetField(sp, "panelRect",          panelRect);
-            SetField(sp, "panelBackground",    panelImg);
-            SetField(sp, "narrativeText",      tmp);
+            // Attach to choice panel (left side - the one that slides)
+            SlidingPanel sp = choicePanelGO.AddComponent<SlidingPanel>();
+            SetField(sp, "panelRect",          choicePanelRect);
+            SetField(sp, "panelBackground",    choicePanelImg);
+            SetField(sp, "narrativeText",      tmp);              // Text is in bottom panel
             SetField(sp, "choiceContainer",    containerGO.transform);
             SetField(sp, "choiceButtonPrefab", prefab);
             SetField(sp, "slideSpeed",         0.4f);
@@ -314,9 +339,9 @@ namespace NoiseOverSilent.Setup
             TypewriterEffect typewriter = tmp.gameObject.AddComponent<TypewriterEffect>();
             SetField(sp, "typewriter", typewriter);
             SetField(sp, "useTypewriter", true);
-            Debug.Log("[UIBuilder v5.9] TypewriterEffect added to narrativeText!");
+            Debug.Log("[UIBuilder v6.1] TypewriterEffect added to narrativeText!");
 
-            Debug.Log("[UIBuilder v5.9] SlidingPanel created.");
+            Debug.Log("[UIBuilder v6.1] SlidingPanel created.");
             return sp;
         }
 
@@ -360,7 +385,7 @@ namespace NoiseOverSilent.Setup
             tmp.text             = "";
             tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v5.9] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v6.1] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -409,13 +434,13 @@ namespace NoiseOverSilent.Setup
             {
                 panelImg.sprite = cassetteSprite;
                 panelImg.color = Color.white; // Full color
-                Debug.Log("[UIBuilder v5.9] Cassette player sprite loaded!");
+                Debug.Log("[UIBuilder v6.1] Cassette player sprite loaded!");
             }
             else
             {
                 // Fallback color if sprite not found
                 panelImg.color = new Color(0.8f, 0.78f, 0.7f, 1f); // Beige
-                Debug.LogWarning("[UIBuilder v5.9] Cassette player sprite not found at Resources/Images/UI/cassette_player");
+                Debug.LogWarning("[UIBuilder v6.1] Cassette player sprite not found at Resources/Images/UI/cassette_player");
             }
 
             // Pull tab on TOP edge - at LEFT side
@@ -487,13 +512,13 @@ namespace NoiseOverSilent.Setup
             if (tabBtn != null)
             {
                 tabBtn.onClick.AddListener(() => {
-                    Debug.Log("[UIBuilder v5.9] Pull tab clicked!");
+                    Debug.Log("[UIBuilder v6.1] Pull tab clicked!");
                     deckUI.Toggle();
                 });
-                Debug.Log("[UIBuilder v5.9] Pull tab manually wired in UIBuilder.");
+                Debug.Log("[UIBuilder v6.1] Pull tab manually wired in UIBuilder.");
             }
 
-            Debug.Log("[UIBuilder v5.9] TapeDeckUI created with pixel art cassette player.");
+            Debug.Log("[UIBuilder v6.1] TapeDeckUI created with pixel art cassette player.");
         }
 
         private GameObject CreateInvisibleButton(GameObject parent, string name, Vector2 position, Vector2 size)
@@ -638,7 +663,7 @@ namespace NoiseOverSilent.Setup
                 }
             });
 
-            Debug.Log("[UIBuilder v5.9] Menu dropdown created.");
+            Debug.Log("[UIBuilder v6.1] Menu dropdown created.");
         }
 
         private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
@@ -729,7 +754,7 @@ namespace NoiseOverSilent.Setup
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v5.9] GameManager wired.");
+            Debug.Log("[UIBuilder v6.1] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -746,7 +771,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v5.9] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v6.1] Field '{fieldName}' not found on {target.GetType().Name}");
         }
 
         // ══════════════════════════════════════════════════════════════════
@@ -790,12 +815,12 @@ namespace NoiseOverSilent.Setup
             {
                 bgImage.sprite = landingSprite;
                 bgImage.color = Color.white;
-                Debug.Log("[UIBuilder v5.9] Landing background loaded!");
+                Debug.Log("[UIBuilder v6.1] Landing background loaded!");
             }
             else
             {
                 bgImage.color = new Color(0.1f, 0.1f, 0.1f, 1f); // Dark fallback
-                Debug.LogWarning("[UIBuilder v5.9] Landing background not found at Resources/Images/UI/landing_background");
+                Debug.LogWarning("[UIBuilder v6.1] Landing background not found at Resources/Images/UI/landing_background");
             }
             
             // PLAY button - centered, lower third
@@ -824,7 +849,7 @@ namespace NoiseOverSilent.Setup
             
             // Button click - hide landing page and start game
             playButton.onClick.AddListener(() => {
-                Debug.Log("[UIBuilder v5.9] PLAY button clicked - starting game");
+                Debug.Log("[UIBuilder v6.1] PLAY button clicked - starting game");
                 
                 // Play landing music → game music transition
                 SoundManager.PlayGameMusic();
@@ -849,7 +874,7 @@ namespace NoiseOverSilent.Setup
             colors.selectedColor = new Color(0f, 0f, 0f, 0.7f);
             playButton.colors = colors;
             
-            Debug.Log("[UIBuilder v5.9] Landing page created with PLAY button");
+            Debug.Log("[UIBuilder v6.1] Landing page created with PLAY button");
         }
     }
 }
