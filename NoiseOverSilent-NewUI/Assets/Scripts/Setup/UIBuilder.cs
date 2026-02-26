@@ -3,8 +3,11 @@
 // FILE    : UIBuilder.cs
 // PATH    : Assets/Scripts/Setup/
 // CREATED : 2026-02-14
-// VERSION : 6.1
-// CHANGES : v6.1 - 2026-02-22 - Two-panel layout: text bottom, choices right
+// VERSION : 6.4
+// CHANGES : v6.4 - 2026-02-22 - Chapter intro screen
+//           v6.3 - 2026-02-22 - Icon support with text fallback
+//           v6.2 - 2026-02-22 - Save/Load/Exit system
+//           v6.1 - 2026-02-22 - Two-panel layout: text bottom, choices right
 //           v6.0 - 2026-02-22 - Tape system disabled, cleanup for narrative focus
 //           v5.9 - 2026-02-22 - Added landing page with PLAY button
 //           v5.8 - 2026-02-22 - PanelGlow removed, menu matches tape colors
@@ -69,7 +72,7 @@ namespace NoiseOverSilent.Setup
 
         private void Awake()
         {
-            Debug.Log("[UIBuilder v6.1] Building scene...");
+            Debug.Log("[UIBuilder v6.4] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -86,11 +89,12 @@ namespace NoiseOverSilent.Setup
             ImageDisplay imgDisplay = BuildImageDisplay(bgImage);
             BuildVignette(canvas);
             SlidingPanel panel      = BuildSlidingPanel(canvas);
-            BuildExitButton(canvas);
+            ChapterIntroScreen chapterIntro = BuildChapterIntro(canvas); // Chapter intro screen
+            BuildGameMenu(canvas); // Save/Load/Exit buttons
 
-            WireGameManager(imgDisplay, panel);
+            WireGameManager(imgDisplay, panel, chapterIntro);
 
-            Debug.Log("[UIBuilder v6.1] Done! (Tape system disabled)");
+            Debug.Log("[UIBuilder v6.4] Done! (Tape system disabled)");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -108,7 +112,7 @@ namespace NoiseOverSilent.Setup
             scaler.matchWidthOrHeight = 0f; // match width to fill screen
 
             go.AddComponent<GraphicRaycaster>();
-            Debug.Log("[UIBuilder v6.1] Canvas created.");
+            Debug.Log("[UIBuilder v6.4] Canvas created.");
             return go;
         }
 
@@ -119,7 +123,7 @@ namespace NoiseOverSilent.Setup
             GameObject es = new GameObject("EventSystem");
             es.AddComponent<EventSystem>();
             es.AddComponent<InputSystemUIInputModule>();
-            Debug.Log("[UIBuilder v6.1] EventSystem created.");
+            Debug.Log("[UIBuilder v6.4] EventSystem created.");
         }
 
         // ── Camera ──────────────────────────────────────────────────────────
@@ -152,7 +156,7 @@ namespace NoiseOverSilent.Setup
             if (pSlide != null) SetField(sm, "panelSlide", pSlide);
             if (typing != null) SetField(sm, "typing", typing);
             
-            Debug.Log("[UIBuilder v6.1] SoundManager created.");
+            Debug.Log("[UIBuilder v6.4] SoundManager created.");
         }
 
         // ── Tape Player ──────────────────────────────────────────────────────
@@ -160,7 +164,7 @@ namespace NoiseOverSilent.Setup
         {
             GameObject go = new GameObject("TapePlayer");
             go.AddComponent<TapePlayer>();
-            Debug.Log("[UIBuilder v6.1] TapePlayer created.");
+            Debug.Log("[UIBuilder v6.4] TapePlayer created.");
         }
 
         // ── Background Image ─────────────────────────────────────────────────
@@ -180,7 +184,7 @@ namespace NoiseOverSilent.Setup
             img.raycastTarget = false;
             img.preserveAspect = false; // stretch to fill screen
 
-            Debug.Log("[UIBuilder v6.1] BackgroundImage created.");
+            Debug.Log("[UIBuilder v6.4] BackgroundImage created.");
             return img;
         }
 
@@ -213,7 +217,7 @@ namespace NoiseOverSilent.Setup
 
             vignetteGO.AddComponent<VignetteEffect>();
 
-            Debug.Log("[UIBuilder v6.1] Vignette overlay created.");
+            Debug.Log("[UIBuilder v6.4] Vignette overlay created.");
         }
 
         private Sprite CreateVignetteSprite()
@@ -339,9 +343,9 @@ namespace NoiseOverSilent.Setup
             TypewriterEffect typewriter = tmp.gameObject.AddComponent<TypewriterEffect>();
             SetField(sp, "typewriter", typewriter);
             SetField(sp, "useTypewriter", true);
-            Debug.Log("[UIBuilder v6.1] TypewriterEffect added to narrativeText!");
+            Debug.Log("[UIBuilder v6.4] TypewriterEffect added to narrativeText!");
 
-            Debug.Log("[UIBuilder v6.1] SlidingPanel created.");
+            Debug.Log("[UIBuilder v6.4] SlidingPanel created.");
             return sp;
         }
 
@@ -385,7 +389,7 @@ namespace NoiseOverSilent.Setup
             tmp.text             = "";
             tmp.raycastTarget    = false; // Don't block button clicks!
 
-            Debug.Log($"[UIBuilder v6.1] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
+            Debug.Log($"[UIBuilder v6.4] TMP '{name}' created. font={tmp.font?.name} mat={tmp.fontSharedMaterial?.name}");
             return tmp;
         }
 
@@ -434,13 +438,13 @@ namespace NoiseOverSilent.Setup
             {
                 panelImg.sprite = cassetteSprite;
                 panelImg.color = Color.white; // Full color
-                Debug.Log("[UIBuilder v6.1] Cassette player sprite loaded!");
+                Debug.Log("[UIBuilder v6.4] Cassette player sprite loaded!");
             }
             else
             {
                 // Fallback color if sprite not found
                 panelImg.color = new Color(0.8f, 0.78f, 0.7f, 1f); // Beige
-                Debug.LogWarning("[UIBuilder v6.1] Cassette player sprite not found at Resources/Images/UI/cassette_player");
+                Debug.LogWarning("[UIBuilder v6.4] Cassette player sprite not found at Resources/Images/UI/cassette_player");
             }
 
             // Pull tab on TOP edge - at LEFT side
@@ -512,13 +516,13 @@ namespace NoiseOverSilent.Setup
             if (tabBtn != null)
             {
                 tabBtn.onClick.AddListener(() => {
-                    Debug.Log("[UIBuilder v6.1] Pull tab clicked!");
+                    Debug.Log("[UIBuilder v6.4] Pull tab clicked!");
                     deckUI.Toggle();
                 });
-                Debug.Log("[UIBuilder v6.1] Pull tab manually wired in UIBuilder.");
+                Debug.Log("[UIBuilder v6.4] Pull tab manually wired in UIBuilder.");
             }
 
-            Debug.Log("[UIBuilder v6.1] TapeDeckUI created with pixel art cassette player.");
+            Debug.Log("[UIBuilder v6.4] TapeDeckUI created with pixel art cassette player.");
         }
 
         private GameObject CreateInvisibleButton(GameObject parent, string name, Vector2 position, Vector2 size)
@@ -587,55 +591,131 @@ namespace NoiseOverSilent.Setup
             return btnGO;
         }
 
-        // ── Menu Dropdown ────────────────────────────────────────────────
-        private void BuildExitButton(GameObject canvas)
+        // ── Chapter Intro Screen ─────────────────────────────────────────
+        private ChapterIntroScreen BuildChapterIntro(GameObject canvas)
         {
-            // Menu button - matches cassette tape style
-            GameObject menuBtn = new GameObject("MenuButton");
-            menuBtn.transform.SetParent(canvas.transform, false);
+            // Full-screen intro panel
+            GameObject introPanel = new GameObject("ChapterIntroPanel");
+            introPanel.transform.SetParent(canvas.transform, false);
 
-            RectTransform menuRect = menuBtn.AddComponent<RectTransform>();
-            menuRect.anchorMin        = new Vector2(0f, 1f);
-            menuRect.anchorMax        = new Vector2(0f, 1f);
-            menuRect.pivot            = new Vector2(0f, 1f);
-            menuRect.sizeDelta        = new Vector2(100f, 40f); // Same size as tape tab
-            menuRect.anchoredPosition = new Vector2(0f, 0f);
+            RectTransform introRect = introPanel.AddComponent<RectTransform>();
+            introRect.anchorMin = Vector2.zero;
+            introRect.anchorMax = Vector2.one;
+            introRect.offsetMin = Vector2.zero;
+            introRect.offsetMax = Vector2.zero;
 
-            Image menuImg = menuBtn.AddComponent<Image>();
-            menuImg.color = new Color(0.55f, 0.6f, 0.5f, 1f); // Grey-green like tape tab
+            // High sorting order (above everything except landing page)
+            Canvas introCanvas = introPanel.AddComponent<Canvas>();
+            introCanvas.overrideSorting = true;
+            introCanvas.sortingOrder = 50; // Above game (10), below landing (100)
 
-            Button menuButton = menuBtn.AddComponent<Button>();
+            GraphicRaycaster raycaster = introPanel.AddComponent<GraphicRaycaster>();
 
-            // Menu button text
-            GameObject menuTextGO = new GameObject("Text");
-            menuTextGO.transform.SetParent(menuBtn.transform, false);
-            
-            RectTransform menuTextRect = menuTextGO.AddComponent<RectTransform>();
-            menuTextRect.anchorMin = Vector2.zero;
-            menuTextRect.anchorMax = Vector2.one;
-            menuTextRect.offsetMin = Vector2.zero;
-            menuTextRect.offsetMax = Vector2.zero;
+            // Background image
+            GameObject bgGO = new GameObject("Background");
+            bgGO.transform.SetParent(introPanel.transform, false);
 
-            TextMeshProUGUI menuText = CreateMenuText(menuTextGO, "MENU");
-            menuText.color = new Color(0.2f, 0.2f, 0.2f, 1f); // Dark grey text like tape tab
+            RectTransform bgRect = bgGO.AddComponent<RectTransform>();
+            bgRect.anchorMin = Vector2.zero;
+            bgRect.anchorMax = Vector2.one;
+            bgRect.offsetMin = Vector2.zero;
+            bgRect.offsetMax = Vector2.zero;
 
-            // Dropdown panel
-            GameObject dropdown = new GameObject("MenuDropdown");
-            dropdown.transform.SetParent(canvas.transform, false);
-            dropdown.SetActive(false);
+            Image bgImage = bgGO.AddComponent<Image>();
+            bgImage.color = Color.black; // Default black
 
-            RectTransform dropRect = dropdown.AddComponent<RectTransform>();
-            dropRect.anchorMin        = new Vector2(0f, 1f);
-            dropRect.anchorMax        = new Vector2(0f, 1f);
-            dropRect.pivot            = new Vector2(0f, 1f);
-            dropRect.sizeDelta        = new Vector2(100f, 80f); // Back to 2 options
-            dropRect.anchoredPosition = new Vector2(0f, -40f);
+            // Chapter number text (top-center)
+            GameObject chapterNumGO = new GameObject("ChapterNumber");
+            chapterNumGO.transform.SetParent(introPanel.transform, false);
 
-            Image dropImg = dropdown.AddComponent<Image>();
-            dropImg.color = new Color(0.08f, 0.08f, 0.08f, 0.95f);
+            RectTransform chapterNumRect = chapterNumGO.AddComponent<RectTransform>();
+            chapterNumRect.anchorMin = new Vector2(0.5f, 0.6f);
+            chapterNumRect.anchorMax = new Vector2(0.5f, 0.6f);
+            chapterNumRect.pivot = new Vector2(0.5f, 0.5f);
+            chapterNumRect.sizeDelta = new Vector2(800f, 100f);
 
-            // Exit option
-            CreateMenuOption(dropdown, "Exit", 0, () => {
+            TextMeshProUGUI chapterNumText = CreateTMPText(chapterNumGO, "Text",
+                Vector2.zero, Vector2.zero, 48);
+            chapterNumText.text = "CHAPTER 1";
+            chapterNumText.alignment = TextAlignmentOptions.Center;
+            chapterNumText.color = new Color(0.9f, 0.85f, 0.7f, 1f); // Beige
+            chapterNumText.fontStyle = FontStyles.Bold;
+
+            // Chapter title text (below number)
+            GameObject chapterTitleGO = new GameObject("ChapterTitle");
+            chapterTitleGO.transform.SetParent(introPanel.transform, false);
+
+            RectTransform chapterTitleRect = chapterTitleGO.AddComponent<RectTransform>();
+            chapterTitleRect.anchorMin = new Vector2(0.5f, 0.4f);
+            chapterTitleRect.anchorMax = new Vector2(0.5f, 0.4f);
+            chapterTitleRect.pivot = new Vector2(0.5f, 0.5f);
+            chapterTitleRect.sizeDelta = new Vector2(1000f, 100f);
+
+            TextMeshProUGUI chapterTitleText = CreateTMPText(chapterTitleGO, "Text",
+                Vector2.zero, Vector2.zero, 36);
+            chapterTitleText.text = "THE DAY STILL STARTS";
+            chapterTitleText.alignment = TextAlignmentOptions.Center;
+            chapterTitleText.color = new Color(0.7f, 0.65f, 0.5f, 1f); // Darker beige
+            chapterTitleText.fontStyle = FontStyles.Normal;
+
+            // Add ChapterIntroScreen component
+            ChapterIntroScreen chapterIntro = introPanel.AddComponent<ChapterIntroScreen>();
+            SetField(chapterIntro, "introPanel", introPanel);
+            SetField(chapterIntro, "backgroundImage", bgImage);
+            SetField(chapterIntro, "chapterNumberText", chapterNumText);
+            SetField(chapterIntro, "chapterTitleText", chapterTitleText);
+
+            introPanel.SetActive(false); // Hidden by default
+
+            Debug.Log("[UIBuilder v6.4] Chapter intro screen created.");
+            return chapterIntro;
+        }
+
+        // ── Game Menu (Save/Load/Exit) ──────────────────────────────────
+        private void BuildGameMenu(GameObject canvas)
+        {
+            // Container for all three buttons - top-left corner
+            GameObject menuContainer = new GameObject("GameMenu");
+            menuContainer.transform.SetParent(canvas.transform, false);
+
+            RectTransform containerRect = menuContainer.AddComponent<RectTransform>();
+            containerRect.anchorMin = new Vector2(0f, 1f);
+            containerRect.anchorMax = new Vector2(0f, 1f);
+            containerRect.pivot = new Vector2(0f, 1f);
+            containerRect.sizeDelta = new Vector2(200f, 40f); // Narrower for icon buttons
+            containerRect.anchoredPosition = new Vector2(10f, -10f); // 10px padding from corner
+
+            // Horizontal layout for buttons
+            HorizontalLayoutGroup layout = menuContainer.AddComponent<HorizontalLayoutGroup>();
+            layout.spacing = 10f;
+            layout.childControlWidth = false;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = true;
+
+            // SAVE button
+            CreateGameMenuButton(menuContainer, "SAVE", () => {
+                GameManager gm = FindFirstObjectByType<GameManager>();
+                if (gm != null)
+                {
+                    gm.SaveGame();
+                    Debug.Log("[UIBuilder v6.4] Game saved!");
+                }
+            });
+
+            // LOAD button
+            CreateGameMenuButton(menuContainer, "LOAD", () => {
+                GameManager gm = FindFirstObjectByType<GameManager>();
+                if (gm != null)
+                {
+                    gm.LoadSavedGame();
+                    Debug.Log("[UIBuilder v6.4] Game loaded!");
+                }
+            });
+
+            // EXIT button
+            CreateGameMenuButton(menuContainer, "EXIT", () => {
+                Debug.Log("[UIBuilder v6.4] Exiting game...");
                 #if UNITY_EDITOR
                     UnityEditor.EditorApplication.isPlaying = false;
                 #else
@@ -643,104 +723,81 @@ namespace NoiseOverSilent.Setup
                 #endif
             });
 
-            // Settings option  
-            CreateMenuOption(dropdown, "Settings", 1, () => {
-                Debug.Log("[Menu] Settings (not implemented yet)");
-            });
-
-            // Toggle dropdown with smooth animation
-            menuButton.onClick.AddListener(() => {
-                if (dropdown.activeSelf)
-                {
-                    dropdown.SetActive(false);
-                }
-                else
-                {
-                    dropdown.SetActive(true);
-                    // Add slight scale animation
-                    dropdown.transform.localScale = new Vector3(1f, 0f, 1f);
-                    StartCoroutine(AnimateDropdown(dropdown.transform));
-                }
-            });
-
-            Debug.Log("[UIBuilder v6.1] Menu dropdown created.");
+            Debug.Log("[UIBuilder v6.4] Game menu created (Save/Load/Exit).");
         }
 
-        private System.Collections.IEnumerator AnimateDropdown(Transform dropdown)
+        private void CreateGameMenuButton(GameObject parent, string label, System.Action onClick)
         {
-            float elapsed = 0f;
-            float duration = 0.15f;
+            GameObject btnGO = new GameObject(label + "Button");
+            btnGO.transform.SetParent(parent.transform, false);
 
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float t = Mathf.SmoothStep(0f, 1f, elapsed / duration);
-                dropdown.localScale = new Vector3(1f, t, 1f);
-                yield return null;
-            }
+            RectTransform btnRect = btnGO.AddComponent<RectTransform>();
+            btnRect.sizeDelta = new Vector2(60f, 40f); // Square buttons for icons
 
-            dropdown.localScale = Vector3.one;
-        }
-
-        private TextMeshProUGUI CreateMenuText(GameObject parent, string text)
-        {
-            TextMeshProUGUI tmp = parent.AddComponent<TextMeshProUGUI>();
+            Image btnImg = btnGO.AddComponent<Image>();
             
-            TMP_FontAsset font = TMP_Settings.defaultFontAsset;
-            if (font != null)
+            // Try to load icon image
+            string iconPath = "";
+            switch (label)
             {
-                tmp.font = font;
-                Material mat = new Material(font.material);
-                mat.SetColor(ShaderUtilities.ID_FaceColor, Color.white);
-                tmp.fontSharedMaterial = mat;
+                case "SAVE":
+                    iconPath = "Images/UI/Icons/icon_save";
+                    break;
+                case "LOAD":
+                    iconPath = "Images/UI/Icons/icon_load";
+                    break;
+                case "EXIT":
+                    iconPath = "Images/UI/Icons/icon_exit";
+                    break;
             }
 
-            tmp.text      = text;
-            tmp.fontSize  = 16;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.color     = Color.white;
-            return tmp;
+            Sprite iconSprite = Resources.Load<Sprite>(iconPath);
+            if (iconSprite != null)
+            {
+                // Use icon image
+                btnImg.sprite = iconSprite;
+                btnImg.color = Color.white; // Show icon as-is
+                btnImg.type = Image.Type.Simple;
+                btnImg.preserveAspect = true;
+                Debug.Log($"[UIBuilder v6.4] Loaded icon: {iconPath}");
+            }
+            else
+            {
+                // Fallback to colored button with letter
+                btnImg.color = new Color(0.55f, 0.6f, 0.5f, 1f); // Grey-green
+                
+                // Add text fallback
+                GameObject textGO = new GameObject("Text");
+                textGO.transform.SetParent(btnGO.transform, false);
+
+                RectTransform textRect = textGO.AddComponent<RectTransform>();
+                textRect.anchorMin = Vector2.zero;
+                textRect.anchorMax = Vector2.one;
+                textRect.offsetMin = Vector2.zero;
+                textRect.offsetMax = Vector2.zero;
+
+                TextMeshProUGUI btnText = CreateTMPText(textGO, "ButtonText", Vector2.zero, Vector2.zero, 24);
+                btnText.text = label[0].ToString(); // First letter (S, L, X)
+                btnText.alignment = TextAlignmentOptions.Center;
+                btnText.color = new Color(0.2f, 0.2f, 0.2f, 1f);
+                
+                Debug.LogWarning($"[UIBuilder v6.4] Icon not found: {iconPath} - using text fallback");
+            }
+
+            Button button = btnGO.AddComponent<Button>();
+            button.onClick.AddListener(() => onClick());
+
+            // Hover effect
+            button.transition = Selectable.Transition.ColorTint;
+            ColorBlock colors = button.colors;
+            colors.normalColor = Color.white;
+            colors.highlightedColor = new Color(0.9f, 0.9f, 0.9f, 1f);
+            colors.pressedColor = new Color(0.8f, 0.8f, 0.8f, 1f);
+            button.colors = colors;
         }
 
-        private void CreateMenuOption(GameObject parent, string label, int index, UnityEngine.Events.UnityAction action)
-        {
-            GameObject option = new GameObject(label);
-            option.transform.SetParent(parent.transform, false);
-
-            RectTransform rect = option.AddComponent<RectTransform>();
-            rect.anchorMin        = new Vector2(0f, 1f);
-            rect.anchorMax        = new Vector2(1f, 1f);
-            rect.pivot            = new Vector2(0.5f, 1f);
-            rect.sizeDelta        = new Vector2(0f, 40f);
-            rect.anchoredPosition = new Vector2(0f, -index * 40f);
-
-            Image img = option.AddComponent<Image>();
-            img.color = new Color(0.15f, 0.15f, 0.15f, 0f);
-
-            Button btn = option.AddComponent<Button>();
-            btn.onClick.AddListener(action);
-
-            ColorBlock colors = btn.colors;
-            colors.normalColor      = new Color(1f, 1f, 1f, 0f);
-            colors.highlightedColor = new Color(1f, 1f, 1f, 0.2f);
-            colors.pressedColor     = new Color(1f, 1f, 1f, 0.3f);
-            btn.colors = colors;
-
-            // Text
-            GameObject textGO = new GameObject("Text");
-            textGO.transform.SetParent(option.transform, false);
-
-            RectTransform textRect = textGO.AddComponent<RectTransform>();
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = new Vector2(5f, 0f);
-            textRect.offsetMax = new Vector2(-5f, 0f);
-
-            CreateMenuText(textGO, label);
-        }
-
-        // ── GameManager wiring ───────────────────────────────────────────────
-        private void WireGameManager(ImageDisplay imgDisplay, SlidingPanel panel)
+        // ── Wire GameManager ──────────────────────────────────────────────
+        private void WireGameManager(ImageDisplay imgDisplay, SlidingPanel panel, ChapterIntroScreen chapterIntro)
         {
             JsonLoader  jl = GetComponent<JsonLoader>()  ?? gameObject.AddComponent<JsonLoader>();
             GameManager gm = GetComponent<GameManager>() ?? gameObject.AddComponent<GameManager>();
@@ -748,13 +805,13 @@ namespace NoiseOverSilent.Setup
             SetField(gm, "jsonLoader",   jl);
             SetField(gm, "imageDisplay", imgDisplay);
             SetField(gm, "slidingPanel", panel);
+            SetField(gm, "chapterIntroScreen", chapterIntro);
             SetField(gm, "startEpisode", 1);
-            SetField(gm, "startEventId", 1);
 
             // CRITICAL: Set GameManager reference in SlidingPanel
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v6.1] GameManager wired.");
+            Debug.Log("[UIBuilder v6.4] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────
@@ -771,7 +828,7 @@ namespace NoiseOverSilent.Setup
             if (field != null)
                 field.SetValue(target, value);
             else
-                Debug.LogWarning($"[UIBuilder v6.1] Field '{fieldName}' not found on {target.GetType().Name}");
+                Debug.LogWarning($"[UIBuilder v6.4] Field '{fieldName}' not found on {target.GetType().Name}");
         }
 
         // ══════════════════════════════════════════════════════════════════
@@ -815,66 +872,100 @@ namespace NoiseOverSilent.Setup
             {
                 bgImage.sprite = landingSprite;
                 bgImage.color = Color.white;
-                Debug.Log("[UIBuilder v6.1] Landing background loaded!");
+                Debug.Log("[UIBuilder v6.4] Landing background loaded!");
             }
             else
             {
                 bgImage.color = new Color(0.1f, 0.1f, 0.1f, 1f); // Dark fallback
-                Debug.LogWarning("[UIBuilder v6.1] Landing background not found at Resources/Images/UI/landing_background");
+                Debug.LogWarning("[UIBuilder v6.4] Landing background not found at Resources/Images/UI/landing_background");
             }
             
-            // PLAY button - centered, lower third
-            GameObject playBtn = new GameObject("PlayButton");
-            playBtn.transform.SetParent(landingPage.transform, false);
+            // Button container - vertically stacked
+            GameObject buttonContainer = new GameObject("ButtonContainer");
+            buttonContainer.transform.SetParent(landingPage.transform, false);
             
-            RectTransform playRect = playBtn.AddComponent<RectTransform>();
-            playRect.anchorMin = new Vector2(0.5f, 0.35f); // Centered horizontally, lower area
-            playRect.anchorMax = new Vector2(0.5f, 0.35f);
-            playRect.pivot = new Vector2(0.5f, 0.5f);
-            playRect.sizeDelta = new Vector2(200f, 60f); // Wide button
-            playRect.anchoredPosition = Vector2.zero;
-            
-            Image playImg = playBtn.AddComponent<Image>();
-            playImg.color = new Color(0f, 0f, 0f, 0.7f); // Semi-transparent black
-            
-            Button playButton = playBtn.AddComponent<Button>();
-            
-            // PLAY text
-            TextMeshProUGUI playText = CreateTMPText(playBtn, "PlayText", 
-                new Vector2(10f, 10f), new Vector2(-10f, -10f), 32);
-            playText.text = "PLAY";
-            playText.alignment = TextAlignmentOptions.Center;
-            playText.color = new Color(0.9f, 0.85f, 0.7f, 1f); // Beige/tan like the title
-            playText.fontStyle = FontStyles.Bold;
-            
-            // Button click - hide landing page and start game
-            playButton.onClick.AddListener(() => {
-                Debug.Log("[UIBuilder v6.1] PLAY button clicked - starting game");
-                
-                // Play landing music → game music transition
+            RectTransform containerRect = buttonContainer.AddComponent<RectTransform>();
+            containerRect.anchorMin = new Vector2(0.5f, 0.35f);
+            containerRect.anchorMax = new Vector2(0.5f, 0.35f);
+            containerRect.pivot = new Vector2(0.5f, 0.5f);
+            containerRect.sizeDelta = new Vector2(250f, 220f); //Tall enough for 3 buttons
+            containerRect.anchoredPosition = Vector2.zero;
+
+            VerticalLayoutGroup vlg = buttonContainer.AddComponent<VerticalLayoutGroup>();
+            vlg.spacing = 15f;
+            vlg.childAlignment = TextAnchor.MiddleCenter;
+            vlg.childControlWidth = true;
+            vlg.childControlHeight = false;
+            vlg.childForceExpandWidth = true;
+
+            // NEW GAME button
+            CreateLandingButton(buttonContainer, "NEW GAME", () => {
+                Debug.Log("[UIBuilder v6.4] NEW GAME clicked");
                 SoundManager.PlayGameMusic();
-                
-                // Hide landing page
                 landingPage.SetActive(false);
                 
-                // Start the game
                 GameManager gm = FindFirstObjectByType<GameManager>();
                 if (gm != null)
                 {
-                    gm.LoadEpisode(1, 1);
+                    gm.LoadEpisode(1, 1); // Start from beginning
                 }
             });
+
+            // LOAD button
+            CreateLandingButton(buttonContainer, "LOAD", () => {
+                Debug.Log("[UIBuilder v6.4] LOAD clicked");
+                SoundManager.PlayGameMusic();
+                landingPage.SetActive(false);
+                
+                GameManager gm = FindFirstObjectByType<GameManager>();
+                if (gm != null)
+                {
+                    gm.LoadSavedGame(); // Load from save
+                }
+            });
+
+            // EXIT button
+            CreateLandingButton(buttonContainer, "EXIT", () => {
+                Debug.Log("[UIBuilder v6.4] EXIT clicked");
+                #if UNITY_EDITOR
+                    UnityEditor.EditorApplication.isPlaying = false;
+                #else
+                    Application.Quit();
+                #endif
+            });
             
+            Debug.Log("[UIBuilder v6.4] Landing page created with NEW GAME/LOAD/EXIT");
+        }
+
+        private void CreateLandingButton(GameObject parent, string label, System.Action onClick)
+        {
+            GameObject btnGO = new GameObject(label + "Button");
+            btnGO.transform.SetParent(parent.transform, false);
+
+            RectTransform btnRect = btnGO.AddComponent<RectTransform>();
+            btnRect.sizeDelta = new Vector2(0f, 60f); // Standard button height
+
+            Image btnImg = btnGO.AddComponent<Image>();
+            btnImg.color = new Color(0f, 0f, 0f, 0.7f);
+
+            Button button = btnGO.AddComponent<Button>();
+            button.onClick.AddListener(() => onClick());
+
+            // Button text only - no icons
+            TextMeshProUGUI btnText = CreateTMPText(btnGO, "Text",
+                new Vector2(10f, 10f), new Vector2(-10f, -10f), 28);
+            btnText.text = label;
+            btnText.alignment = TextAlignmentOptions.Center;
+            btnText.color = new Color(0.9f, 0.85f, 0.7f, 1f); // Beige/tan
+            btnText.fontStyle = FontStyles.Bold;
+
             // Hover effect
-            playButton.transition = Selectable.Transition.ColorTint;
-            ColorBlock colors = playButton.colors;
+            button.transition = Selectable.Transition.ColorTint;
+            ColorBlock colors = button.colors;
             colors.normalColor = new Color(0f, 0f, 0f, 0.7f);
-            colors.highlightedColor = new Color(0.2f, 0.2f, 0.2f, 0.9f); // Lighter on hover
+            colors.highlightedColor = new Color(0.2f, 0.2f, 0.2f, 0.9f);
             colors.pressedColor = new Color(0.1f, 0.1f, 0.1f, 1f);
-            colors.selectedColor = new Color(0f, 0f, 0f, 0.7f);
-            playButton.colors = colors;
-            
-            Debug.Log("[UIBuilder v6.1] Landing page created with PLAY button");
+            button.colors = colors;
         }
     }
 }

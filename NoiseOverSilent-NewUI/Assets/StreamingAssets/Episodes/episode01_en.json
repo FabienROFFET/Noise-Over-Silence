@@ -1,312 +1,333 @@
 {
+  "chapter": {
+    "number": 1,
+    "title": "The Day Still Starts",
+    "intro_image": "images/chapters/chapter1_intro.png",
+    "intro_duration": 3.0
+  },
   "episode": 1,
-  "title": "The Day Still Starts",
+  "title": "Episode 1",
   "events": [
-
     {
       "id": 1,
-      "location": "Flat",
-      "soundscape_mp3": "audio/City-of-Dread.mp3",
+      "text": "The radiator clicks like a dying insect. Morning exists only because you've decided it does.",
+      "image": "images/ep1_event1.png",
       "voice_over": "vo/ep1_event1_en",
-      "image_prompt": "Cold communist apartment, Brno 2157, peeling walls, weak morning light, hopeless atmosphere",
-      "image_link": "images/ep1_event1.jpg",
-      "stats": { "physical": 100, "mental": 85 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The radiator clicks like a dying insect. Morning exists only because the clock says so. You sit on the bed, already tired.",
+      "soundscape_mp3": "audio/City-of-Dread.mp3",
       "choices": [
-        { "text": "Get up", "next_event": 2 },
-        { "text": "Stay seated and think", "next_event": 3 }
+        {
+          "text": "Get up",
+          "next_event": 2
+        },
+        {
+          "text": "Stay seated and think",
+          "next_event": 3
+        }
       ]
     },
-
     {
       "id": 2,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
+      "text": "You stand. Your legs respond out of habit, not will. The floor is cold—concrete pretending to be civilization.",
+      "image": "images/ep1_event2.png",
       "voice_over": "vo/ep1_event2_en",
-      "image_prompt": "Small kitchen in a decaying apartment, empty shelves, cold light",
-      "image_link": "images/ep1_event2.png",
-      "stats": { "physical": 100, "mental": 84 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "You stand. Your legs respond out of habit, not will.",
       "choices": [
-        { "text": "Check the kitchen", "next_event": 4 },
-        { "text": "Put on your coat and leave", "next_event": 6 }
+        {
+          "text": "Look at the window",
+          "next_event": 4
+        },
+        {
+          "text": "Check your belongings",
+          "next_event": 5
+        }
       ]
     },
-
     {
       "id": 3,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
-      "image_prompt": "Man sitting on bed, head down, grey walls, silence",
-      "image_link": "images/ep1_event3.png",
-      "stats": { "physical": 100, "mental": 82 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "You remember winters that felt shorter. Maybe they weren’t. Maybe you were.",
+      "text": "Thinking has never saved anyone. But you do it anyway. The walls listen, patient and indifferent.",
+      "image": "images/ep1_event3.png",
+      "voice_over": "vo/ep1_event3_en",
       "choices": [
-        { "text": "Get up anyway", "next_event": 2 }
+        {
+          "text": "Stand up anyway",
+          "next_event": 2
+        },
+        {
+          "text": "Stay seated longer",
+          "next_event": 6
+        }
       ]
     },
-
     {
       "id": 4,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
-      "image_prompt": "Cold kitchen table with a single sausage on it",
-      "image_link": "images/ep1_event4.png",
-      "stats": { "physical": 100, "mental": 84 },
-      "inventory": { "items": ["cold_sausage"], "tapes": [] },
-      "text": "A cold Polish sausage lies on the table. No bread. Still food.",
+      "text": "The window shows you Brno 2157. Towers of grey and green. The revolution's architecture, still standing after everything fell.",
+      "image": "images/ep1_event4.png",
+      "voice_over": "vo/ep1_event4_en",
       "choices": [
-        { "text": "Eat the sausage", "next_event": 5, "lose_items": ["cold_sausage"] },
-        { "text": "Save it for later", "next_event": 6 }
+        {
+          "text": "Look away",
+          "next_event": 7
+        },
+        {
+          "text": "Keep watching",
+          "next_event": 8
+        }
       ]
     },
-
     {
       "id": 5,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
-      "image_prompt": "Man eating alone in silence",
-      "image_link": "images/ep1_event5.png",
-      "stats": { "physical": 105, "mental": 83 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "It tastes like nothing. But your hands shake less.",
+      "text": "Your jacket. Your ID card. A photo you don't remember taking. These are the fragments you're made of now.",
+      "image": "images/ep1_event5.png",
+      "voice_over": "vo/ep1_event5_en",
       "choices": [
-        { "text": "Leave the flat", "next_event": 6 }
+        {
+          "text": "Put the jacket on",
+          "next_event": 9
+        },
+        {
+          "text": "Look at the photo",
+          "next_event": 10
+        }
       ]
     },
-
     {
       "id": 6,
-      "location": "Stairwell",
-      "soundscape_mp3": "audio/stairwell_echo.mp3",
-      "image_prompt": "Dark stairwell, broken lights, concrete walls",
-      "image_link": "images/ep1_event6.png",
-      "stats": { "physical": 100, "mental": 83 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The stairwell smells of mold and resignation.",
+      "text": "Time passes. The radiator clicks. Nothing changes, which is its own kind of answer.",
+      "image": "images/ep1_event6.png",
+      "voice_over": "vo/ep1_event6_en",
       "choices": [
-        { "text": "Go down", "next_event": 7 }
+        {
+          "text": "Finally stand up",
+          "next_event": 2
+        }
       ]
     },
-
     {
       "id": 7,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Frozen communist street, propaganda banners, snow",
-      "image_link": "images/ep1_event7.png",
-      "stats": { "physical": 98, "mental": 82 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "Wind cuts your face. Loudspeakers praise productivity.",
+      "text": "You turn from the window. The room is small. Every room is small when the world outside is too big.",
+      "image": "images/ep1_event7.png",
+      "voice_over": "vo/ep1_event7_en",
       "choices": [
-        { "text": "Walk toward the pub", "next_event": 8 },
-        { "text": "Wander the street", "next_event": 9 }
+        {
+          "text": "Check your belongings",
+          "next_event": 5
+        },
+        {
+          "text": "Leave the room",
+          "next_event": 11
+        }
       ]
     },
-
     {
       "id": 8,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Dark underground pub, tired faces, smoke",
-      "image_link": "images/ep1_event8.png",
-      "stats": { "physical": 98, "mental": 80 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The pub is warm. That’s already dangerous.",
+      "text": "The city moves. Workers. Drones. The same grey tide that rises every morning. You recognize it because you're part of it.",
+      "image": "images/ep1_event8.png",
+      "voice_over": "vo/ep1_event8_en",
       "choices": [
-        { "text": "Talk to the owner", "next_event": 10 },
-        { "text": "Sit silently", "next_event": 11 }
+        {
+          "text": "Turn away",
+          "next_event": 7
+        },
+        {
+          "text": "Open the window",
+          "next_event": 12
+        }
       ]
     },
-
     {
       "id": 9,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Empty street corner with propaganda poster",
-      "image_link": "images/ep1_event9.png",
-      "stats": { "physical": 97, "mental": 80 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "A poster says: *The State Knows You.*",
+      "text": "The jacket settles on your shoulders like a question you can't answer. The ID card in the pocket weighs nothing but means everything.",
+      "image": "images/ep1_event9.png",
+      "voice_over": "vo/ep1_event9_en",
       "choices": [
-        { "text": "Tear it down", "next_event": 12 },
-        { "text": "Keep walking", "next_event": 8 }
+        {
+          "text": "Leave the room",
+          "next_event": 11
+        },
+        {
+          "text": "Check the window first",
+          "next_event": 4
+        }
       ]
     },
-
     {
       "id": 10,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Pub owner leaning on counter, suspicious eyes",
-      "image_link": "images/ep1_event10.png",
-      "stats": { "physical": 98, "mental": 78 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "“You’re early,” the owner says. “That’s never good.”",
+      "text": "The photo shows two people. You recognize one of them as yourself. The other is a stranger wearing your face from another life.",
+      "image": "images/ep1_event10.png",
+      "voice_over": "vo/ep1_event10_en",
       "choices": [
-        { "text": "Ask about work", "next_event": 13 },
-        { "text": "Ask about rumors", "next_event": 14 }
+        {
+          "text": "Put it back",
+          "next_event": 9
+        },
+        {
+          "text": "Keep looking",
+          "next_event": 13
+        }
       ]
     },
-
     {
       "id": 11,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Man sitting alone at a pub table",
-      "image_link": "images/ep1_event11.png",
-      "stats": { "physical": 98, "mental": 77 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "People avoid your eyes. They learned that skill early.",
+      "text": "The hallway is concrete and fluorescent. Standard issue. Everything is standard issue when the state decides what you need.",
+      "image": "images/ep1_event11.png",
+      "voice_over": "vo/ep1_event11_en",
       "choices": [
-        { "text": "Leave the pub", "next_event": 15 }
+        {
+          "text": "Go left",
+          "next_event": 14
+        },
+        {
+          "text": "Go right",
+          "next_event": 15
+        }
       ]
     },
-
     {
       "id": 12,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Ripped propaganda poster flapping in wind",
-      "image_link": "images/ep1_event12.png",
-      "stats": { "physical": 97, "mental": 76 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The paper tears too easily. Resistance feels the same.",
+      "text": "The window doesn't open. Of course it doesn't. This is Brno 2157. Air is regulated. Freedom is a memory. Windows are decorative.",
+      "image": "images/ep1_event12.png",
+      "voice_over": "vo/ep1_event12_en",
       "choices": [
-        { "text": "Go to the pub", "next_event": 8 }
+        {
+          "text": "Step back",
+          "next_event": 7
+        }
       ]
     },
-
     {
       "id": 13,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Whispered conversation in a dark pub corner",
-      "image_link": "images/ep1_event13.png",
-      "stats": { "physical": 98, "mental": 75 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "“No jobs,” he says. “But there are deliveries.”",
+      "text": "The person in the photo is smiling. When was the last time you smiled? Do you remember? Does it matter?",
+      "image": "images/ep1_event13.png",
+      "voice_over": "vo/ep1_event13_en",
       "choices": [
-        { "text": "Accept delivery", "next_event": 16 },
-        { "text": "Refuse", "next_event": 15 }
+        {
+          "text": "Put the photo away",
+          "next_event": 9
+        },
+        {
+          "text": "Tear it up",
+          "next_event": 16
+        }
       ]
     },
-
     {
       "id": 14,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Man passing a small cassette tape discreetly",
-      "image_link": "images/ep1_event14.png",
-      "stats": { "physical": 98, "mental": 74 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "He slides a tape toward you. “Listen alone.”",
+      "text": "Left leads to the stairs. Down is the city. Down is work. Down is the rest of your life, measured in shifts and silence.",
+      "image": "images/ep1_event14.png",
+      "voice_over": "vo/ep1_event14_en",
       "choices": [
-        { "text": "Hide the tape", "next_event": 16 }
+        {
+          "text": "Go down the stairs",
+          "next_event": 17
+        },
+        {
+          "text": "Go back",
+          "next_event": 11
+        }
       ]
     },
-
     {
       "id": 15,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Street outside pub, dim light, snow",
-      "image_link": "images/ep1_event15.png",
-      "stats": { "physical": 96, "mental": 74 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The cold welcomes you back like an old enemy.",
+      "text": "Right leads to more doors. More rooms. More lives compressed into concrete boxes. The architecture of equality.",
+      "image": "images/ep1_event15.png",
+      "voice_over": "vo/ep1_event15_en",
       "choices": [
-        { "text": "Walk toward warehouse", "next_event": 16 }
+        {
+          "text": "Keep going right",
+          "next_event": 18
+        },
+        {
+          "text": "Turn back",
+          "next_event": 11
+        }
       ]
     },
-
     {
       "id": 16,
-      "location": "Warehouse",
-      "soundscape_mp3": "audio/warehouse_drip.mp3",
-      "image_prompt": "Abandoned warehouse, concrete, shadows",
-      "image_link": "images/ep1_event16.png",
-      "stats": { "physical": 95, "mental": 73 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "The warehouse is too quiet.",
+      "text": "The photo tears easily. Paper always does. Memories are harder. The pieces fall like snow that never reaches the ground.",
+      "image": "images/ep1_event16.png",
+      "voice_over": "vo/ep1_event16_en",
       "choices": [
-        { "text": "Enter deeper", "next_event": 17 }
+        {
+          "text": "Leave the pieces",
+          "next_event": 9
+        },
+        {
+          "text": "Pick them up",
+          "next_event": 19
+        }
       ]
     },
-
     {
       "id": 17,
-      "location": "Warehouse",
-      "soundscape_mp3": "audio/warehouse_drip.mp3",
-      "image_prompt": "Two figures arguing in the dark",
-      "image_link": "images/ep1_event17.png",
-      "stats": { "physical": 95, "mental": 72 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "A fight breaks out. A knife flashes.",
+      "text": "The stairs descend into morning. The city waits. It always waits. Patient. Hungry. Indifferent to your choices.",
+      "image": "images/ep1_event17.png",
+      "voice_over": "vo/ep1_event17_en",
       "choices": [
-        { "text": "Fight back", "next_event": 18 },
-        { "text": "Run", "next_event": 19 }
+        {
+          "text": "Continue down",
+          "next_event": 20
+        },
+        {
+          "text": "Stop halfway",
+          "next_event": 21
+        }
       ]
     },
-
     {
       "id": 18,
-      "location": "Warehouse",
-      "soundscape_mp3": "audio/warehouse_drip.mp3",
-      "image_prompt": "Knife fight in darkness",
-      "image_link": "images/ep1_event18.png",
-      "stats": { "physical": 80, "mental": 70 },
-      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
-      "text": "You survive. Barely.",
+      "text": "A door stands open. Inside, someone's radio plays state broadcasts. The voice is calm. It's always calm. That's how you know it's lying.",
+      "image": "images/ep1_event18.png",
+      "voice_over": "vo/ep1_event18_en",
       "choices": [
-        { "text": "Leave the warehouse", "next_event": 20 }
+        {
+          "text": "Keep walking",
+          "next_event": 15
+        },
+        {
+          "text": "Listen closer",
+          "next_event": 0
+        }
       ]
     },
-
     {
       "id": 19,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Man running into snowy street",
-      "image_link": "images/ep1_event19.png",
-      "stats": { "physical": 85, "mental": 68 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "Cowardice keeps you alive.",
+      "text": "You gather the pieces. What are you supposed to do with fragments? Build something new? Pretend you can put the past back together?",
+      "image": "images/ep1_event19.png",
+      "voice_over": "vo/ep1_event19_en",
       "choices": [
-        { "text": "Hide in alley", "next_event": 20 }
+        {
+          "text": "Keep the pieces",
+          "next_event": 9
+        }
       ]
     },
-
     {
       "id": 20,
-      "location": "Alley",
-      "soundscape_mp3": "audio/alley_drip.mp3",
-      "image_prompt": "Narrow alley, police lights in distance",
-      "image_link": "images/ep1_event20.png",
-      "stats": { "physical": 82, "mental": 65 },
-      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
-      "text": "Sirens. Not for you. Not yet.",
+      "text": "You reach the street. Brno stretches out before you. Grey. Green. Inevitable. The day begins whether you're ready or not.",
+      "image": "images/ep1_event20.png",
+      "voice_over": "vo/ep1_event20_en",
       "choices": [
-        { "text": "Watch from the shadows", "next_event": 40 }
+        {
+          "text": "Step outside",
+          "next_event": 0
+        }
       ]
     },
-
     {
-      "id": 40,
-      "location": "Street",
-      "soundscape_mp3": "audio/police_steps.mp3",
-      "image_prompt": "State police arresting someone under floodlight",
-      "image_link": "images/ep1_event40.png",
-      "stats": { "physical": 82, "mental": 60 },
-      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
-      "text": "They arrest a man. He screams a name. Your name.",
+      "id": 21,
+      "text": "You stop. The stairs stretch above and below. This is the moment. This is always the moment. Between what was and what will be.",
+      "image": "images/ep1_event21.png",
+      "voice_over": "vo/ep1_event21_en",
       "choices": [
-        { "text": "Fade to black", "next_event": null }
+        {
+          "text": "Continue down",
+          "next_event": 20
+        },
+        {
+          "text": "Go back up",
+          "next_event": 11
+        }
       ]
     }
-
   ]
 }

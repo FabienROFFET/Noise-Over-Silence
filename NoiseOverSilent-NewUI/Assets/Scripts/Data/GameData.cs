@@ -3,11 +3,13 @@
 // FILE    : GameData.cs
 // PATH    : Assets/Scripts/Data/
 // CREATED : 2026-02-14
-// VERSION : 1.2
-// CHANGES : v1.1 - 2026-02-21 - Added unlock_tape to Choice
+// VERSION : 1.3
+// CHANGES : v1.3 - 2026-02-22 - Added ChapterInfo for chapter intro screens
+//           v1.2 - 2026-02-21 - Added voice_over support
+//           v1.1 - 2026-02-21 - Added unlock_tape to Choice
 //           v1.0 - 2026-02-14 - Initial version
 // DESC    : Data structures matching episode01.json exactly.
-//           EpisodeData, GameEvent, Choice, Stats, Inventory.
+//           EpisodeData, GameEvent, Choice, Stats, Inventory, ChapterInfo.
 // ============================================================
 
 using System;
@@ -18,9 +20,19 @@ namespace NoiseOverSilent.Data
     [Serializable]
     public class EpisodeData
     {
+        public ChapterInfo chapter;       // NEW: Chapter intro information
         public int episode;
         public string title;
         public List<GameEvent> events = new List<GameEvent>();
+    }
+
+    [Serializable]
+    public class ChapterInfo
+    {
+        public int number;                // Chapter number (1, 2, 3...)
+        public string title;              // Chapter title (e.g., "The Day Still Starts")
+        public string intro_image;        // Image path (e.g., "images/chapters/chapter1_intro.png")
+        public float intro_duration = 3f; // How long to show intro (seconds, default 3)
     }
 
     [Serializable]
