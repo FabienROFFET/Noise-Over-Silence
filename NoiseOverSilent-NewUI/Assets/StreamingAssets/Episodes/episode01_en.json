@@ -2,7 +2,7 @@
   "chapter": {
     "number": 1,
     "title": "The Day Still Starts",
-    "intro_image": "images/chapters/chapter1_intro.png",
+    "intro_image": "Images/Chapters/chapter1_intro",
     "intro_duration": 3.0
   },
   "episode": 1,
@@ -15,14 +15,8 @@
       "voice_over": "vo/ep1_event1_en",
       "soundscape_mp3": "audio/City-of-Dread.mp3",
       "choices": [
-        {
-          "text": "Get up",
-          "next_event": 2
-        },
-        {
-          "text": "Stay seated and think",
-          "next_event": 3
-        }
+        {"text": "Get up", "next_event": 2},
+        {"text": "Stay seated and think", "next_event": 3}
       ]
     },
     {
@@ -31,14 +25,8 @@
       "image_link": "images/ep1_event2.png",
       "voice_over": "vo/ep1_event2_en",
       "choices": [
-        {
-          "text": "Look at the window",
-          "next_event": 4
-        },
-        {
-          "text": "Check your belongings",
-          "next_event": 5
-        }
+        {"text": "Look at the window", "next_event": 4},
+        {"text": "Check your belongings", "next_event": 5}
       ]
     },
     {
@@ -47,14 +35,8 @@
       "image_link": "images/ep1_event3.png",
       "voice_over": "vo/ep1_event3_en",
       "choices": [
-        {
-          "text": "Stand up anyway",
-          "next_event": 2
-        },
-        {
-          "text": "Stay seated longer",
-          "next_event": 6
-        }
+        {"text": "Stand up anyway", "next_event": 2},
+        {"text": "Stay seated longer", "next_event": 6}
       ]
     },
     {
@@ -63,14 +45,8 @@
       "image_link": "images/ep1_event4.png",
       "voice_over": "vo/ep1_event4_en",
       "choices": [
-        {
-          "text": "Look away",
-          "next_event": 7
-        },
-        {
-          "text": "Keep watching",
-          "next_event": 8
-        }
+        {"text": "Look away", "next_event": 7},
+        {"text": "Keep watching", "next_event": 8}
       ]
     },
     {
@@ -79,14 +55,8 @@
       "image_link": "images/ep1_event5.png",
       "voice_over": "vo/ep1_event5_en",
       "choices": [
-        {
-          "text": "Put the jacket on",
-          "next_event": 9
-        },
-        {
-          "text": "Look at the photo",
-          "next_event": 10
-        }
+        {"text": "Put the jacket on", "next_event": 9},
+        {"text": "Look at the photo", "next_event": 10}
       ]
     },
     {
@@ -95,10 +65,7 @@
       "image_link": "images/ep1_event6.png",
       "voice_over": "vo/ep1_event6_en",
       "choices": [
-        {
-          "text": "Finally stand up",
-          "next_event": 2
-        }
+        {"text": "Finally stand up", "next_event": 2}
       ]
     },
     {
@@ -107,14 +74,8 @@
       "image_link": "images/ep1_event7.png",
       "voice_over": "vo/ep1_event7_en",
       "choices": [
-        {
-          "text": "Check your belongings",
-          "next_event": 5
-        },
-        {
-          "text": "Leave the room",
-          "next_event": 11
-        }
+        {"text": "Check your belongings", "next_event": 5},
+        {"text": "Leave the room", "next_event": 11}
       ]
     },
     {
@@ -123,14 +84,8 @@
       "image_link": "images/ep1_event8.png",
       "voice_over": "vo/ep1_event8_en",
       "choices": [
-        {
-          "text": "Turn away",
-          "next_event": 7
-        },
-        {
-          "text": "Open the window",
-          "next_event": 12
-        }
+        {"text": "Turn away", "next_event": 7},
+        {"text": "Open the window", "next_event": 12}
       ]
     },
     {
@@ -139,14 +94,8 @@
       "image_link": "images/ep1_event9.png",
       "voice_over": "vo/ep1_event9_en",
       "choices": [
-        {
-          "text": "Leave the room",
-          "next_event": 11
-        },
-        {
-          "text": "Check the window first",
-          "next_event": 4
-        }
+        {"text": "Leave the room", "next_event": 11},
+        {"text": "Check the window first", "next_event": 4}
       ]
     },
     {
@@ -155,14 +104,8 @@
       "image_link": "images/ep1_event10.png",
       "voice_over": "vo/ep1_event10_en",
       "choices": [
-        {
-          "text": "Put it back",
-          "next_event": 9
-        },
-        {
-          "text": "Keep looking",
-          "next_event": 13
-        }
+        {"text": "Put it back", "next_event": 9},
+        {"text": "Keep looking", "next_event": 13}
       ]
     },
     {
@@ -171,14 +114,8 @@
       "image_link": "images/ep1_event11.png",
       "voice_over": "vo/ep1_event11_en",
       "choices": [
-        {
-          "text": "Go left",
-          "next_event": 14
-        },
-        {
-          "text": "Go right",
-          "next_event": 15
-        }
+        {"text": "Go left", "next_event": 14},
+        {"text": "Go right", "next_event": 15}
       ]
     },
     {
@@ -187,10 +124,7 @@
       "image_link": "images/ep1_event12.png",
       "voice_over": "vo/ep1_event12_en",
       "choices": [
-        {
-          "text": "Step back",
-          "next_event": 7
-        }
+        {"text": "Step back", "next_event": 7}
       ]
     },
     {
@@ -199,14 +133,8 @@
       "image_link": "images/ep1_event13.png",
       "voice_over": "vo/ep1_event13_en",
       "choices": [
-        {
-          "text": "Put the photo away",
-          "next_event": 9
-        },
-        {
-          "text": "Tear it up",
-          "next_event": 16
-        }
+        {"text": "Put the photo away", "next_event": 9},
+        {"text": "Tear it up", "next_event": 16}
       ]
     },
     {
@@ -215,14 +143,8 @@
       "image_link": "images/ep1_event14.png",
       "voice_over": "vo/ep1_event14_en",
       "choices": [
-        {
-          "text": "Go down the stairs",
-          "next_event": 17
-        },
-        {
-          "text": "Go back",
-          "next_event": 11
-        }
+        {"text": "Go down the stairs", "next_event": 17},
+        {"text": "Go back", "next_event": 11}
       ]
     },
     {
@@ -231,14 +153,8 @@
       "image_link": "images/ep1_event15.png",
       "voice_over": "vo/ep1_event15_en",
       "choices": [
-        {
-          "text": "Keep going right",
-          "next_event": 18
-        },
-        {
-          "text": "Turn back",
-          "next_event": 11
-        }
+        {"text": "Keep going right", "next_event": 18},
+        {"text": "Turn back", "next_event": 11}
       ]
     },
     {
@@ -247,14 +163,8 @@
       "image_link": "images/ep1_event16.png",
       "voice_over": "vo/ep1_event16_en",
       "choices": [
-        {
-          "text": "Leave the pieces",
-          "next_event": 9
-        },
-        {
-          "text": "Pick them up",
-          "next_event": 19
-        }
+        {"text": "Leave the pieces", "next_event": 9},
+        {"text": "Pick them up", "next_event": 19}
       ]
     },
     {
@@ -263,14 +173,8 @@
       "image_link": "images/ep1_event17.png",
       "voice_over": "vo/ep1_event17_en",
       "choices": [
-        {
-          "text": "Continue down",
-          "next_event": 20
-        },
-        {
-          "text": "Stop halfway",
-          "next_event": 21
-        }
+        {"text": "Continue down", "next_event": 20},
+        {"text": "Stop halfway", "next_event": 21}
       ]
     },
     {
@@ -279,14 +183,8 @@
       "image_link": "images/ep1_event18.png",
       "voice_over": "vo/ep1_event18_en",
       "choices": [
-        {
-          "text": "Keep walking",
-          "next_event": 15
-        },
-        {
-          "text": "Listen closer",
-          "next_event": 0
-        }
+        {"text": "Keep walking", "next_event": 15},
+        {"text": "Listen closer", "next_event": 0}
       ]
     },
     {
@@ -295,10 +193,7 @@
       "image_link": "images/ep1_event19.png",
       "voice_over": "vo/ep1_event19_en",
       "choices": [
-        {
-          "text": "Keep the pieces",
-          "next_event": 9
-        }
+        {"text": "Keep the pieces", "next_event": 9}
       ]
     },
     {
@@ -307,10 +202,7 @@
       "image_link": "images/ep1_event20.png",
       "voice_over": "vo/ep1_event20_en",
       "choices": [
-        {
-          "text": "Step outside",
-          "next_event": 0
-        }
+        {"text": "Step outside", "next_event": 0}
       ]
     },
     {
@@ -319,14 +211,8 @@
       "image_link": "images/ep1_event21.png",
       "voice_over": "vo/ep1_event21_en",
       "choices": [
-        {
-          "text": "Continue down",
-          "next_event": 20
-        },
-        {
-          "text": "Go back up",
-          "next_event": 11
-        }
+        {"text": "Continue down", "next_event": 20},
+        {"text": "Go back up", "next_event": 11}
       ]
     }
   ]
