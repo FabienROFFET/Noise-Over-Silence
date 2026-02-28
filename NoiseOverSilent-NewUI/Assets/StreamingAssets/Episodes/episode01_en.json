@@ -11,7 +11,7 @@
     {
       "id": 1,
       "text": "The radiator clicks like a dying insect. Morning exists only because you've decided it does.",
-      "image": "images/ep1_event1.png",
+      "image_link": "images/ep1_event1.png",
       "voice_over": "vo/ep1_event1_en",
       "soundscape_mp3": "audio/City-of-Dread.mp3",
       "choices": [
@@ -28,7 +28,7 @@
     {
       "id": 2,
       "text": "You stand. Your legs respond out of habit, not will. The floor is cold—concrete pretending to be civilization.",
-      "image": "images/ep1_event2.png",
+      "image_link": "images/ep1_event2.png",
       "voice_over": "vo/ep1_event2_en",
       "choices": [
         {
@@ -44,7 +44,7 @@
     {
       "id": 3,
       "text": "Thinking has never saved anyone. But you do it anyway. The walls listen, patient and indifferent.",
-      "image": "images/ep1_event3.png",
+      "image_link": "images/ep1_event3.png",
       "voice_over": "vo/ep1_event3_en",
       "choices": [
         {
@@ -60,7 +60,7 @@
     {
       "id": 4,
       "text": "The window shows you Brno 2157. Towers of grey and green. The revolution's architecture, still standing after everything fell.",
-      "image": "images/ep1_event4.png",
+      "image_link": "images/ep1_event4.png",
       "voice_over": "vo/ep1_event4_en",
       "choices": [
         {
@@ -76,7 +76,7 @@
     {
       "id": 5,
       "text": "Your jacket. Your ID card. A photo you don't remember taking. These are the fragments you're made of now.",
-      "image": "images/ep1_event5.png",
+      "image_link": "images/ep1_event5.png",
       "voice_over": "vo/ep1_event5_en",
       "choices": [
         {
@@ -92,7 +92,7 @@
     {
       "id": 6,
       "text": "Time passes. The radiator clicks. Nothing changes, which is its own kind of answer.",
-      "image": "images/ep1_event6.png",
+      "image_link": "images/ep1_event6.png",
       "voice_over": "vo/ep1_event6_en",
       "choices": [
         {
@@ -104,7 +104,7 @@
     {
       "id": 7,
       "text": "You turn from the window. The room is small. Every room is small when the world outside is too big.",
-      "image": "images/ep1_event7.png",
+      "image_link": "images/ep1_event7.png",
       "voice_over": "vo/ep1_event7_en",
       "choices": [
         {
@@ -120,7 +120,7 @@
     {
       "id": 8,
       "text": "The city moves. Workers. Drones. The same grey tide that rises every morning. You recognize it because you're part of it.",
-      "image": "images/ep1_event8.png",
+      "image_link": "images/ep1_event8.png",
       "voice_over": "vo/ep1_event8_en",
       "choices": [
         {
@@ -136,7 +136,7 @@
     {
       "id": 9,
       "text": "The jacket settles on your shoulders like a question you can't answer. The ID card in the pocket weighs nothing but means everything.",
-      "image": "images/ep1_event9.png",
+      "image_link": "images/ep1_event9.png",
       "voice_over": "vo/ep1_event9_en",
       "choices": [
         {
@@ -152,7 +152,7 @@
     {
       "id": 10,
       "text": "The photo shows two people. You recognize one of them as yourself. The other is a stranger wearing your face from another life.",
-      "image": "images/ep1_event10.png",
+      "image_link": "images/ep1_event10.png",
       "voice_over": "vo/ep1_event10_en",
       "choices": [
         {
@@ -168,7 +168,7 @@
     {
       "id": 11,
       "text": "The hallway is concrete and fluorescent. Standard issue. Everything is standard issue when the state decides what you need.",
-      "image": "images/ep1_event11.png",
+      "image_link": "images/ep1_event11.png",
       "voice_over": "vo/ep1_event11_en",
       "choices": [
         {
@@ -184,7 +184,7 @@
     {
       "id": 12,
       "text": "The window doesn't open. Of course it doesn't. This is Brno 2157. Air is regulated. Freedom is a memory. Windows are decorative.",
-      "image": "images/ep1_event12.png",
+      "image_link": "images/ep1_event12.png",
       "voice_over": "vo/ep1_event12_en",
       "choices": [
         {
@@ -196,7 +196,7 @@
     {
       "id": 13,
       "text": "The person in the photo is smiling. When was the last time you smiled? Do you remember? Does it matter?",
-      "image": "images/ep1_event13.png",
+      "image_link": "images/ep1_event13.png",
       "voice_over": "vo/ep1_event13_en",
       "choices": [
         {
@@ -212,7 +212,7 @@
     {
       "id": 14,
       "text": "Left leads to the stairs. Down is the city. Down is work. Down is the rest of your life, measured in shifts and silence.",
-      "image": "images/ep1_event14.png",
+      "image_link": "images/ep1_event14.png",
       "voice_over": "vo/ep1_event14_en",
       "choices": [
         {
@@ -228,7 +228,7 @@
     {
       "id": 15,
       "text": "Right leads to more doors. More rooms. More lives compressed into concrete boxes. The architecture of equality.",
-      "image": "images/ep1_event15.png",
+      "image_link": "images/ep1_event15.png",
       "voice_over": "vo/ep1_event15_en",
       "choices": [
         {
@@ -244,7 +244,7 @@
     {
       "id": 16,
       "text": "The photo tears easily. Paper always does. Memories are harder. The pieces fall like snow that never reaches the ground.",
-      "image": "images/ep1_event16.png",
+      "image_link": "images/ep1_event16.png",
       "voice_over": "vo/ep1_event16_en",
       "choices": [
         {
@@ -260,7 +260,7 @@
     {
       "id": 17,
       "text": "The stairs descend into morning. The city waits. It always waits. Patient. Hungry. Indifferent to your choices.",
-      "image": "images/ep1_event17.png",
+      "image_link": "images/ep1_event17.png",
       "voice_over": "vo/ep1_event17_en",
       "choices": [
         {
@@ -276,7 +276,7 @@
     {
       "id": 18,
       "text": "A door stands open. Inside, someone's radio plays state broadcasts. The voice is calm. It's always calm. That's how you know it's lying.",
-      "image": "images/ep1_event18.png",
+      "image_link": "images/ep1_event18.png",
       "voice_over": "vo/ep1_event18_en",
       "choices": [
         {
@@ -292,7 +292,7 @@
     {
       "id": 19,
       "text": "You gather the pieces. What are you supposed to do with fragments? Build something new? Pretend you can put the past back together?",
-      "image": "images/ep1_event19.png",
+      "image_link": "images/ep1_event19.png",
       "voice_over": "vo/ep1_event19_en",
       "choices": [
         {
@@ -304,7 +304,7 @@
     {
       "id": 20,
       "text": "You reach the street. Brno stretches out before you. Grey. Green. Inevitable. The day begins whether you're ready or not.",
-      "image": "images/ep1_event20.png",
+      "image_link": "images/ep1_event20.png",
       "voice_over": "vo/ep1_event20_en",
       "choices": [
         {
@@ -316,7 +316,7 @@
     {
       "id": 21,
       "text": "You stop. The stairs stretch above and below. This is the moment. This is always the moment. Between what was and what will be.",
-      "image": "images/ep1_event21.png",
+      "image_link": "images/ep1_event21.png",
       "voice_over": "vo/ep1_event21_en",
       "choices": [
         {
