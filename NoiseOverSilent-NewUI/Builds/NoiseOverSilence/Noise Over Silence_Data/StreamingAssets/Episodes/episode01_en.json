@@ -1,312 +1,89 @@
 {
+  "chapter": {
+    "number": 1,
+    "title": "Minor Deviations",
+    "intro_image": "Images/Chapters/chapter1_intro",
+    "intro_duration": 4.0
+  },
   "episode": 1,
   "title": "The Day Still Starts",
   "events": [
-
     {
       "id": 1,
-      "location": "Flat",
-      "soundscape_mp3": "audio/City-of-Dread.mp3",
+      "location": "Tram – Morning Commute",
+      "soundscape_mp3": "audio/Industrial-Hum.mp3",
       "voice_over": "vo/ep1_event1_en",
-      "image_prompt": "Cold communist apartment, Brno 2157, peeling walls, weak morning light, hopeless atmosphere",
-      "image_link": "images/ep1_event1.jpg",
-      "stats": { "physical": 100, "mental": 85 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The radiator clicks like a dying insect. Morning exists only because the clock says so. You sit on the bed, already tired.",
+      "image_prompt": "Silent tram interior, grey dystopian Brno 2157, emotionless passengers, cold metallic lighting, oppressive atmosphere",
+      "image_link": "images/ep1_event1.png",
+      "stats": { "physical": 100, "mental": 90 },
+      "inventory": { "items": ["Identification Badge"], "tapes": [] },
+      "text": "The tram arrives without announcement, without friction, without the courtesy of sound. It simply aligns itself with the platform as if it had always been there and you merely noticed it late. The doors separate with surgical precision. No hiss. No mechanical fatigue.\n\nYou step inside with the others. No one pushes. No one hesitates. The spacing between bodies is too even to be coincidence, too natural to be enforced. You sit. The seat is cold but not uncomfortable. It feels designed for compliance.\n\nOutside, Brno slides past in flattened tones of grey and diluted copper. Towers like ledgers. Streets like ruled paper. Everything aligned. Everything accounted for.\n\nThen something shifts.\n\nIt is small.\nIt is obscene.\n\nThe tram occupies two positions at once.\n\nOne version slightly ahead along the rail.\nOne slightly behind.\n\nFor less than a heartbeat you perceive both.\nTwo realities sharing the same space like overlapping reflections in imperfect glass.\n\nThen the world tightens.\nThe rear version vanishes.\nThe forward version remains.\n\nNo one reacts.\nNo breath sharpens.\nNo eyes widen.\n\nThe city continues, obedient.",
       "choices": [
-        { "text": "Get up", "next_event": 2 },
-        { "text": "Stay seated and think", "next_event": 3 }
+        { "text": "|| It was a trick of perception. Fatigue distorts edges. You should not look for patterns where none exist.", "next_event": 2 },
+        { "text": "|| If the tram split, something chose which version remained. The question is not what you saw, but who decided.", "next_event": 3 },
+        { "text": "|| Observe the passengers carefully. If reality shifted, someone must have felt it.", "next_event": 4 }
       ]
     },
-
     {
       "id": 2,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
+      "location": "Tram – Interior",
+      "soundscape_mp3": "audio/Low-Drone.mp3",
       "voice_over": "vo/ep1_event2_en",
-      "image_prompt": "Small kitchen in a decaying apartment, empty shelves, cold light",
+      "image_prompt": "Muted tram interior, passengers emotionless, dim grey lighting, oppressive stillness",
       "image_link": "images/ep1_event2.png",
-      "stats": { "physical": 100, "mental": 84 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "You stand. Your legs respond out of habit, not will.",
+      "stats": { "physical": 100, "mental": 92 },
+      "inventory": { "items": ["Identification Badge"], "tapes": [] },
+      "text": "You lower your gaze. Concrete pillars pass outside at predictable intervals. Predictability is a comfort. Predictability is proof.\n\nYour pulse slows deliberately, as if responding to instruction.\n\nThe mind is unreliable. It fills silence with invention. You know this. You work with projections, probabilities, statistical anomalies. A momentary overlap of perception is nothing more than neural misfire.\n\nAnd yet.\n\nYou become aware of a faint vibration beneath your feet. Not mechanical. Not rhythmic.\n\nCorrective.\n\nThe tram glides onward. The sensation fades the moment you attempt to isolate it.\n\nThe world rewards your refusal to question it.\n\nFor now.",
       "choices": [
-        { "text": "Check the kitchen", "next_event": 4 },
-        { "text": "Put on your coat and leave", "next_event": 6 }
+        { "text": "Maintain composure. Routine is stability. Stability is survival.", "next_event": 5 },
+        { "text": "Even if it was nothing, the body reacted first. Trust the body over the explanation.", "next_event": 3 }
       ]
     },
-
     {
       "id": 3,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
-      "image_prompt": "Man sitting on bed, head down, grey walls, silence",
+      "location": "Tram – Window",
+      "soundscape_mp3": "audio/City-Wind-Distant.mp3",
+      "voice_over": "vo/ep1_event3_en",
+      "image_prompt": "Dystopian Brno street from tram window, slight visual distortion in air, muted brutalist city",
       "image_link": "images/ep1_event3.png",
       "stats": { "physical": 100, "mental": 82 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "You remember winters that felt shorter. Maybe they weren’t. Maybe you were.",
+      "inventory": { "items": ["Identification Badge"], "tapes": [] },
+      "text": "You look through the window again, deliberately this time.\n\nA pedestrian approaches a crossing. A car moves too fast. The geometry of impact assembles in your mind with brutal clarity.\n\nYou see the collision.\nYou see her body thrown forward.\nYou see the arc of blood against compliant asphalt.\nYou see the driver’s face collapse inward.\n\nThe future exists. Fully formed.\n\nThen the woman hesitates.\nHalf a step less than she intended.\nThe car passes cleanly.\n\nThe violent future dissolves without residue.\n\nYour throat tightens.\n\nYou did not imagine the accident.\nYou witnessed a branch that did not survive.",
       "choices": [
-        { "text": "Get up anyway", "next_event": 2 }
+        { "text": "This is probability. The mind simulates outcomes constantly. Nothing supernatural occurred.", "next_event": 5 },
+        { "text": "If branches are visible, they are being trimmed. You need to know who holds the shears.", "next_event": 6 }
       ]
     },
-
     {
       "id": 4,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
-      "image_prompt": "Cold kitchen table with a single sausage on it",
+      "location": "Tram – Interior",
+      "soundscape_mp3": "audio/Low-Static.mp3",
+      "voice_over": "vo/ep1_event4_en",
+      "image_prompt": "Close-up of passengers in tram, emotionless faces, faint distortion in reflection",
       "image_link": "images/ep1_event4.png",
-      "stats": { "physical": 100, "mental": 84 },
-      "inventory": { "items": ["cold_sausage"], "tapes": [] },
-      "text": "A cold Polish sausage lies on the table. No bread. Still food.",
+      "stats": { "physical": 100, "mental": 80 },
+      "inventory": { "items": ["Identification Badge"], "tapes": [] },
+      "text": "You study the passengers one by one.\n\nA woman with tired eyes. A man in a gray coat. A student holding a data-slate. Their breathing is synchronized more closely than chance allows.\n\nThe man in the gray coat blinks.\nToo late.\nAs if his eyelids received the instruction after the correction completed.\n\nFor a fraction of a second, your reflection in the window lags behind your movement.\nYou turn your head.\nThe reflection turns after you.\n\nThe delay is microscopic.\nIt is devastating.\n\nThe man in gray meets your gaze.\nHe does not look surprised.\nHe looks calibrated.",
       "choices": [
-        { "text": "Eat the sausage", "next_event": 5, "lose_items": ["cold_sausage"] },
-        { "text": "Save it for later", "next_event": 6 }
+        { "text": "Look away. Survival depends on not being noticed.", "next_event": 5 },
+        { "text": "Hold his gaze. If there is awareness, you will force it into the open.", "next_event": 6 }
       ]
     },
-
     {
       "id": 5,
-      "location": "Flat",
-      "soundscape_mp3": "audio/flat_hum.mp3",
-      "image_prompt": "Man eating alone in silence",
+      "location": "Department of Structural Cohesion – Lobby",
+      "soundscape_mp3": "audio/Interior-Pressure.mp3",
+      "voice_over": "vo/ep1_event5_en",
+      "image_prompt": "Massive brutalist government interior, high ceilings, grey marble, oppressive symmetry",
       "image_link": "images/ep1_event5.png",
-      "stats": { "physical": 105, "mental": 83 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "It tastes like nothing. But your hands shake less.",
+      "stats": { "physical": 100, "mental": 78 },
+      "inventory": { "items": ["Identification Badge"], "tapes": [] },
+      "text": "The Department building absorbs you without resistance.\n\nNo ornamentation.\nNo excess geometry.\nOnly structure.\n\nYour badge unlocks the entrance before you consciously present it.\n\nInside, the air feels heavier than outside. Not humid. Not warm.\nDense.\n\nAs if more reality is packed into each cubic meter.\n\nWorkstations extend in ordered rows. Each screen activates as its assigned employee approaches. No commands are spoken.\n\nYour terminal illuminates.\n\nTrajectory Adjustment Review – Subject B-741.\n\nProbability branches unfold across the display like vascular systems.\nRed lines thicken toward a single outcome labeled:\n\nDeviation Risk: Escalating.\n\nBelow it:\nMinor Neural Recadrement Required.\n\nThe word “minor” feels administrative.\nNot descriptive.",
       "choices": [
-        { "text": "Leave the flat", "next_event": 6 }
-      ]
-    },
-
-    {
-      "id": 6,
-      "location": "Stairwell",
-      "soundscape_mp3": "audio/stairwell_echo.mp3",
-      "image_prompt": "Dark stairwell, broken lights, concrete walls",
-      "image_link": "images/ep1_event6.png",
-      "stats": { "physical": 100, "mental": 83 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The stairwell smells of mold and resignation.",
-      "choices": [
-        { "text": "Go down", "next_event": 7 }
-      ]
-    },
-
-    {
-      "id": 7,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Frozen communist street, propaganda banners, snow",
-      "image_link": "images/ep1_event7.png",
-      "stats": { "physical": 98, "mental": 82 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "Wind cuts your face. Loudspeakers praise productivity.",
-      "choices": [
-        { "text": "Walk toward the pub", "next_event": 8 },
-        { "text": "Wander the street", "next_event": 9 }
-      ]
-    },
-
-    {
-      "id": 8,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Dark underground pub, tired faces, smoke",
-      "image_link": "images/ep1_event8.png",
-      "stats": { "physical": 98, "mental": 80 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The pub is warm. That’s already dangerous.",
-      "choices": [
-        { "text": "Talk to the owner", "next_event": 10 },
-        { "text": "Sit silently", "next_event": 11 }
-      ]
-    },
-
-    {
-      "id": 9,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Empty street corner with propaganda poster",
-      "image_link": "images/ep1_event9.png",
-      "stats": { "physical": 97, "mental": 80 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "A poster says: *The State Knows You.*",
-      "choices": [
-        { "text": "Tear it down", "next_event": 12 },
-        { "text": "Keep walking", "next_event": 8 }
-      ]
-    },
-
-    {
-      "id": 10,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Pub owner leaning on counter, suspicious eyes",
-      "image_link": "images/ep1_event10.png",
-      "stats": { "physical": 98, "mental": 78 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "“You’re early,” the owner says. “That’s never good.”",
-      "choices": [
-        { "text": "Ask about work", "next_event": 13 },
-        { "text": "Ask about rumors", "next_event": 14 }
-      ]
-    },
-
-    {
-      "id": 11,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Man sitting alone at a pub table",
-      "image_link": "images/ep1_event11.png",
-      "stats": { "physical": 98, "mental": 77 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "People avoid your eyes. They learned that skill early.",
-      "choices": [
-        { "text": "Leave the pub", "next_event": 15 }
-      ]
-    },
-
-    {
-      "id": 12,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Ripped propaganda poster flapping in wind",
-      "image_link": "images/ep1_event12.png",
-      "stats": { "physical": 97, "mental": 76 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The paper tears too easily. Resistance feels the same.",
-      "choices": [
-        { "text": "Go to the pub", "next_event": 8 }
-      ]
-    },
-
-    {
-      "id": 13,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Whispered conversation in a dark pub corner",
-      "image_link": "images/ep1_event13.png",
-      "stats": { "physical": 98, "mental": 75 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "“No jobs,” he says. “But there are deliveries.”",
-      "choices": [
-        { "text": "Accept delivery", "next_event": 16 },
-        { "text": "Refuse", "next_event": 15 }
-      ]
-    },
-
-    {
-      "id": 14,
-      "location": "Pub",
-      "soundscape_mp3": "audio/pub_murmur.mp3",
-      "image_prompt": "Man passing a small cassette tape discreetly",
-      "image_link": "images/ep1_event14.png",
-      "stats": { "physical": 98, "mental": 74 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "He slides a tape toward you. “Listen alone.”",
-      "choices": [
-        { "text": "Hide the tape", "next_event": 16 }
-      ]
-    },
-
-    {
-      "id": 15,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Street outside pub, dim light, snow",
-      "image_link": "images/ep1_event15.png",
-      "stats": { "physical": 96, "mental": 74 },
-      "inventory": { "items": [], "tapes": [] },
-      "text": "The cold welcomes you back like an old enemy.",
-      "choices": [
-        { "text": "Walk toward warehouse", "next_event": 16 }
-      ]
-    },
-
-    {
-      "id": 16,
-      "location": "Warehouse",
-      "soundscape_mp3": "audio/warehouse_drip.mp3",
-      "image_prompt": "Abandoned warehouse, concrete, shadows",
-      "image_link": "images/ep1_event16.png",
-      "stats": { "physical": 95, "mental": 73 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "The warehouse is too quiet.",
-      "choices": [
-        { "text": "Enter deeper", "next_event": 17 }
-      ]
-    },
-
-    {
-      "id": 17,
-      "location": "Warehouse",
-      "soundscape_mp3": "audio/warehouse_drip.mp3",
-      "image_prompt": "Two figures arguing in the dark",
-      "image_link": "images/ep1_event17.png",
-      "stats": { "physical": 95, "mental": 72 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "A fight breaks out. A knife flashes.",
-      "choices": [
-        { "text": "Fight back", "next_event": 18 },
-        { "text": "Run", "next_event": 19 }
-      ]
-    },
-
-    {
-      "id": 18,
-      "location": "Warehouse",
-      "soundscape_mp3": "audio/warehouse_drip.mp3",
-      "image_prompt": "Knife fight in darkness",
-      "image_link": "images/ep1_event18.png",
-      "stats": { "physical": 80, "mental": 70 },
-      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
-      "text": "You survive. Barely.",
-      "choices": [
-        { "text": "Leave the warehouse", "next_event": 20 }
-      ]
-    },
-
-    {
-      "id": 19,
-      "location": "Street",
-      "soundscape_mp3": "audio/street_wind.mp3",
-      "image_prompt": "Man running into snowy street",
-      "image_link": "images/ep1_event19.png",
-      "stats": { "physical": 85, "mental": 68 },
-      "inventory": { "items": [], "tapes": ["tape_1"] },
-      "text": "Cowardice keeps you alive.",
-      "choices": [
-        { "text": "Hide in alley", "next_event": 20 }
-      ]
-    },
-
-    {
-      "id": 20,
-      "location": "Alley",
-      "soundscape_mp3": "audio/alley_drip.mp3",
-      "image_prompt": "Narrow alley, police lights in distance",
-      "image_link": "images/ep1_event20.png",
-      "stats": { "physical": 82, "mental": 65 },
-      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
-      "text": "Sirens. Not for you. Not yet.",
-      "choices": [
-        { "text": "Watch from the shadows", "next_event": 40 }
-      ]
-    },
-
-    {
-      "id": 40,
-      "location": "Street",
-      "soundscape_mp3": "audio/police_steps.mp3",
-      "image_prompt": "State police arresting someone under floodlight",
-      "image_link": "images/ep1_event40.png",
-      "stats": { "physical": 82, "mental": 60 },
-      "inventory": { "items": ["knife"], "tapes": ["tape_1"] },
-      "text": "They arrest a man. He screams a name. Your name.",
-      "choices": [
-        { "text": "Fade to black", "next_event": null }
+        { "text": "Approve the correction. It is procedural. You are not here to question trajectory mathematics.", "next_event": 7 },
+        { "text": "Expand the full branch analysis. If a life bends, you should see the direction.", "next_event": 8 },
+        { "text": "Hesitate. Observe the room first. See if anything shifts when you delay.", "next_event": 9 }
       ]
     }
-
   ]
 }

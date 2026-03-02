@@ -1,218 +1,523 @@
 {
   "chapter": {
     "number": 1,
-    "title": "The Day Still Starts",
+    "title": "First Day of Forever",
     "intro_image": "Images/Chapters/chapter1_intro",
-    "intro_duration": 3.0
+    "intro_duration": 3.5
   },
   "episode": 1,
-  "title": "Episode 1",
+  "title": "Episode 1 - Orientation",
   "events": [
     {
       "id": 1,
-      "text": "The radiator clicks like a dying insect. Morning exists only because you've decided it does.",
-      "image_link": "images/ep1_event1.png",
-      "voice_over": "vo/ep1_event1_en",
-      "soundscape_mp3": "audio/City-of-Dread.mp3",
+      "location": "Transit Station Alpha-7",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": "vo/ep1_story_event1_en",
+      "image_prompt": "Underground transit station, brutalist concrete, automated trains, grey-uniformed workers, fluorescent lighting, dystopian Brno 2157",
+      "image_link": "images/ep1_story_event1.png",
+      "stats": { "physical": 100, "mental": 92 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "The automated voice announces your stop. Structural Coherence Plaza. First day. The other passengers don't look at you. No one looks at anyone. Your assignment letter feels heavier than paper should.",
       "choices": [
-        {"text": "Get up", "next_event": 2},
-        {"text": "Stay seated and think", "next_event": 3}
+        { "text": "Read the assignment letter again", "next_event": 2 },
+        { "text": "Follow the crowd to the exit", "next_event": 3 }
       ]
     },
     {
       "id": 2,
-      "text": "You stand. Your legs respond out of habit, not will. The floor is cold—concrete pretending to be civilization.",
-      "image_link": "images/ep1_event2.png",
-      "voice_over": "vo/ep1_event2_en",
+      "location": "Transit Station Alpha-7",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": "vo/ep1_story_event2_en",
+      "image_prompt": "Close-up of official document, bureaucratic letterhead, Department of Cohesion seal, sterile typography",
+      "image_link": "images/ep1_story_event2.png",
+      "stats": { "physical": 100, "mental": 91 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "ASSIGNMENT NOTICE: Division of Trajectory Analysis. Floor 11, Station 47-C. Your function: Monitor simulation variance within acceptable parameters. Report deviations. Maintain coherence. The words are standard. The job is standard. Everything is standard.",
       "choices": [
-        {"text": "Look at the window", "next_event": 4},
-        {"text": "Check your belongings", "next_event": 5}
+        { "text": "Fold the letter carefully", "next_event": 3 },
+        { "text": "Notice the small print at the bottom", "next_event": 4 }
       ]
     },
     {
       "id": 3,
-      "text": "Thinking has never saved anyone. But you do it anyway. The walls listen, patient and indifferent.",
-      "image_link": "images/ep1_event3.png",
-      "voice_over": "vo/ep1_event3_en",
+      "location": "Department of Cohesion - Entrance",
+      "soundscape_mp3": "audio/Fluorescent-Hum.mp3",
+      "voice_over": "vo/ep1_story_event3_en",
+      "image_prompt": "Massive brutalist government building, concrete facade, small windows, imposing entrance, grey sky, institutional architecture",
+      "image_link": "images/ep1_story_event3.png",
+      "stats": { "physical": 100, "mental": 90 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "The building swallows the sky. Forty stories of processed air and statistical certainty. Department of Cohesion - Est. 2089. You've seen it on broadcasts. Everyone has. It's always been there. Like gravity.",
       "choices": [
-        {"text": "Stand up anyway", "next_event": 2},
-        {"text": "Stay seated longer", "next_event": 6}
+        { "text": "Enter through the main doors", "next_event": 5 },
+        { "text": "Observe the other employees entering", "next_event": 6 }
       ]
     },
     {
       "id": 4,
-      "text": "The window shows you Brno 2157. Towers of grey and green. The revolution's architecture, still standing after everything fell.",
-      "image_link": "images/ep1_event4.png",
-      "voice_over": "vo/ep1_event4_en",
+      "location": "Transit Station Alpha-7",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": "vo/ep1_story_event4_en",
+      "image_prompt": "Document detail, fine print, legal text barely readable, ominous clause",
+      "image_link": "images/ep1_story_event4.png",
+      "stats": { "physical": 100, "mental": 89 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "The small print: 'Synchronization effects may occur. Neural stress protocols in effect. Report any persistent déjà vu, timeline confusion, or reality anchoring difficulties to your supervisor immediately.' You've never seen that clause before. Maybe it's new. Maybe you never looked.",
       "choices": [
-        {"text": "Look away", "next_event": 7},
-        {"text": "Keep watching", "next_event": 8}
+        { "text": "Continue to the building", "next_event": 3 }
       ]
     },
     {
       "id": 5,
-      "text": "Your jacket. Your ID card. A photo you don't remember taking. These are the fragments you're made of now.",
-      "image_link": "images/ep1_event5.png",
-      "voice_over": "vo/ep1_event5_en",
+      "location": "Department of Cohesion - Security Checkpoint",
+      "soundscape_mp3": "audio/Fluorescent-Hum.mp3",
+      "voice_over": "vo/ep1_story_event5_en",
+      "image_prompt": "Security checkpoint, ID scanners, neural pattern readers, guards in grey, sterile processing area",
+      "image_link": "images/ep1_story_event5.png",
+      "stats": { "physical": 100, "mental": 90 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Security processes you like data. ID scan. Retinal pattern. Neural baseline reading. The machine beeps twice. Green. You're coherent. You're permitted. Your new ID badge is still warm from the printer.",
       "choices": [
-        {"text": "Put the jacket on", "next_event": 9},
-        {"text": "Look at the photo", "next_event": 10}
+        { "text": "Proceed to elevator bank", "next_event": 7 },
+        { "text": "Ask the guard about neural baseline readings", "next_event": 8 }
       ]
     },
     {
       "id": 6,
-      "text": "Time passes. The radiator clicks. Nothing changes, which is its own kind of answer.",
-      "image_link": "images/ep1_event6.png",
-      "voice_over": "vo/ep1_event6_en",
+      "location": "Department of Cohesion - Entrance",
+      "soundscape_mp3": "audio/Fluorescent-Hum.mp3",
+      "voice_over": "vo/ep1_story_event6_en",
+      "image_prompt": "Crowd of identical grey-clothed workers, synchronized movement, emotionless faces, conformity",
+      "image_link": "images/ep1_story_event6.png",
+      "stats": { "physical": 100, "mental": 88 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "They move like water. Hundreds of grey jackets flowing through grey doors. Same pace. Same vacant efficiency. One woman catches your eye for a microsecond. Her expression says: don't hope for anything different. Then she's gone.",
       "choices": [
-        {"text": "Finally stand up", "next_event": 2}
+        { "text": "Join the flow", "next_event": 5 }
       ]
     },
     {
       "id": 7,
-      "text": "You turn from the window. The room is small. Every room is small when the world outside is too big.",
-      "image_link": "images/ep1_event7.png",
-      "voice_over": "vo/ep1_event7_en",
+      "location": "Department of Cohesion - Elevator",
+      "soundscape_mp3": "audio/Elevator-Hum.mp3",
+      "voice_over": "vo/ep1_story_event7_en",
+      "image_prompt": "Elevator interior, brushed metal, floor indicator, three employees standing silent, oppressive quiet",
+      "image_link": "images/ep1_story_event7.png",
+      "stats": { "physical": 100, "mental": 89 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The elevator is silent except for the mechanical breathing of forced air. Three other employees. None speak. Floor 11. The doors open with a pneumatic sigh. This is where you'll spend the next forty years. If you're coherent.",
       "choices": [
-        {"text": "Check your belongings", "next_event": 5},
-        {"text": "Leave the room", "next_event": 11}
+        { "text": "Exit onto Floor 11", "next_event": 9 },
+        { "text": "Check the floor directory", "next_event": 10 }
       ]
     },
     {
       "id": 8,
-      "text": "The city moves. Workers. Drones. The same grey tide that rises every morning. You recognize it because you're part of it.",
-      "image_link": "images/ep1_event8.png",
-      "voice_over": "vo/ep1_event8_en",
+      "location": "Department of Cohesion - Security Checkpoint",
+      "soundscape_mp3": "audio/Fluorescent-Hum.mp3",
+      "voice_over": "vo/ep1_story_event8_en",
+      "image_prompt": "Security guard, expressionless face, grey uniform, standing at attention, bureaucratic authority",
+      "image_link": "images/ep1_story_event8.png",
+      "stats": { "physical": 100, "mental": 87 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The guard looks at you like you're malfunctioning equipment. 'Standard procedure. Detects trajectory variance. You passed. Don't ask questions on your first day.' His tone suggests you shouldn't ask questions on any day.",
       "choices": [
-        {"text": "Turn away", "next_event": 7},
-        {"text": "Open the window", "next_event": 12}
+        { "text": "Proceed quietly", "next_event": 7 }
       ]
     },
     {
       "id": 9,
-      "text": "The jacket settles on your shoulders like a question you can't answer. The ID card in the pocket weighs nothing but means everything.",
-      "image_link": "images/ep1_event9.png",
-      "voice_over": "vo/ep1_event9_en",
+      "location": "Department of Cohesion - Floor 11 Corridor",
+      "soundscape_mp3": "audio/Office-Ambient.mp3",
+      "voice_over": "vo/ep1_story_event9_en",
+      "image_prompt": "Long office corridor, numbered doors, fluorescent lighting, beige walls, institutional sterility, endless sameness",
+      "image_link": "images/ep1_story_event9.png",
+      "stats": { "physical": 100, "mental": 88 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Doors numbered in ascending bureaucratic order. 47-A. 47-B. Somewhere behind these doors, people monitor simulations. Adjust variables. Maintain stability. Your door is at the end. Station 47-C. The C stands for Corrections.",
       "choices": [
-        {"text": "Leave the room", "next_event": 11},
-        {"text": "Check the window first", "next_event": 4}
+        { "text": "Enter Station 47-C", "next_event": 11 },
+        { "text": "Pause before entering", "next_event": 12 }
       ]
     },
     {
       "id": 10,
-      "text": "The photo shows two people. You recognize one of them as yourself. The other is a stranger wearing your face from another life.",
-      "image_link": "images/ep1_event10.png",
-      "voice_over": "vo/ep1_event10_en",
+      "location": "Department of Cohesion - Elevator",
+      "soundscape_mp3": "audio/Elevator-Hum.mp3",
+      "voice_over": "vo/ep1_story_event10_en",
+      "image_prompt": "Floor directory panel, departments listed, Division of Trajectory Analysis highlighted, bureaucratic organization chart",
+      "image_link": "images/ep1_story_event10.png",
+      "stats": { "physical": 100, "mental": 89 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Floor 11: Trajectory Analysis, Variance Monitoring, Correction Protocol. Floor 23: Neural Coherence, Synchronization Management. Floor 38: Connector Maintenance, Particle Calibration. You don't know what a Connector is. Maybe you'll find out. Maybe you won't.",
       "choices": [
-        {"text": "Put it back", "next_event": 9},
-        {"text": "Keep looking", "next_event": 13}
+        { "text": "Exit onto Floor 11", "next_event": 9 }
       ]
     },
     {
       "id": 11,
-      "text": "The hallway is concrete and fluorescent. Standard issue. Everything is standard issue when the state decides what you need.",
-      "image_link": "images/ep1_event11.png",
-      "voice_over": "vo/ep1_event11_en",
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event11_en",
+      "image_prompt": "Small office cubicle, computer terminal, graphs and data streams, grey walls, single window showing grey sky, sterile workspace",
+      "image_link": "images/ep1_story_event11.png",
+      "stats": { "physical": 100, "mental": 87 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Your station. One terminal. One chair. One window that doesn't open. The screen is already on. Waiting. SIMULATION DASHBOARD - ZONE 7 MONITORING. Rows of numbers scroll past. Neural trajectories. Deviation indices. Correction timestamps. This is what you'll watch. Forever.",
       "choices": [
-        {"text": "Go left", "next_event": 14},
-        {"text": "Go right", "next_event": 15}
+        { "text": "Sit down and begin", "next_event": 13 },
+        { "text": "Examine the window first", "next_event": 14 }
       ]
     },
     {
       "id": 12,
-      "text": "The window doesn't open. Of course it doesn't. This is Brno 2157. Air is regulated. Freedom is a memory. Windows are decorative.",
-      "image_link": "images/ep1_event12.png",
-      "voice_over": "vo/ep1_event12_en",
+      "location": "Department of Cohesion - Floor 11 Corridor",
+      "soundscape_mp3": "audio/Office-Ambient.mp3",
+      "voice_over": "vo/ep1_story_event12_en",
+      "image_prompt": "Standing in corridor, hand on door handle, moment of hesitation, institutional doorway",
+      "image_link": "images/ep1_story_event12.png",
+      "stats": { "physical": 100, "mental": 86 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Your hand on the door handle. Cold metal. Beyond this door is the rest of your life. Monitoring simulations. Watching numbers. Reporting anomalies. It's important work, they said. Necessary work. You believe them. You have to.",
       "choices": [
-        {"text": "Step back", "next_event": 7}
+        { "text": "Open the door", "next_event": 11 }
       ]
     },
     {
       "id": 13,
-      "text": "The person in the photo is smiling. When was the last time you smiled? Do you remember? Does it matter?",
-      "image_link": "images/ep1_event13.png",
-      "voice_over": "vo/ep1_event13_en",
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event13_en",
+      "image_prompt": "Close-up of computer screen, data streams, neural pattern graphs, trajectory deviation alerts, complex monitoring interface",
+      "image_link": "images/ep1_story_event13.png",
+      "stats": { "physical": 100, "mental": 86 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The tutorial is automatic. Your neural implant receives the training data directly. MONITOR. ASSESS. REPORT. Deviations above 3.7% require logging. Above 7.2% require immediate correction. The simulation must maintain coherence. The words download into your brain like muscle memory.",
       "choices": [
-        {"text": "Put the photo away", "next_event": 9},
-        {"text": "Tear it up", "next_event": 16}
+        { "text": "Begin monitoring", "next_event": 15 },
+        { "text": "Question what 'correction' means", "next_event": 16 }
       ]
     },
     {
       "id": 14,
-      "text": "Left leads to the stairs. Down is the city. Down is work. Down is the rest of your life, measured in shifts and silence.",
-      "image_link": "images/ep1_event14.png",
-      "voice_over": "vo/ep1_event14_en",
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event14_en",
+      "image_prompt": "View from office window, Brno cityscape 2157, grey buildings, automated traffic, distant towers, oppressive urban sprawl",
+      "image_link": "images/ep1_story_event14.png",
+      "stats": { "physical": 100, "mental": 85 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Brno stretches below you. Grey and green and grey again. Somewhere in those buildings are the people you're monitoring. The simulation subjects. They think they're real. They think they're making choices. The thought makes you uncomfortable. You push it away.",
       "choices": [
-        {"text": "Go down the stairs", "next_event": 17},
-        {"text": "Go back", "next_event": 11}
+        { "text": "Turn to the computer", "next_event": 13 }
       ]
     },
     {
       "id": 15,
-      "text": "Right leads to more doors. More rooms. More lives compressed into concrete boxes. The architecture of equality.",
-      "image_link": "images/ep1_event15.png",
-      "voice_over": "vo/ep1_event15_en",
+      "location": "Station 47-C - Active Monitoring",
+      "soundscape_mp3": "audio/Data-Stream.mp3",
+      "voice_over": "vo/ep1_story_event15_en",
+      "image_prompt": "Monitoring screen showing multiple subject trajectories, branching decision trees, probability clouds, neural activity patterns",
+      "image_link": "images/ep1_story_event15.png",
+      "stats": { "physical": 100, "mental": 84 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Subject 7-4429. Female. Age 34. Trajectory probability: 89.3% stable. She's deciding what to eat for breakfast. The simulation branches into seventeen possible futures. Most converge back to the same outcome. Breakfast doesn't matter. Only coherence matters.",
       "choices": [
-        {"text": "Keep going right", "next_event": 18},
-        {"text": "Turn back", "next_event": 11}
+        { "text": "Continue monitoring Subject 7-4429", "next_event": 17 },
+        { "text": "Switch to a different subject", "next_event": 18 }
       ]
     },
     {
       "id": 16,
-      "text": "The photo tears easily. Paper always does. Memories are harder. The pieces fall like snow that never reaches the ground.",
-      "image_link": "images/ep1_event16.png",
-      "voice_over": "vo/ep1_event16_en",
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event16_en",
+      "image_prompt": "Warning message on screen, red text, correction protocol documentation, bureaucratic language about neural adjustment",
+      "image_link": "images/ep1_story_event16.png",
+      "stats": { "physical": 100, "mental": 82 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The database is helpful. CORRECTION: Controlled collapse of unstable trajectory branches via targeted particle injection. Subjects experience minor neural adjustment. Necessary for system coherence. Side effects minimal and acceptable. The language is clean. The reality is probably not.",
       "choices": [
-        {"text": "Leave the pieces", "next_event": 9},
-        {"text": "Pick them up", "next_event": 19}
+        { "text": "Accept this and continue", "next_event": 15 },
+        { "text": "Search for 'side effects'", "next_event": 19 }
       ]
     },
     {
       "id": 17,
-      "text": "The stairs descend into morning. The city waits. It always waits. Patient. Hungry. Indifferent to your choices.",
-      "image_link": "images/ep1_event17.png",
-      "voice_over": "vo/ep1_event17_en",
+      "location": "Station 47-C - Active Monitoring",
+      "soundscape_mp3": "audio/Data-Stream.mp3",
+      "voice_over": "vo/ep1_story_event17_en",
+      "image_prompt": "Subject profile screen, woman eating breakfast, neural pattern stable, probability trees collapsing to single timeline",
+      "image_link": "images/ep1_story_event17.png",
+      "stats": { "physical": 100, "mental": 83 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "She chose toast. The seventeen branches collapse to one. Efficient. Predictable. Your screen marks her green. COHERENT. She'll never know seventeen versions of her morning existed. She'll never know you watched. That's the point. That's the mercy.",
       "choices": [
-        {"text": "Continue down", "next_event": 20},
-        {"text": "Stop halfway", "next_event": 21}
+        { "text": "Move to next subject", "next_event": 18 },
+        { "text": "Take a break", "next_event": 20 }
       ]
     },
     {
       "id": 18,
-      "text": "A door stands open. Inside, someone's radio plays state broadcasts. The voice is calm. It's always calm. That's how you know it's lying.",
-      "image_link": "images/ep1_event18.png",
-      "voice_over": "vo/ep1_event18_en",
+      "location": "Station 47-C - Active Monitoring",
+      "soundscape_mp3": "audio/Data-Stream.mp3",
+      "voice_over": "vo/ep1_story_event18_en",
+      "image_prompt": "Multiple subject monitoring, grid of faces and neural patterns, probability calculations, deviation warnings starting to appear",
+      "image_link": "images/ep1_story_event18.png",
+      "stats": { "physical": 100, "mental": 82 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Subject 7-8821. Male. Age 41. Trajectory probability: 91.2% stable. Subject 7-2103. Female. Age 28. Trajectory probability: 88.7% stable. Subject 7-6634. Male. Age 19. Trajectory probability: 73.4% — VARIANCE DETECTED. Your screen flashes amber.",
       "choices": [
-        {"text": "Keep walking", "next_event": 15},
-        {"text": "Listen closer", "next_event": 0}
+        { "text": "Investigate Subject 7-6634", "next_event": 21 },
+        { "text": "Log the variance and continue", "next_event": 22 }
       ]
     },
     {
       "id": 19,
-      "text": "You gather the pieces. What are you supposed to do with fragments? Build something new? Pretend you can put the past back together?",
-      "image_link": "images/ep1_event19.png",
-      "voice_over": "vo/ep1_event19_en",
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event19_en",
+      "image_prompt": "Database search results, medical reports, side effect statistics, bureaucratic euphemisms, concerning data",
+      "image_link": "images/ep1_story_event19.png",
+      "stats": { "physical": 100, "mental": 79 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "SIDE EFFECTS: Temporary confusion (74%), persistent déjà vu (23%), timeline disorientation (8%), spontaneous unconsciousness (3%), neural degradation (0.7%), synchronization death (0.04%). The last phrase doesn't have a definition. When you click it, ACCESS DENIED. Level 7 clearance required. You are Level 2.",
       "choices": [
-        {"text": "Keep the pieces", "next_event": 9}
+        { "text": "Return to monitoring", "next_event": 15 },
+        { "text": "Remember this for later", "next_event": 23 }
       ]
     },
     {
       "id": 20,
-      "text": "You reach the street. Brno stretches out before you. Grey. Green. Inevitable. The day begins whether you're ready or not.",
-      "image_link": "images/ep1_event20.png",
-      "voice_over": "vo/ep1_event20_en",
+      "location": "Station 47-C - Break Area",
+      "soundscape_mp3": "audio/Office-Ambient.mp3",
+      "voice_over": "vo/ep1_story_event20_en",
+      "image_prompt": "Small break room, water dispenser, table, window, sterile corporate space, grey walls",
+      "image_link": "images/ep1_story_event20.png",
+      "stats": { "physical": 98, "mental": 84 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The break room is empty. Water from a grey dispenser. Grey walls. Grey sky outside. The sound of the building is a constant low hum. Like breathing. Like the Department itself is alive. Maybe it is. Maybe you're all just cells in something larger.",
       "choices": [
-        {"text": "Step outside", "next_event": 0}
+        { "text": "Return to work", "next_event": 18 },
+        { "text": "Look out the window longer", "next_event": 24 }
       ]
     },
     {
       "id": 21,
-      "text": "You stop. The stairs stretch above and below. This is the moment. This is always the moment. Between what was and what will be.",
-      "image_link": "images/ep1_event21.png",
-      "voice_over": "vo/ep1_event21_en",
+      "location": "Station 47-C - Variance Investigation",
+      "soundscape_mp3": "audio/Alert-Tone.mp3",
+      "voice_over": "vo/ep1_story_event21_en",
+      "image_prompt": "Subject profile showing young man, neural patterns unstable, branching trajectories diverging, red warning indicators",
+      "image_link": "images/ep1_story_event21.png",
+      "stats": { "physical": 100, "mental": 80 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Subject 7-6634. Stanislav Novák. University student. He's thinking about his future. The trajectories fork wildly. Engineer? Artist? Leave Brno? Stay? Each choice branches into more choices. The probability cloud expands beyond acceptable parameters. He's becoming incoherent. He needs correction.",
       "choices": [
-        {"text": "Continue down", "next_event": 20},
-        {"text": "Go back up", "next_event": 11}
+        { "text": "Initiate correction protocol", "next_event": 25 },
+        { "text": "Request supervisor guidance", "next_event": 26 },
+        { "text": "Monitor longer before deciding", "next_event": 27 }
+      ]
+    },
+    {
+      "id": 22,
+      "location": "Station 47-C - Active Monitoring",
+      "soundscape_mp3": "audio/Data-Stream.mp3",
+      "voice_over": "vo/ep1_story_event22_en",
+      "image_prompt": "Log entry screen, variance report filed, continuing to next subject, bureaucratic efficiency",
+      "image_link": "images/ep1_story_event22.png",
+      "stats": { "physical": 100, "mental": 85 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Variance logged. Timestamp: 08:47:33. Subject: 7-6634. Deviation: 26.6%. Status: MONITORING. Someone else will handle it. That's how the system works. Specialization. Division of labor. Division of responsibility. Division of guilt.",
+      "choices": [
+        { "text": "Continue with routine monitoring", "next_event": 28 }
+      ]
+    },
+    {
+      "id": 23,
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event23_en",
+      "image_prompt": "Thinking expression, contemplation, information being processed, subtle unease",
+      "image_link": "images/ep1_story_event23.png",
+      "stats": { "physical": 100, "mental": 78 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID", "Mental Note: Synchronization Death"], "tapes": [] },
+      "text": "Synchronization death. The phrase sits in your mind like a stone. When a subject dies in the simulation, someone dies here? Impossible. But the data wouldn't lie. Would it? You file this thought away. Carefully. Where thoughts go to wait.",
+      "choices": [
+        { "text": "Return to monitoring", "next_event": 15 }
+      ]
+    },
+    {
+      "id": 24,
+      "location": "Station 47-C - Break Area",
+      "soundscape_mp3": "audio/Office-Ambient.mp3",
+      "voice_over": "vo/ep1_story_event24_en",
+      "image_prompt": "City view through window, identical buildings, automated systems, humans as small dots, dystopian scale",
+      "image_link": "images/ep1_story_event24.png",
+      "stats": { "physical": 98, "mental": 81 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "From here, the people are dots. Moving along predetermined paths. Like the subjects you monitor. Like you. The thought arrives unbidden: what if someone is monitoring you? What if your trajectories are being corrected? What if coherence is all there is?",
+      "choices": [
+        { "text": "Push the thought away", "next_event": 18 }
+      ]
+    },
+    {
+      "id": 25,
+      "location": "Station 47-C - Correction Interface",
+      "soundscape_mp3": "audio/System-Active.mp3",
+      "voice_over": "vo/ep1_story_event25_en",
+      "image_prompt": "Correction interface, particle injection controls, targeting systems, neural adjustment parameters, clinical interface",
+      "image_link": "images/ep1_story_event25.png",
+      "stats": { "physical": 100, "mental": 76 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "CORRECTION PROTOCOL INITIATED. Target: Subject 7-6634. Method: Controlled particle injection. Outcome: Neural trajectory collapse to stable path. The interface is simple. Almost friendly. One button. Press it and Stanislav Novák stops thinking about art. Stops imagining leaving. Becomes coherent.",
+      "choices": [
+        { "text": "Press the button", "next_event": 29 },
+        { "text": "Abort correction", "next_event": 30 }
+      ]
+    },
+    {
+      "id": 26,
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": "vo/ep1_story_event26_en",
+      "image_prompt": "Communication interface, supervisor contact request, waiting for response, bureaucratic protocol",
+      "image_link": "images/ep1_story_event26.png",
+      "stats": { "physical": 100, "mental": 83 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Your supervisor appears on screen. Face like processed data. 'First day questions are normal. But you already know the answer. Variance above 7.2% requires correction. The protocol is clear. Your hesitation is noted. Don't make it a pattern.' The screen goes dark.",
+      "choices": [
+        { "text": "Initiate correction", "next_event": 25 },
+        { "text": "Monitor longer anyway", "next_event": 27 }
+      ]
+    },
+    {
+      "id": 27,
+      "location": "Station 47-C - Variance Investigation",
+      "soundscape_mp3": "audio/Alert-Tone.mp3",
+      "voice_over": "vo/ep1_story_event27_en",
+      "image_prompt": "Monitoring screen, subject's neural patterns growing more chaotic, deviation increasing, warning escalating",
+      "image_link": "images/ep1_story_event27.png",
+      "stats": { "physical": 100, "mental": 77 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "You watch Stanislav think. Really think. About meaning. About purpose. About whether his choices matter. The deviation climbs. 28.3%. 31.7%. RED ALERT - CRITICAL VARIANCE. Your screen demands action. The system demands coherence. Thinking too much is dangerous.",
+      "choices": [
+        { "text": "Correct him now", "next_event": 25 },
+        { "text": "Let him think a moment longer", "next_event": 31 }
+      ]
+    },
+    {
+      "id": 28,
+      "location": "Station 47-C - End of First Day",
+      "soundscape_mp3": "audio/Office-Ambient.mp3",
+      "voice_over": "vo/ep1_story_event28_en",
+      "image_prompt": "Clock showing end of shift, computer screen, tired employee, grey office, completion of first day",
+      "image_link": "images/ep1_story_event28.png",
+      "stats": { "physical": 95, "mental": 84 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "17:00:00. Shift end. You monitored forty-seven subjects. Logged twelve variances. Initiated zero corrections. Someone else handled those. The building releases you with the same pneumatic sigh as the elevator. Tomorrow you'll come back. And the day after. Forever.",
+      "choices": [
+        { "text": "Leave the Department", "next_event": 32 }
+      ]
+    },
+    {
+      "id": 29,
+      "location": "Station 47-C - Post-Correction",
+      "soundscape_mp3": "audio/System-Active.mp3",
+      "voice_over": "vo/ep1_story_event29_en",
+      "image_prompt": "Correction completed screen, subject's neural patterns stabilizing, trajectories collapsing, green status indicators",
+      "image_link": "images/ep1_story_event29.png",
+      "stats": { "physical": 100, "mental": 73 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "CORRECTION COMPLETE. Subject 7-6634 neural variance: 4.2%. Status: COHERENT. Stanislav Novák blinks. Shakes his head. Forgets what he was thinking about. Decides on engineering after all. A practical choice. A stable choice. You just erased a version of someone's soul. The system thanks you.",
+      "choices": [
+        { "text": "Continue monitoring", "next_event": 28 },
+        { "text": "Take a break to process", "next_event": 33 }
+      ]
+    },
+    {
+      "id": 30,
+      "location": "Station 47-C - Correction Interface",
+      "soundscape_mp3": "audio/System-Active.mp3",
+      "voice_over": "vo/ep1_story_event30_en",
+      "image_prompt": "Abort screen, warning message, protocol violation notice, supervisor alert",
+      "image_link": "images/ep1_story_event30.png",
+      "stats": { "physical": 100, "mental": 79 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "CORRECTION ABORTED. SUPERVISOR NOTIFIED. Protocol violation logged. Your screen flashes red, then returns to normal. Stanislav's deviation continues to climb. Someone else will correct him. Someone less squeamish. Less coherent. You've marked yourself. First day.",
+      "choices": [
+        { "text": "Return to monitoring", "next_event": 28 }
+      ]
+    },
+    {
+      "id": 31,
+      "location": "Station 47-C - Critical Variance",
+      "soundscape_mp3": "audio/Critical-Alert.mp3",
+      "voice_over": "vo/ep1_story_event31_en",
+      "image_prompt": "Screen showing catastrophic variance, subject experiencing existential crisis, system warnings, emergency protocols",
+      "image_link": "images/ep1_story_event31.png",
+      "stats": { "physical": 100, "mental": 71 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "CRITICAL VARIANCE: 47.8%. Stanislav is asking himself if he's real. If his thoughts are his own. If someone is watching. The probability cloud fractures into chaos. EMERGENCY CORRECTION REQUIRED. But then — something strange. A micro-fluctuation in Floor 23. Someone there just felt dizzy. Synchronization effect. Real.",
+      "choices": [
+        { "text": "Emergency correct immediately", "next_event": 29 },
+        { "text": "Note the synchronization", "next_event": 34 }
+      ]
+    },
+    {
+      "id": 32,
+      "location": "Transit Station Alpha-7 - Evening",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": "vo/ep1_story_event32_en",
+      "image_prompt": "Evening transit station, tired workers, grey evening light, automated trains, returning home",
+      "image_link": "images/ep1_story_event32.png",
+      "stats": { "physical": 90, "mental": 82 },
+      "inventory": { "items": ["Transit Pass", "Department ID"], "tapes": [] },
+      "text": "The transit home is the same as the transit there, but heavier. You are now part of the Department. Part of the system. Part of coherence. Tomorrow you'll do it again. The train arrives. The doors open. You enter. Like you always do. Like you always will.",
+      "choices": [
+        { "text": "Reflect on the day", "next_event": 35 },
+        { "text": "Just go home", "next_event": 0 }
+      ]
+    },
+    {
+      "id": 33,
+      "location": "Station 47-C - Break Area",
+      "soundscape_mp3": "audio/Office-Ambient.mp3",
+      "voice_over": "vo/ep1_story_event33_en",
+      "image_prompt": "Empty break room, employee sitting alone, processing, grey walls, existential weight",
+      "image_link": "images/ep1_story_event33.png",
+      "stats": { "physical": 95, "mental": 71 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "You corrected someone. Changed their mind. Erased possibilities. Made them coherent. Made them safe. Made them less. The water tastes like nothing. The walls are grey. You are grey. Everything is grey. This is what necessary feels like.",
+      "choices": [
+        { "text": "Return to work", "next_event": 28 }
+      ]
+    },
+    {
+      "id": 34,
+      "location": "Station 47-C - Critical Variance",
+      "soundscape_mp3": "audio/Critical-Alert.mp3",
+      "voice_over": "vo/ep1_story_event34_en",
+      "image_prompt": "Screen split between subject crisis and synchronization effect data, correlation becoming visible",
+      "image_link": "images/ep1_story_event34.png",
+      "stats": { "physical": 100, "mental": 68 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID", "Mental Note: Synchronization is Real"], "tapes": [] },
+      "text": "You see it. The correlation. When Stanislav's variance spiked, someone on Floor 23 felt it. The simulation is not a simulation. Or the simulation is so real it bleeds through. The thought is dangerous. The thought is incoherent. You execute emergency correction. Stanislav stops asking questions. The person on Floor 23 recovers. Coincidence. Must be.",
+      "choices": [
+        { "text": "File this observation away", "next_event": 28 }
+      ]
+    },
+    {
+      "id": 35,
+      "location": "Transit Car - Evening",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": "vo/ep1_story_event35_en",
+      "image_prompt": "Transit car interior, reflection in window, grey city passing by, contemplative mood, end of first day",
+      "image_link": "images/ep1_story_event35.png",
+      "stats": { "physical": 90, "mental": 80 },
+      "inventory": { "items": ["Transit Pass", "Department ID"], "tapes": [] },
+      "text": "Your reflection in the dark window. Behind it, Brno passes in grey and green streaks. Somewhere out there, Stanislav Novák is choosing engineering. Not knowing he almost chose differently. Not knowing someone watched him think. Not knowing thought is dangerous. The train moves forward. You move forward. Tomorrow, again. Forever, again.",
+      "choices": [
+        { "text": "End of Chapter 1", "next_event": 0 }
       ]
     }
   ]

@@ -1,0 +1,1 @@
+C:\Users\fabien\AppData\Local\Programs\Python\Python310\python.exe "C:\Users\fabien\Documents\GitHub\Noise-Over-Silence\NoiseOverSilent-NewUI\infra\generate_all_images.py" "C:\Users\fabien\Documents\GitHub\Noise-Over-Silence\NoiseOverSilent-NewUI\Assets\StreamingAssets\Episodes\episode01_en.json"
