@@ -13,10 +13,13 @@ import json
 import time
 import requests
 import sys
+import shutil
+import glob
 from pathlib import Path
 
 # Configuration
 COMFYUI_URL = "http://127.0.0.1:8188"
+COMFYUI_OUTPUT_DIR = Path("C:/Users/fabien/Documents/GitHub/Noise-Over-Silence/NoiseOverSilent-NewUI/infra/ComfyUI/output")
 
 # Get JSON file path from command line argument or use default
 if len(sys.argv) > 1:
@@ -30,7 +33,7 @@ UNITY_OUTPUT_DIR = Path("C:/Users/fabien/Documents/GitHub/Noise-Over-Silence/Noi
 # Style additions
 STYLE_PREFIX = "16-bit pixel art, retro game graphics, detailed pixel work, "
 STYLE_SUFFIX = ", limited color palette, nostalgic aesthetic, sharp pixels, video game art style"
-NEGATIVE_PROMPT = "blurry, 3D render, photograph, smooth gradients, anti-aliasing, modern graphics, high resolution, photorealistic"
+NEGATIVE_PROMPT = "bright, cheerful, happy, colorful, vibrant, sunny, warm, friendly, cute, smile, flowers, nature, blue sky, rainbow, joy, celebration, party, fun, playful, cartoon, anime, 3D render, photograph"
 
 # ComfyUI workflow template
 WORKFLOW_TEMPLATE = {
@@ -175,6 +178,40 @@ def wait_for_completion(prompt_id):
             time.sleep(1)
 
 
+def copy_generated_image(filename_prefix, target_filename):
+    """
+    Find the generated image in ComfyUI output folder and copy to Unity folder
+    ComfyUI saves as: filename_prefix_00001_.png
+    We want: target_filename.jpg in Unity folder (Unity uses JPG)
+    """
+    try:
+        # Find the most recent file matching the pattern
+        pattern = f"{filename_prefix}_*.png"
+        search_path = COMFYUI_OUTPUT_DIR / pattern
+        
+        matching_files = glob.glob(str(search_path))
+        
+        if not matching_files:
+            print(f"   ⚠️  Could not find generated image: {pattern}")
+            return False
+        
+        # Get the most recent file
+        source_file = Path(max(matching_files, key=lambda x: Path(x).stat().st_mtime))
+        
+        # Copy to Unity folder with correct name as JPG
+        destination = UNITY_OUTPUT_DIR / f"{target_filename}.jpg"
+        shutil.copy2(source_file, destination)
+        
+        # Also rename the png to jpg if needed (Unity expects jpg)
+        # Or we can use PIL to convert, but simple copy works since Unity can read both
+        
+        return True
+        
+    except Exception as e:
+        print(f"   ⚠️  Error copying file: {e}")
+        return False
+
+
 def main():
     print("=" * 60)
     print("  NOISE OVER SILENCE - AUTO IMAGE GENERATOR")
@@ -222,7 +259,7 @@ def main():
     print()
     
     for i, prompt_data in enumerate(prompts, 1):
-        print(f"[{i}/{len(prompts)}] Generating: {prompt_data['filename']}.png")
+        print(f"[{i}/{len(prompts)}] Generating: {prompt_data['filename']}.jpg")
         print(f"   Prompt: {prompt_data['prompt'][:80]}...")
         
         # Queue the prompt
@@ -234,10 +271,12 @@ def main():
             wait_for_completion(result['prompt_id'])
             print("✅ Done!")
             
-            # Copy to Unity folder
-            # ComfyUI saves to: output/ep1_story_event1_00001_.png
-            # We need to find and copy it
-            print(f"   📋 Copying to Unity folder...")
+            # Copy to Unity folder with correct name as JPG
+            print(f"   📋 Copying to Unity folder as .jpg... ", end='', flush=True)
+            if copy_generated_image(prompt_data['filename'], prompt_data['filename']):
+                print("✅ Copied!")
+            else:
+                print("❌ Failed!")
         else:
             print(f"   ❌ Failed to queue")
         
@@ -246,7 +285,7 @@ def main():
     print("=" * 60)
     print("✅ ALL IMAGES GENERATED!")
     print(f"   Saved to: {UNITY_OUTPUT_DIR}")
-    print(f"   Files: ep1_story_event1.png ... ep1_story_event{len(prompts)}.png")
+    print(f"   Files: ep1_event1.jpg ... ep1_event{len(prompts)}.jpg")
     print()
     print("🎮 Ready to use in Unity!")
     print("=" * 60)
