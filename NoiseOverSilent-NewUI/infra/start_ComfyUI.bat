@@ -1,1 +1,0 @@
-C:\Users\fabien\AppData\Local\Programs\Python\Python310\python.exe "C:\Users\fabien\Documents\GitHub\Noise-Over-Silence\NoiseOverSilent-NewUI\infra\ComfyUI\main.py"

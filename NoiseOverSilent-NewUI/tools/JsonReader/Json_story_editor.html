@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noise Over Silence - Story Editor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-primary: #30363d;
+            --border-accent: #58a6ff;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent-green: #3fb950;
+            --accent-red: #f85149;
+            --accent-yellow: #d29922;
+            --accent-blue: #58a6ff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-primary);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        button {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--border-primary);
+            border-color: var(--border-accent);
+        }
+
+        button.primary {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #000;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 420px;
+            height: calc(100vh - 65px);
+        }
+
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-primary);
+            overflow-y: auto;
+            padding: 16px 0;
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            padding: 0 16px;
+            margin-bottom: 8px;
+        }
+
+        .event-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.15s;
+        }
+
+        .event-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .event-item.active {
+            background: var(--bg-tertiary);
+            border-left-color: var(--accent-blue);
+        }
+
+        .event-item.has-image {
+            border-left-color: var(--accent-green);
+        }
+
+        .event-item.no-image {
+            border-left-color: var(--accent-red);
+        }
+
+        .event-id {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            margin-bottom: 4px;
+        }
+
+        .event-preview {
+            font-size: 12px;
+            color: var(--text-secondary);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .editor-panel {
+            background: var(--bg-primary);
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .choice-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-primary);
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .choice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .tree-panel {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--border-primary);
+            overflow: auto;
+            padding: 16px;
+        }
+
+        .tree-legend {
+            display: flex;
+            gap: 16px;
+            padding: 12px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 11px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid;
+        }
+
+        /* SVG Tree Styles */
+        #treeCanvas {
+            min-height: 600px;
+            width: 100%;
+        }
+
+        .tree-bubble {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tree-bubble circle {
+            stroke-width: 3;
+            fill: var(--bg-primary);
+        }
+
+        .tree-bubble.selected circle {
+            stroke: var(--accent-blue);
+            fill: var(--accent-blue);
+        }
+
+        .tree-bubble.selected text {
+            fill: #000;
+        }
+
+        .tree-bubble.has-image circle {
+            stroke: var(--accent-green);
+        }
+
+        .tree-bubble.no-image circle {
+            stroke: var(--accent-red);
+        }
+
+        .tree-bubble text {
+            fill: var(--text-primary);
+            font-size: 14px;
+            font-weight: 700;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none;
+        }
+
+        .tree-bubble:hover circle {
+            filter: brightness(1.3);
+        }
+
+        .tree-line {
+            stroke: var(--border-accent);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .file-upload {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>Noise Over Silence - Story Editor</h1>
+            <div class="header-subtitle" id="subtitle">Professional writing tool</div>
+        </div>
+        <div class="header-actions">
+            <button onclick="document.getElementById('fileInput').click()">Load JSON</button>
+            <button id="exportBtn" onclick="exportJSON()" disabled>Export JSON</button>
+            <button id="saveBtn" class="primary" onclick="saveChanges()" disabled>Save Changes</button>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" class="file-upload" accept=".json" onchange="loadJSON(event)">
+
+    <div class="main-layout" id="mainLayout" style="display: none;">
+        <div class="sidebar">
+            <div class="sidebar-title">Events</div>
+            <div id="eventList"></div>
+        </div>
+
+        <div class="editor-panel" id="editorPanel">
+            <p style="color: var(--text-secondary);">Select an event to edit...</p>
+        </div>
+
+        <div class="tree-panel">
+            <div class="tree-legend">
+                <div class="legend-item">
+                    <div class="legend-circle" style="border-color: var(--accent-blue);"></div>
+                    <span>Selected</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="border-color: var(--accent-green);"></div>
+                    <span>Has Image</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="border-color: var(--accent-red);"></div>
+                    <span>No Image</span>
+                </div>
+            </div>
+            <svg id="treeCanvas"></svg>
+        </div>
+    </div>
+
+    <script>
+        let storyData = null;
+        let currentEvent = null;
+
+        function loadJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    storyData = JSON.parse(e.target.result);
+                    initializeEditor();
+                } catch (error) {
+                    alert('Error loading JSON: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function initializeEditor() {
+            document.getElementById('mainLayout').style.display = 'grid';
+            document.getElementById('exportBtn').disabled = false;
+            document.getElementById('subtitle').textContent = 
+                `${storyData.title} - ${storyData.chapter.title}`;
+            
+            renderEventList();
+            renderTree();
+        }
+
+        function renderEventList() {
+            const list = document.getElementById('eventList');
+            list.innerHTML = '';
+
+            storyData.events.forEach(event => {
+                const div = document.createElement('div');
+                div.className = 'event-item ' + (event.image_link ? 'has-image' : 'no-image');
+                if (currentEvent && currentEvent.id === event.id) {
+                    div.classList.add('active');
+                }
+
+                div.innerHTML = `
+                    <div class="event-id">Event ${event.id}</div>
+                    <div class="event-preview">${event.text.substring(0, 50)}...</div>
+                `;
+                
+                div.onclick = () => selectEvent(event.id);
+                list.appendChild(div);
+            });
+        }
+
+        function selectEvent(eventId) {
+            currentEvent = storyData.events.find(e => e.id === eventId);
+            renderEventList();
+            renderEventEditor();
+            renderTree();
+        }
+
+        function renderEventEditor() {
+            const panel = document.getElementById('editorPanel');
+            
+            panel.innerHTML = `
+                <div class="section">
+                    <div class="section-title">Event ${currentEvent.id}</div>
+                    <div class="form-group">
+                        <label>Location</label>
+                        <input type="text" id="location" value="${currentEvent.location || ''}" onchange="markChanged()">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Narrative Text</div>
+                    <textarea id="text" onchange="markChanged()">${currentEvent.text || ''}</textarea>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Story Choices</div>
+                    <div id="choicesList">${renderChoices()}</div>
+                    <button onclick="addChoice()" style="width: 100%; margin-top: 12px;">+ Add Choice</button>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Visual Assets</div>
+                    <div class="form-group">
+                        <label>Image Prompt</label>
+                        <textarea id="imagePrompt" onchange="markChanged()">${currentEvent.image_prompt || ''}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image Link</label>
+                        <input type="text" id="imageLink" value="${currentEvent.image_link || ''}" onchange="markChanged()">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Audio</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Soundscape</label>
+                            <input type="text" id="soundscape" value="${currentEvent.soundscape_mp3 || ''}" onchange="markChanged()">
+                        </div>
+                        <div class="form-group">
+                            <label>Voice Over</label>
+                            <input type="text" id="voiceOver" value="${currentEvent.voice_over || ''}" onchange="markChanged()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Stats</div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Physical</label>
+                            <input type="number" id="physical" value="${currentEvent.stats?.physical || 100}" onchange="markChanged()">
+                        </div>
+                        <div class="form-group">
+                            <label>Mental</label>
+                            <input type="number" id="mental" value="${currentEvent.stats?.mental || 100}" onchange="markChanged()">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderChoices() {
+            if (!currentEvent.choices || currentEvent.choices.length === 0) {
+                return '<p style="color: var(--text-secondary); font-size: 13px;">No choices yet.</p>';
+            }
+
+            return currentEvent.choices.map((choice, idx) => `
+                <div class="choice-item">
+                    <div class="choice-header">
+                        <strong>Choice ${idx + 1}</strong>
+                        <button onclick="removeChoice(${idx})" style="padding: 4px 8px; font-size: 12px;">Delete</button>
+                    </div>
+                    <div class="form-group">
+                        <label>Text</label>
+                        <input type="text" value="${choice.text || ''}" onchange="updateChoice(${idx}, 'text', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>Next Event ID</label>
+                        <input type="number" value="${choice.next_event || 0}" onchange="updateChoice(${idx}, 'next_event', parseInt(this.value))">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addChoice() {
+            if (!currentEvent.choices) currentEvent.choices = [];
+            currentEvent.choices.push({ text: "New choice", next_event: 0 });
+            markChanged();
+            renderEventEditor();
+        }
+
+        function removeChoice(idx) {
+            currentEvent.choices.splice(idx, 1);
+            markChanged();
+            renderEventEditor();
+        }
+
+        function updateChoice(idx, field, value) {
+            currentEvent.choices[idx][field] = value;
+            markChanged();
+        }
+
+        function markChanged() {
+            document.getElementById('saveBtn').disabled = false;
+        }
+
+        function saveChanges() {
+            currentEvent.location = document.getElementById('location').value;
+            currentEvent.text = document.getElementById('text').value;
+            currentEvent.image_prompt = document.getElementById('imagePrompt').value;
+            currentEvent.image_link = document.getElementById('imageLink').value || null;
+            currentEvent.soundscape_mp3 = document.getElementById('soundscape').value;
+            currentEvent.voice_over = document.getElementById('voiceOver').value || null;
+            currentEvent.stats = {
+                physical: parseInt(document.getElementById('physical').value),
+                mental: parseInt(document.getElementById('mental').value)
+            };
+
+            document.getElementById('saveBtn').disabled = true;
+            renderEventList();
+            renderTree();
+            alert('Changes saved!');
+        }
+
+        function exportJSON() {
+            const json = JSON.stringify(storyData, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `episode${storyData.episode}_edited.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // SVG Tree Rendering
+        function renderTree() {
+            const svg = document.getElementById('treeCanvas');
+            svg.innerHTML = '';
+
+            if (!storyData || !storyData.events.length) return;
+
+            const nodeRadius = 25;
+            const levelGap = 100;
+            const siblingGap = 80;
+
+            // Build tree structure
+            const visited = new Set();
+            const positions = new Map();
+
+            function calculatePositions(eventId, x, y, level = 0) {
+                if (visited.has(eventId)) return { width: 0, children: [] };
+                visited.add(eventId);
+
+                const event = storyData.events.find(e => e.id === eventId);
+                if (!event) return { width: 0, children: [] };
+
+                positions.set(eventId, { x, y, event });
+
+                if (!event.choices || event.choices.length === 0) {
+                    return { width: siblingGap, children: [] };
+                }
+
+                const children = [];
+                let currentX = x;
+
+                event.choices.forEach(choice => {
+                    if (choice.next_event > 0) {
+                        const childResult = calculatePositions(
+                            choice.next_event,
+                            currentX,
+                            y + levelGap,
+                            level + 1
+                        );
+                        children.push({
+                            id: choice.next_event,
+                            x: currentX,
+                            width: childResult.width
+                        });
+                        currentX += childResult.width;
+                    }
+                });
+
+                const totalWidth = Math.max(siblingGap, currentX - x);
+                
+                // Center parent over children
+                if (children.length > 0) {
+                    const firstChild = children[0].x;
+                    const lastChild = children[children.length - 1].x;
+                    const centerX = (firstChild + lastChild) / 2;
+                    positions.get(eventId).x = centerX;
+                }
+
+                return { width: totalWidth, children };
+            }
+
+            // Start layout from event 1
+            const firstEvent = storyData.events.find(e => e.id === 1) || storyData.events[0];
+            calculatePositions(firstEvent.id, 200, 50);
+
+            // Draw connections first (so they appear behind bubbles)
+            positions.forEach((pos, eventId) => {
+                const event = pos.event;
+                if (event.choices) {
+                    event.choices.forEach(choice => {
+                        if (choice.next_event > 0 && positions.has(choice.next_event)) {
+                            const targetPos = positions.get(choice.next_event);
+                            
+                            // Draw line from parent to child
+                            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                            line.setAttribute('class', 'tree-line');
+                            line.setAttribute('x1', pos.x);
+                            line.setAttribute('y1', pos.y);
+                            line.setAttribute('x2', targetPos.x);
+                            line.setAttribute('y2', targetPos.y);
+                            svg.appendChild(line);
+                        }
+                    });
+                }
+            });
+
+            // Draw bubbles
+            positions.forEach((pos, eventId) => {
+                const isSelected = currentEvent && currentEvent.id === eventId;
+                const hasImage = pos.event.image_link;
+                
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', `tree-bubble ${isSelected ? 'selected' : ''} ${hasImage ? 'has-image' : 'no-image'}`);
+                g.onclick = () => selectEvent(eventId);
+
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', pos.x);
+                circle.setAttribute('cy', pos.y);
+                circle.setAttribute('r', nodeRadius);
+                g.appendChild(circle);
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', pos.x);
+                text.setAttribute('y', pos.y);
+                text.textContent = eventId;
+                g.appendChild(text);
+
+                const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                title.textContent = `Event ${eventId}: ${pos.event.text.substring(0, 80)}...`;
+                g.appendChild(title);
+
+                svg.appendChild(g);
+            });
+
+            // Set SVG viewBox
+            const maxY = Math.max(...Array.from(positions.values()).map(p => p.y)) + 100;
+            const maxX = Math.max(...Array.from(positions.values()).map(p => p.x)) + 100;
+            svg.setAttribute('viewBox', `0 0 ${maxX} ${maxY}`);
+            svg.setAttribute('width', maxX);
+            svg.setAttribute('height', maxY);
+        }
+    </script>
+</body>
+</html>

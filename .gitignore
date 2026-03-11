@@ -111,3 +111,4 @@ NoiseOverSilent-NewUI/NoiseOverSilent-NewUI.slnx
 *.unity
 /NoiseOverSilent-NewUI/Library.old
 /NoiseOverSilent-NewUI/infra/ComfyUI
+/NoiseOverSilent-NewUI/tools/ImagesGenerator
