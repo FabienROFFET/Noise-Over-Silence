@@ -3,12 +3,19 @@
 // FILE    : SoundManager.cs
 // PATH    : Assets/Scripts/Managers/
 // CREATED : 2026-02-21
-// VERSION : 1.1
-// CHANGES : v1.0 - 2026-02-21 - Initial version
-// DESC    : Manages all game audio - SFX and music
+// VERSION : 2.0
+// CHANGES : v2.0 - 2026-03-17 - Added PlaySoundscape() loading from
+//                                StreamingAssets via UnityWebRequest.
+//                                Added StopSoundscape().
+//           v1.1 - 2026-02-21 - Voice over support
+//           v1.0 - 2026-02-21 - Initial version
+// DESC    : Manages all game audio — soundscapes, SFX, voice-overs, music.
 // ============================================================
 
+using System.Collections;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace NoiseOverSilent.Managers
 {
@@ -16,28 +23,30 @@ namespace NoiseOverSilent.Managers
     {
         [Header("Audio Sources")]
         [SerializeField] private AudioSource musicSource;
+        [SerializeField] private AudioSource soundscapeSource;  // NEW: per-event ambient
         [SerializeField] private AudioSource sfxSource;
         [SerializeField] private AudioSource voiceOverSource;
 
-        [Header("Music")]
+        [Header("Music (assign in Inspector or via Resources)")]
         [SerializeField] private AudioClip backgroundMusic;
         [SerializeField] private AudioClip landingPageMusic;
         [SerializeField] private float musicVolume = 0.2f;
 
-        [Header("UI Sounds")]
+        [Header("UI Sounds (assign in Inspector or via Resources)")]
         [SerializeField] private AudioClip buttonHover;
         [SerializeField] private AudioClip buttonClick;
         [SerializeField] private AudioClip panelSlide;
         [SerializeField] private AudioClip typing;
 
-        [Header("Settings")]
-        [SerializeField] private float sfxVolume = 0.3f;
+        [Header("Volumes")]
+        [SerializeField] private float sfxVolume       = 0.5f;
+        [SerializeField] private float soundscapeVolume = 0.35f;
 
         private static SoundManager instance;
 
+        // ── LIFECYCLE ──────────────────────────────────────────────────────
         private void Awake()
         {
-            // Singleton pattern
             if (instance == null)
             {
                 instance = this;
@@ -50,163 +59,216 @@ namespace NoiseOverSilent.Managers
             }
 
             SetupAudioSources();
+            TryLoadDefaultClipsFromResources();
         }
 
         private void Start()
         {
-            PlayMusic();
+            PlayLandingMusic();
         }
 
         private void SetupAudioSources()
         {
-            if (musicSource == null)
-            {
-                musicSource = gameObject.AddComponent<AudioSource>();
-                musicSource.loop = true;
-                musicSource.playOnAwake = false;
-            }
-
-            if (sfxSource == null)
-            {
-                sfxSource = gameObject.AddComponent<AudioSource>();
-                sfxSource.loop = false;
-                sfxSource.playOnAwake = false;
-            }
-
-            if (voiceOverSource == null)
-            {
-                voiceOverSource = gameObject.AddComponent<AudioSource>();
-                voiceOverSource.loop = false;
-                voiceOverSource.playOnAwake = false;
-            }
-
-            musicSource.volume = musicVolume;
-            sfxSource.volume = sfxVolume;
-            voiceOverSource.volume = 0.8f;
+            musicSource      = EnsureSource("MusicSource",      loop: true,  vol: musicVolume);
+            soundscapeSource = EnsureSource("SoundscapeSource", loop: true,  vol: soundscapeVolume);
+            sfxSource        = EnsureSource("SFXSource",        loop: false, vol: sfxVolume);
+            voiceOverSource  = EnsureSource("VOSource",         loop: false, vol: 0.8f);
         }
 
-        private void PlayMusic()
+        private AudioSource EnsureSource(string label, bool loop, float vol)
         {
-            if (backgroundMusic != null && musicSource != null)
-            {
-                musicSource.clip = backgroundMusic;
-                musicSource.Play();
-                Debug.Log("[SoundManager v1.0] Background music started");
-            }
+            GameObject go = new GameObject(label);
+            go.transform.SetParent(transform);
+            AudioSource src = go.AddComponent<AudioSource>();
+            src.loop        = loop;
+            src.playOnAwake = false;
+            src.volume      = vol;
+            return src;
         }
 
-        // Public methods for playing sounds
-        public static void PlayButtonHover()
+        // Try loading UI clips from Resources/Audio/UI/ so no manual wiring needed
+        private void TryLoadDefaultClipsFromResources()
         {
-            if (instance != null && instance.buttonHover != null)
-                instance.sfxSource.PlayOneShot(instance.buttonHover);
+            if (buttonHover  == null) buttonHover  = Resources.Load<AudioClip>("Audio/UI/ButtonHover");
+            if (buttonClick  == null) buttonClick  = Resources.Load<AudioClip>("Audio/UI/ButtonClick");
+            if (panelSlide   == null) panelSlide   = Resources.Load<AudioClip>("Audio/UI/PanelSlide");
+            if (typing       == null) typing       = Resources.Load<AudioClip>("Audio/UI/Typing");
+            if (backgroundMusic   == null) backgroundMusic   = Resources.Load<AudioClip>("Audio/Music/BackgroundMusic");
+            if (landingPageMusic  == null) landingPageMusic  = Resources.Load<AudioClip>("Audio/Music/LandingMusic");
         }
 
-        public static void PlayButtonClick()
+        // ── SOUNDSCAPE (StreamingAssets) ───────────────────────────────────
+        /// <summary>
+        /// Loads and plays a soundscape from StreamingAssets.
+        /// path is relative to StreamingAssets, e.g. "audio/Morning-Hum.mp3"
+        /// </summary>
+        public static void PlaySoundscape(string relativePath)
         {
-            if (instance != null && instance.buttonClick != null)
-                instance.sfxSource.PlayOneShot(instance.buttonClick);
-        }
-
-        public static void PlayPanelSlide()
-        {
-            if (instance != null && instance.panelSlide != null)
-                instance.sfxSource.PlayOneShot(instance.panelSlide);
-        }
-
-        public static void PlayTyping()
-        {
-            if (instance != null && instance.typing != null)
-                instance.sfxSource.PlayOneShot(instance.typing);
-        }
-
-        // Volume controls
-        public static void SetMusicVolume(float volume)
-        {
-            if (instance != null && instance.musicSource != null)
-            {
-                instance.musicSource.volume = Mathf.Clamp01(volume);
-                instance.musicVolume = volume;
-            }
-        }
-
-        public static void SetSFXVolume(float volume)
-        {
-            if (instance != null && instance.sfxSource != null)
-            {
-                instance.sfxSource.volume = Mathf.Clamp01(volume);
-                instance.sfxVolume = volume;
-            }
-        }
-
-        // Voice Over methods
-        public static void PlayVoiceOver(string voPath)
-        {
-            Debug.Log($"[SoundManager v1.1] PlayVoiceOver called with: '{voPath}'");
-            
             if (instance == null)
             {
-                Debug.LogError("[SoundManager v1.1] Instance is NULL! Cannot play voice over.");
+                Debug.LogWarning("[SoundManager v2.0] No instance — cannot play soundscape.");
                 return;
             }
+            instance.StartCoroutine(instance.LoadSoundscapeCoroutine(relativePath));
+        }
 
-            string fullPath = $"Audio/VoiceOvers/{voPath}";
-            Debug.Log($"[SoundManager v1.1] Attempting to load from: Resources/{fullPath}");
-            
-            AudioClip voClip = Resources.Load<AudioClip>(fullPath);
-            
-            if (voClip != null)
+        public static void StopSoundscape()
+        {
+            if (instance != null && instance.soundscapeSource != null)
             {
-                Debug.Log($"[SoundManager v1.1] Voice over clip loaded successfully! Duration: {voClip.length}s");
-                
-                if (instance.voiceOverSource == null)
-                {
-                    Debug.LogError("[SoundManager v1.1] voiceOverSource is NULL!");
-                    return;
-                }
-                
-                instance.voiceOverSource.clip = voClip;
-                instance.voiceOverSource.Play();
-                Debug.Log($"[SoundManager v1.1] Playing voice over: {voPath}");
+                instance.soundscapeSource.Stop();
+                instance.soundscapeSource.clip = null;
             }
-            else
+        }
+
+        private IEnumerator LoadSoundscapeCoroutine(string relativePath)
+        {
+            string fullPath = Path.Combine(Application.streamingAssetsPath, relativePath);
+
+            // Unity requires "file://" prefix on desktop; Android uses plain path
+            string url = fullPath;
+#if !UNITY_ANDROID || UNITY_EDITOR
+            url = "file://" + fullPath;
+#endif
+
+            // Determine AudioType from extension
+            AudioType audioType = AudioType.UNKNOWN;
+            string ext = Path.GetExtension(relativePath).ToLower();
+            if (ext == ".mp3")  audioType = AudioType.MPEG;
+            else if (ext == ".wav")  audioType = AudioType.WAV;
+            else if (ext == ".ogg")  audioType = AudioType.OGGVORBIS;
+
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, audioType))
             {
-                Debug.LogWarning($"[SoundManager v1.1] Voice over NOT FOUND at: Resources/{fullPath}");
-                Debug.LogWarning($"[SoundManager v1.1] Make sure file exists: Assets/Resources/{fullPath}.mp3 (or .wav/.ogg)");
+                yield return www.SendWebRequest();
+
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+                    soundscapeSource.clip   = clip;
+                    soundscapeSource.loop   = true;
+                    soundscapeSource.volume = soundscapeVolume;
+                    soundscapeSource.Play();
+                    Debug.Log($"[SoundManager v2.0] Soundscape playing: {relativePath}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[SoundManager v2.0] Soundscape not found: {fullPath}\n{www.error}");
+                }
+            }
+        }
+
+        // ── VOICE OVER (StreamingAssets) ───────────────────────────────────
+        public static void PlayVoiceOver(string relativePath)
+        {
+            if (instance == null) return;
+            instance.StartCoroutine(instance.LoadVoiceOverCoroutine(relativePath));
+        }
+
+        private IEnumerator LoadVoiceOverCoroutine(string relativePath)
+        {
+            string fullPath = Path.Combine(Application.streamingAssetsPath, relativePath);
+            string url = fullPath;
+#if !UNITY_ANDROID || UNITY_EDITOR
+            url = "file://" + fullPath;
+#endif
+            string ext = Path.GetExtension(relativePath).ToLower();
+            AudioType audioType = ext == ".mp3" ? AudioType.MPEG
+                                : ext == ".ogg" ? AudioType.OGGVORBIS
+                                : AudioType.WAV;
+
+            using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(url, audioType))
+            {
+                yield return www.SendWebRequest();
+                if (www.result == UnityWebRequest.Result.Success)
+                {
+                    voiceOverSource.clip = DownloadHandlerAudioClip.GetContent(www);
+                    voiceOverSource.Play();
+                    Debug.Log($"[SoundManager v2.0] VoiceOver playing: {relativePath}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[SoundManager v2.0] VoiceOver not found: {fullPath}");
+                }
             }
         }
 
         public static void StopVoiceOver()
         {
-            if (instance != null && instance.voiceOverSource != null)
-            {
-                instance.voiceOverSource.Stop();
-            }
+            if (instance != null) instance.voiceOverSource?.Stop();
         }
 
-        // Landing page music
+        // ── MUSIC ──────────────────────────────────────────────────────────
         public static void PlayLandingMusic()
         {
             if (instance == null) return;
-
-            if (instance.landingPageMusic != null && instance.musicSource != null)
+            AudioClip clip = instance.landingPageMusic ?? instance.backgroundMusic;
+            if (clip != null)
             {
-                instance.musicSource.clip = instance.landingPageMusic;
+                instance.musicSource.clip = clip;
                 instance.musicSource.Play();
-                Debug.Log("[SoundManager v1.1] Landing page music started");
+                Debug.Log("[SoundManager v2.0] Landing music started.");
             }
         }
 
         public static void PlayGameMusic()
         {
             if (instance == null) return;
-
-            if (instance.backgroundMusic != null && instance.musicSource != null)
+            if (instance.backgroundMusic != null)
             {
                 instance.musicSource.clip = instance.backgroundMusic;
                 instance.musicSource.Play();
-                Debug.Log("[SoundManager v1.1] Game music started");
+                Debug.Log("[SoundManager v2.0] Game music started.");
             }
+        }
+
+        public static void StopMusic()
+        {
+            if (instance != null) instance.musicSource?.Stop();
+        }
+
+        // ── UI SFX ─────────────────────────────────────────────────────────
+        public static void PlayButtonHover()
+        {
+            if (instance?.buttonHover != null)
+                instance.sfxSource.PlayOneShot(instance.buttonHover);
+        }
+
+        public static void PlayButtonClick()
+        {
+            if (instance?.buttonClick != null)
+                instance.sfxSource.PlayOneShot(instance.buttonClick);
+        }
+
+        public static void PlayPanelSlide()
+        {
+            if (instance?.panelSlide != null)
+                instance.sfxSource.PlayOneShot(instance.panelSlide);
+        }
+
+        public static void PlayTyping()
+        {
+            if (instance?.typing != null)
+                instance.sfxSource.PlayOneShot(instance.typing);
+        }
+
+        // ── VOLUME CONTROLS ────────────────────────────────────────────────
+        public static void SetMusicVolume(float v)
+        {
+            if (instance?.musicSource != null)
+                instance.musicSource.volume = Mathf.Clamp01(v);
+        }
+
+        public static void SetSFXVolume(float v)
+        {
+            if (instance?.sfxSource != null)
+                instance.sfxSource.volume = Mathf.Clamp01(v);
+        }
+
+        public static void SetSoundscapeVolume(float v)
+        {
+            if (instance?.soundscapeSource != null)
+                instance.soundscapeSource.volume = Mathf.Clamp01(v);
         }
     }
 }
