@@ -1,88 +1,249 @@
 {
   "chapter": {
     "number": 1,
-    "title": "Minor Deviations",
+    "title": "The Mathematics of Conscience",
     "intro_image": "Images/Chapters/chapter1_intro",
-    "intro_duration": 4.0
+    "intro_duration": 3.0
   },
   "episode": 1,
-  "title": "The Day Still Starts",
+  "title": "Episode 1 - Orientation",
+  "hidden_flags": {
+    "empathy": 0,
+    "obedience": 0,
+    "curiosity": 0
+  },
   "events": [
     {
       "id": 1,
-      "location": "Tram – Morning Commute",
-      "soundscape_mp3": "audio/Industrial-Hum.mp3",
-      "voice_over": "vo/ep1_event1_en",
-      "image_prompt": "Silent tram interior, grey dystopian Brno 2157, emotionless passengers, cold metallic lighting, oppressive atmosphere",
+      "location": "Residential Block 12 - Unit 47",
+      "soundscape_mp3": "audio/Morning-Hum.mp3",
+      "voice_over": null,
+      "image_prompt": "Cramped brutalist apartment, harsh grey dawn light cutting through single window, concrete walls closing in, minimalist prison-like room, oppressive geometry",
       "image_link": "images/ep1_event1.png",
-      "stats": { "physical": 100, "mental": 90 },
-      "inventory": { "items": ["Identification Badge"], "tapes": [] },
-      "text": "The tram arrives without announcement, without friction, without the courtesy of sound. It simply aligns itself with the platform as if it had always been there and you merely noticed it late. The doors separate with surgical precision. No hiss. No mechanical fatigue.\n\nYou step inside with the others. No one pushes. No one hesitates. The spacing between bodies is too even to be coincidence, too natural to be enforced. You sit. The seat is cold but not uncomfortable. It feels designed for compliance.\n\nOutside, Brno slides past in flattened tones of grey and diluted copper. Towers like ledgers. Streets like ruled paper. Everything aligned. Everything accounted for.\n\nThen something shifts.\n\nIt is small.\nIt is obscene.\n\nThe tram occupies two positions at once.\n\nOne version slightly ahead along the rail.\nOne slightly behind.\n\nFor less than a heartbeat you perceive both.\nTwo realities sharing the same space like overlapping reflections in imperfect glass.\n\nThen the world tightens.\nThe rear version vanishes.\nThe forward version remains.\n\nNo one reacts.\nNo breath sharpens.\nNo eyes widen.\n\nThe city continues, obedient.",
+      "stats": { "physical": 100, "mental": 95 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter (Sealed)"], "tapes": [] },
+      "text": "The alarm dies three seconds before your eyes open. This precision disturbs you, though you cannot say why. The ceiling crack resembles a question mark. Or it always has. Memory offers no testimony. The letter on your table assigns you to something you never requested. Perhaps you did request it. Perhaps requesting and not requesting have become the same act.",
       "choices": [
-        { "text": "|| It was a trick of perception. Fatigue distorts edges. You should not look for patterns where none exist.", "next_event": 2 },
-        { "text": "|| If the tram split, something chose which version remained. The question is not what you saw, but who decided.", "next_event": 3 },
-        { "text": "|| Observe the passengers carefully. If reality shifted, someone must have felt it.", "next_event": 4 }
+        { "text": "Break the seal", "next_event": 2, "flags": { "curiosity": 1 } },
+        { "text": "Leave it sealed", "next_event": 3, "flags": { "obedience": 1 } }
       ]
     },
     {
       "id": 2,
-      "location": "Tram – Interior",
-      "soundscape_mp3": "audio/Low-Drone.mp3",
-      "voice_over": "vo/ep1_event2_en",
-      "image_prompt": "Muted tram interior, passengers emotionless, dim grey lighting, oppressive stillness",
+      "location": "Apartment",
+      "soundscape_mp3": "audio/Paper-Rustle.mp3",
+      "voice_over": null,
+      "image_prompt": "Official document with red wax seal broken, bureaucratic text, Department of Cohesion emblem casting shadow, grey paper under cold fluorescent light, sense of violation",
       "image_link": "images/ep1_event2.png",
       "stats": { "physical": 100, "mental": 92 },
-      "inventory": { "items": ["Identification Badge"], "tapes": [] },
-      "text": "You lower your gaze. Concrete pillars pass outside at predictable intervals. Predictability is a comfort. Predictability is proof.\n\nYour pulse slows deliberately, as if responding to instruction.\n\nThe mind is unreliable. It fills silence with invention. You know this. You work with projections, probabilities, statistical anomalies. A momentary overlap of perception is nothing more than neural misfire.\n\nAnd yet.\n\nYou become aware of a faint vibration beneath your feet. Not mechanical. Not rhythmic.\n\nCorrective.\n\nThe tram glides onward. The sensation fades the moment you attempt to isolate it.\n\nThe world rewards your refusal to question it.\n\nFor now.",
+      "inventory": { "items": ["Transit Pass", "Assignment Letter (Open)"], "tapes": [] },
+      "text": "Division of Trajectory Analysis. Floor 11. Station 47-C. The words carry the authority of axioms. Monitor variance. Maintain coherence. You search your memory for the act of application. The search itself feels borrowed. As if someone else is searching through you.",
       "choices": [
-        { "text": "Maintain composure. Routine is stability. Stability is survival.", "next_event": 5 },
-        { "text": "Even if it was nothing, the body reacted first. Trust the body over the explanation.", "next_event": 3 }
+        { "text": "Fold it with trembling hands", "next_event": 3 }
       ]
     },
     {
       "id": 3,
-      "location": "Tram – Window",
-      "soundscape_mp3": "audio/City-Wind-Distant.mp3",
-      "voice_over": "vo/ep1_event3_en",
-      "image_prompt": "Dystopian Brno street from tram window, slight visual distortion in air, muted brutalist city",
+      "location": "Transit Station Alpha-7",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": null,
+      "image_prompt": "Underground metro station, workers in grey moving in perfect unison like clockwork, fluorescent lights creating harsh shadows, brutalist architecture crushing human scale",
       "image_link": "images/ep1_event3.png",
-      "stats": { "physical": 100, "mental": 82 },
-      "inventory": { "items": ["Identification Badge"], "tapes": [] },
-      "text": "You look through the window again, deliberately this time.\n\nA pedestrian approaches a crossing. A car moves too fast. The geometry of impact assembles in your mind with brutal clarity.\n\nYou see the collision.\nYou see her body thrown forward.\nYou see the arc of blood against compliant asphalt.\nYou see the driver’s face collapse inward.\n\nThe future exists. Fully formed.\n\nThen the woman hesitates.\nHalf a step less than she intended.\nThe car passes cleanly.\n\nThe violent future dissolves without residue.\n\nYour throat tightens.\n\nYou did not imagine the accident.\nYou witnessed a branch that did not survive.",
+      "stats": { "physical": 100, "mental": 90 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "The crowd moves with mathematical precision. Bodies as variables in an equation already solved. You have stood here before. Not yesterday. Not last week. Before time began counting itself. The station remembers you better than you remember the station.",
       "choices": [
-        { "text": "This is probability. The mind simulates outcomes constantly. Nothing supernatural occurred.", "next_event": 5 },
-        { "text": "If branches are visible, they are being trimmed. You need to know who holds the shears.", "next_event": 6 }
+        { "text": "Enter the train", "next_event": 4 },
+        { "text": "Study their faces", "next_event": 5, "flags": { "curiosity": 1 } }
       ]
     },
     {
       "id": 4,
-      "location": "Tram – Interior",
-      "soundscape_mp3": "audio/Low-Static.mp3",
-      "voice_over": "vo/ep1_event4_en",
-      "image_prompt": "Close-up of passengers in tram, emotionless faces, faint distortion in reflection",
+      "location": "Department of Cohesion - Entrance",
+      "soundscape_mp3": "audio/Fluorescent-Hum.mp3",
+      "voice_over": null,
+      "image_prompt": "Monolithic brutalist government tower blotting out grey sky, concrete facade without windows, entrance like a mouth, oppressive scale",
       "image_link": "images/ep1_event4.png",
-      "stats": { "physical": 100, "mental": 80 },
-      "inventory": { "items": ["Identification Badge"], "tapes": [] },
-      "text": "You study the passengers one by one.\n\nA woman with tired eyes. A man in a gray coat. A student holding a data-slate. Their breathing is synchronized more closely than chance allows.\n\nThe man in the gray coat blinks.\nToo late.\nAs if his eyelids received the instruction after the correction completed.\n\nFor a fraction of a second, your reflection in the window lags behind your movement.\nYou turn your head.\nThe reflection turns after you.\n\nThe delay is microscopic.\nIt is devastating.\n\nThe man in gray meets your gaze.\nHe does not look surprised.\nHe looks calibrated.",
+      "stats": { "physical": 100, "mental": 88 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "The Department does not rise from the earth. It has always been here, and the earth arranged itself around it. The security apparatus measures something inside your skull. The pause extends. In that half-second, you understand that hesitation is already guilt. The green light absolves nothing.",
       "choices": [
-        { "text": "Look away. Survival depends on not being noticed.", "next_event": 5 },
-        { "text": "Hold his gaze. If there is awareness, you will force it into the open.", "next_event": 6 }
+        { "text": "Proceed to Floor 11", "next_event": 6 }
       ]
     },
     {
       "id": 5,
-      "location": "Department of Structural Cohesion – Lobby",
-      "soundscape_mp3": "audio/Interior-Pressure.mp3",
-      "voice_over": "vo/ep1_event5_en",
-      "image_prompt": "Massive brutalist government interior, high ceilings, grey marble, oppressive symmetry",
+      "location": "Transit Platform",
+      "soundscape_mp3": "audio/Low-Static.mp3",
+      "voice_over": null,
+      "image_prompt": "Mass of identical grey-clothed workers, one woman's face frozen mid-blink, eyes not quite synchronized with the others, uncanny valley effect",
       "image_link": "images/ep1_event5.png",
-      "stats": { "physical": 100, "mental": 78 },
-      "inventory": { "items": ["Identification Badge"], "tapes": [] },
-      "text": "The Department building absorbs you without resistance.\n\nNo ornamentation.\nNo excess geometry.\nOnly structure.\n\nYour badge unlocks the entrance before you consciously present it.\n\nInside, the air feels heavier than outside. Not humid. Not warm.\nDense.\n\nAs if more reality is packed into each cubic meter.\n\nWorkstations extend in ordered rows. Each screen activates as its assigned employee approaches. No commands are spoken.\n\nYour terminal illuminates.\n\nTrajectory Adjustment Review – Subject B-741.\n\nProbability branches unfold across the display like vascular systems.\nRed lines thicken toward a single outcome labeled:\n\nDeviation Risk: Escalating.\n\nBelow it:\nMinor Neural Recadrement Required.\n\nThe word “minor” feels administrative.\nNot descriptive.",
+      "stats": { "physical": 100, "mental": 87 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter"], "tapes": [] },
+      "text": "The woman's eyelid descends a fraction too slowly. Or too quickly. The desynchronization lasts less than a heartbeat. When her eyes align with the others, you realize the disruption was not in her rhythm. It was in your perception of her rhythm. The error is yours. The error has always been yours.",
       "choices": [
-        { "text": "Approve the correction. It is procedural. You are not here to question trajectory mathematics.", "next_event": 7 },
-        { "text": "Expand the full branch analysis. If a life bends, you should see the direction.", "next_event": 8 },
-        { "text": "Hesitate. Observe the room first. See if anything shifts when you delay.", "next_event": 9 }
+        { "text": "Board the train", "next_event": 4 }
+      ]
+    },
+    {
+      "id": 6,
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Computer-Room.mp3",
+      "voice_over": null,
+      "image_prompt": "Claustrophobic office cubicle, terminal displaying cascading probability data, no windows, fluorescent light humming, prison-like workspace",
+      "image_link": "images/ep1_event6.png",
+      "stats": { "physical": 100, "mental": 85 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The dashboard presents human lives as probability distributions. SIMULATION SUBJECTS, the header declares. They are not real, you are informed. The question of whether you are real enough to make that determination goes unasked. Asking would be variance. Variance must be corrected.",
+      "choices": [
+        { "text": "Begin your work", "next_event": 7, "flags": { "obedience": 1 } },
+        { "text": "Read the documentation", "next_event": 8, "flags": { "curiosity": 1 } }
+      ]
+    },
+    {
+      "id": 7,
+      "location": "Active Monitoring",
+      "soundscape_mp3": "audio/Data-Stream.mp3",
+      "voice_over": null,
+      "image_prompt": "Child's profile data on screen, branching decision trees like neural pathways, innocent face surrounded by probability calculations",
+      "image_link": "images/ep1_event7.png",
+      "stats": { "physical": 100, "mental": 83 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Subject 7-1201. Female. Nine years old. She has told a lie to her mother. Seventeen possible futures branch from this moment. In one branch, guilt teaches her conscience. In another, successful deception teaches her strategy. The system recommends collapse. Childhood, it seems, is inefficient.",
+      "choices": [
+        { "text": "Eliminate her choices", "next_event": 9, "flags": { "obedience": 2 } },
+        { "text": "Let her carry the weight", "next_event": 10, "flags": { "empathy": 2 } }
+      ]
+    },
+    {
+      "id": 8,
+      "location": "Documentation Interface",
+      "soundscape_mp3": "audio/Low-Hum.mp3",
+      "voice_over": null,
+      "image_prompt": "Heavily redacted government document on screen, black censorship bars, warnings in red text, bureaucratic language hiding truth",
+      "image_link": "images/ep1_event8.png",
+      "stats": { "physical": 100, "mental": 82 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "WARNING: Synchronization effects documented in 0.3% of analysts. Symptoms include: déjà vu (chronic), identity drift (progressive), recursive awareness (terminal). The parenthetical modifiers suggest these are not bugs. They are features operating outside acceptable parameters.",
+      "choices": [
+        { "text": "Return to your station", "next_event": 7 }
+      ]
+    },
+    {
+      "id": 9,
+      "location": "Correction Interface",
+      "soundscape_mp3": "audio/System-Active.mp3",
+      "voice_over": null,
+      "image_prompt": "Single illuminated button on dark interface, particle injection system controls, clinical and cold, instrument of erasure",
+      "image_link": "images/ep1_event9.png",
+      "stats": { "physical": 100, "mental": 78 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Your finger descends. The button accepts the pressure with mechanical indifference. Subject 7-1201's probability cloud collapses to a single line. She will forget the lie. She will forget that forgetting was forced upon her. You feel relief. Then your stomach turns. Relief and nausea are not opposites. They are the same recognition arriving through different doors.",
+      "choices": [
+        { "text": "Continue monitoring", "next_event": 11 }
+      ]
+    },
+    {
+      "id": 10,
+      "location": "Active Monitoring",
+      "soundscape_mp3": "audio/Data-Stream.mp3",
+      "voice_over": null,
+      "image_prompt": "Warning indicators escalating on screen, amber alerts pulsing, deviation percentage climbing in real-time",
+      "image_link": "images/ep1_event10.png",
+      "stats": { "physical": 100, "mental": 79 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "The deviation metric climbs: 8.4%. Your supervisor's message arrives with the inevitability of a mathematical proof. 'Variance requires correction.' Your hesitation is measured in milliseconds. The system logs milliseconds. Mercy, it seems, can be quantified. And therefore eliminated.",
+      "choices": [
+        { "text": "Correct immediately", "next_event": 9, "flags": { "obedience": 1 } },
+        { "text": "Let the child suffer longer", "next_event": 12, "flags": { "empathy": 1 } }
+      ]
+    },
+    {
+      "id": 11,
+      "location": "Active Monitoring",
+      "soundscape_mp3": "audio/Alert-Tone.mp3",
+      "voice_over": null,
+      "image_prompt": "Young man's anguished face on monitor, probability clouds fracturing into chaos, data corruption spreading like infection",
+      "image_link": "images/ep1_event11.png",
+      "stats": { "physical": 100, "mental": 75 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Subject 7-6634. Stanislav Novák. Twenty-three years old. He has arrived at the question that ends all questions: 'Are my thoughts mine?' Deviation spikes to 32%. Then 41%. The screen flickers. In the corruption, you see your own designation. ANALYST 47-C. You are also a number being monitored. The thought is not new. You have thought it before. Many times before.",
+      "choices": [
+        { "text": "Destroy his question", "next_event": 13, "flags": { "obedience": 2 } },
+        { "text": "Let him ask longer", "next_event": 14, "flags": { "curiosity": 2 } }
+      ]
+    },
+    {
+      "id": 12,
+      "location": "Critical Variance",
+      "soundscape_mp3": "audio/Critical-Alert.mp3",
+      "voice_over": null,
+      "image_prompt": "Split screen showing subject's neural chaos and building-wide synchronization spike, systems bleeding into each other",
+      "image_link": "images/ep1_event12.png",
+      "stats": { "physical": 100, "mental": 72 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Blood. Your nose is bleeding. You have not moved. Twenty-three floors above, someone collapses. The event log shows simultaneous timestamp. SYNCHRONIZATION SPIKE DETECTED. The child's suffering has opened a seam in reality. Or reality was always torn, and you are only now bleeding through the gap.",
+      "choices": [
+        { "text": "Seal the wound", "next_event": 13 },
+        { "text": "Document the bleeding", "next_event": 15 }
+      ]
+    },
+    {
+      "id": 13,
+      "location": "Post-Correction",
+      "soundscape_mp3": "audio/System-Active.mp3",
+      "voice_over": null,
+      "image_prompt": "Stabilized neural patterns on screen, green confirmation indicators, false peace restored",
+      "image_link": "images/ep1_event13.png",
+      "stats": { "physical": 100, "mental": 70 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Stanislav stops asking. The building's electromagnetic hum returns to baseline. Your headache evaporates. COHERENCE RESTORED, the system confirms. You have murdered a question. The corpse will decompose quietly in Stanislav's amygdala. He will sleep better. You will not.",
+      "choices": [
+        { "text": "Clock out", "next_event": 16 }
+      ]
+    },
+    {
+      "id": 14,
+      "location": "Critical Variance",
+      "soundscape_mp3": "audio/Critical-Alert.mp3",
+      "voice_over": null,
+      "image_prompt": "Subject's lips forming words on screen - 'Am I real?' - camera perspective suddenly inverted",
+      "image_link": "images/ep1_event14.png",
+      "stats": { "physical": 100, "mental": 68 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Stanislav's lips move. 'What if someone is watching me?' The screen glitches. The camera angle inverts. For one frame, you see your own workstation from behind. From above. From the perspective of something that should not exist. The angle is impossible. The angle is true.",
+      "choices": [
+        { "text": "Erase him", "next_event": 13 },
+        { "text": "Turn around", "next_event": 15 }
+      ]
+    },
+    {
+      "id": 15,
+      "location": "Station 47-C",
+      "soundscape_mp3": "audio/Low-Static.mp3",
+      "voice_over": null,
+      "image_prompt": "Office cubicle from impossible overhead angle, as if viewed through surveillance that should not exist",
+      "image_link": "images/ep1_event15.png",
+      "stats": { "physical": 100, "mental": 65 },
+      "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
+      "text": "Your chair. Your desk. Your monitor. All in their correct positions. The office is empty. It has always been empty. But you are not alone. Your own terminal betrays you with a flash: TRAJECTORY ANALYST 47-C - STABILITY 74% - VARIANCE ACCEPTABLE. The screen goes dark. The message was not for you. It was about you. For someone else.",
+      "choices": [
+        { "text": "Forget what you saw", "next_event": 16, "flags": { "obedience": 1 } },
+        { "text": "Remember everything", "next_event": 16, "flags": { "curiosity": 1 } }
+      ]
+    },
+    {
+      "id": 16,
+      "location": "Transit Car - Evening",
+      "soundscape_mp3": "audio/Transit-Drone.mp3",
+      "voice_over": null,
+      "image_prompt": "Reflection in dark metro window, grey city lights smearing past, face watching itself watch the city",
+      "image_link": "images/ep1_event16.png",
+      "stats": { "physical": 90, "mental": 72 },
+      "inventory": { "items": ["Transit Pass", "Department ID"], "tapes": [] },
+      "text": "Your reflection observes the city. Or the city observes you through your reflection. The distinction has collapsed. The automated voice: 'Welcome to your first day.'\n\nSilence.\n\n'Welcome to your first day.'\n\nThe repetition is not an error. The error is believing there was ever a second day. Or that days are countable things. Or that you are the one counting.",
+      "choices": [
+        { "text": "End of Chapter 1", "next_event": 0 }
       ]
     }
   ]
