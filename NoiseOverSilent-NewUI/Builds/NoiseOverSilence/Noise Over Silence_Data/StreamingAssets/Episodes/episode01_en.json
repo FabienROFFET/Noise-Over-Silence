@@ -25,22 +25,30 @@
       "text": "The alarm dies three seconds before your eyes open. This precision disturbs you, though you cannot say why. The ceiling crack resembles a question mark. Or it always has. Memory offers no testimony. The letter on your table assigns you to something you never requested. Perhaps you did request it. Perhaps requesting and not requesting have become the same act.",
       "hotspots": [
         {
-          "x": 0.7,
-          "y": 0.3,
+          "x": 0.3, "y": 0.9,
           "text": "The ceiling crack spreads like a fissure through marble. You have traced its path seventeen mornings in a row. Or seventeen thousand. The number refuses to stabilize.",
-          "radius": 18
+          "radius": 18,
+          "type": "text"
         },
         {
-          "x": 0.5,
-          "y": 0.75,
-          "text": "The assignment letter lies sealed. Red wax bearing the Department's emblem - a circle bisected by a perfect line. Balance. Coherence. Control. The seal has not been broken. Yet you already know what it says.",
-          "radius": 22
-        },
-        {
-          "x": 0.15,
-          "y": 0.6,
+          "x": 0.90, "y": 0.2,
           "text": "A coffee cup sits cold on the windowsill. Three days old. You do not remember making it. You do not remember drinking from it. Yet your fingerprints curve perfectly along its rim.",
-          "radius": 16
+          "radius": 16,
+          "type": "text"
+        },
+        {
+          "x": 0.4, "y": 0.25,
+          "text": "Break the seal",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 2
+        },
+        {
+          "x": 0.3, "y": 0.25,
+          "text": "Leave it sealed",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 3
         }
       ],
       "choices": [
@@ -60,16 +68,23 @@
       "text": "Division of Trajectory Analysis. Floor 11. Station 47-C. The words carry the authority of axioms. Monitor variance. Maintain coherence. You search your memory for the act of application. The search itself feels borrowed. As if someone else is searching through you.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.5,
+          "x": 0.5, "y": 0.5,
           "text": "The header reads: 'ASSIGNMENT NON-NEGOTIABLE'. Below, in smaller print: 'Refusal constitutes variance. Variance constitutes correction.' The logic is circular. Perfect. Inescapable.",
-          "radius": 25
+          "radius": 25,
+          "type": "text"
         },
         {
-          "x": 0.3,
-          "y": 0.7,
+          "x": 0.3, "y": 0.7,
           "text": "The broken wax lies in fragments on your table. Red shards like dried blood. You try to remember the sound it made when it cracked. The memory refuses to form.",
-          "radius": 18
+          "radius": 18,
+          "type": "text"
+        },
+        {
+          "x": 0.6, "y": 0.3,
+          "text": "Fold it with trembling hands",
+          "radius": 26,
+          "type": "choice",
+          "next_event": 3
         }
       ],
       "choices": [
@@ -88,22 +103,36 @@
       "text": "The crowd moves with mathematical precision. Bodies as variables in an equation already solved. You have stood here before. Not yesterday. Not last week. Before time began counting itself. The station remembers you better than you remember the station.",
       "hotspots": [
         {
-          "x": 0.25,
-          "y": 0.5,
+          "x": 0.25, "y": 0.5,
           "text": "A woman in grey stands perfectly still as the crowd flows around her. She blinks. Once. The rhythm is wrong. Then she synchronizes again. You realize you were holding your breath.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
         },
         {
-          "x": 0.75,
-          "y": 0.3,
+          "x": 0.75, "y": 0.3,
           "text": "The departure board flickers. For one frame, every destination reads the same: 'COHERENCE'. Then it returns to normal. You are the only one who noticed. Or the only one who looked.",
-          "radius": 22
+          "radius": 22,
+          "type": "text"
         },
         {
-          "x": 0.5,
-          "y": 0.8,
+          "x": 0.5, "y": 0.8,
           "text": "Floor tiles worn smooth by millions of identical footsteps. The pattern of erosion is too precise. As if the crowd has always walked exactly here. Will always walk exactly here.",
-          "radius": 18
+          "radius": 18,
+          "type": "text"
+        },
+        {
+          "x": 0.55, "y": 0.55,
+          "text": "Board the train",
+          "radius": 22,
+          "type": "choice",
+          "next_event": 4
+        },
+        {
+          "x": 0.2, "y": 0.45,
+          "text": "Study their faces",
+          "radius": 22,
+          "type": "choice",
+          "next_event": 5
         }
       ],
       "choices": [
@@ -123,16 +152,23 @@
       "text": "The Department does not rise from the earth. It has always been here, and the earth arranged itself around it. The security apparatus measures something inside your skull. The pause extends. In that half-second, you understand that hesitation is already guilt. The green light absolves nothing.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.25,
+          "x": 0.5, "y": 0.25,
           "text": "The building has no windows. Only the entrance - a geometric wound in concrete. Above it, letters one meter tall: DEPARTMENT OF COHESION. The serif font suggests permanence. Eternity. Inevitability.",
-          "radius": 24
+          "radius": 24,
+          "type": "text"
         },
         {
-          "x": 0.4,
-          "y": 0.65,
+          "x": 0.4, "y": 0.65,
           "text": "The security scanner hums at a frequency just below hearing. You feel it in your teeth. In your spine. It is reading something deeper than flesh.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
+        },
+        {
+          "x": 0.5, "y": 0.5,
+          "text": "Proceed to Floor 11",
+          "radius": 26,
+          "type": "choice",
+          "next_event": 6
         }
       ],
       "choices": [
@@ -151,16 +187,23 @@
       "text": "The woman's eyelid descends a fraction too slowly. Or too quickly. The desynchronization lasts less than a heartbeat. When her eyes align with the others, you realize the disruption was not in her rhythm. It was in your perception of her rhythm. The error is yours. The error has always been yours.",
       "hotspots": [
         {
-          "x": 0.45,
-          "y": 0.4,
+          "x": 0.45, "y": 0.4,
           "text": "Her employee badge reads: VARIANCE MONITOR 23-K. She monitors variance. She is variance. The paradox does not register on her face. Or perhaps it registers everywhere.",
-          "radius": 22
+          "radius": 22,
+          "type": "text"
         },
         {
-          "x": 0.65,
-          "y": 0.55,
+          "x": 0.65, "y": 0.55,
           "text": "The other commuters breathe in unison. Inhale for three counts. Exhale for three counts. You have been breathing with them. You do not remember when you synchronized.",
-          "radius": 18
+          "radius": 18,
+          "type": "text"
+        },
+        {
+          "x": 0.5, "y": 0.2,
+          "text": "Board the train",
+          "radius": 22,
+          "type": "choice",
+          "next_event": 4
         }
       ],
       "choices": [
@@ -179,22 +222,36 @@
       "text": "The dashboard presents human lives as probability distributions. SIMULATION SUBJECTS, the header declares. They are not real, you are informed. The question of whether you are real enough to make that determination goes unasked. Asking would be variance. Variance must be corrected.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.4,
+          "x": 0.5, "y": 0.4,
           "text": "The screen displays 8,471 active subjects. Each one a branching probability tree. Each branch a life not lived. You are responsible for pruning. The gardening metaphor feels inadequate. This is not cultivation. This is amputation.",
-          "radius": 25
+          "radius": 25,
+          "type": "text"
         },
         {
-          "x": 0.2,
-          "y": 0.7,
+          "x": 0.2, "y": 0.7,
           "text": "A motivational poster on the cubicle wall: 'COHERENCE IS KINDNESS'. Below it, in smaller text: 'Complexity is cruelty.' You do not remember hanging this poster. It has always been here.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
         },
         {
-          "x": 0.8,
-          "y": 0.3,
+          "x": 0.8, "y": 0.3,
           "text": "Your employee photo stares from the ID badge. The face is yours. The eyes are not. They belong to someone who has not yet learned what you are about to do.",
-          "radius": 18
+          "radius": 18,
+          "type": "text"
+        },
+        {
+          "x": 0.65, "y": 0.6,
+          "text": "Begin work",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 7
+        },
+        {
+          "x": 0.35, "y": 0.6,
+          "text": "Read the docs",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 8
         }
       ],
       "choices": [
@@ -214,16 +271,30 @@
       "text": "Subject 7-1201. Female. Nine years old. She has told a lie to her mother. Seventeen possible futures branch from this moment. In one branch, guilt teaches her conscience. In another, successful deception teaches her strategy. The system recommends collapse. Childhood, it seems, is inefficient.",
       "hotspots": [
         {
-          "x": 0.35,
-          "y": 0.3,
+          "x": 0.35, "y": 0.3,
           "text": "The child's file photo shows dark eyes and a gap-toothed smile. She is holding a stuffed rabbit. The rabbit is not listed in her approved possessions. Variance detected. Auto-flagged for removal.",
-          "radius": 22
+          "radius": 22,
+          "type": "text"
         },
         {
-          "x": 0.65,
-          "y": 0.6,
+          "x": 0.65, "y": 0.6,
           "text": "Decision trees bloom across the screen like cancer. Each branch represents a choice. A consequence. A life. The algorithm suggests pruning 14 of 17 branches. 'Optimal trajectory achieved,' it promises.",
-          "radius": 24
+          "radius": 24,
+          "type": "text"
+        },
+        {
+          "x": 0.75, "y": 0.75,
+          "text": "Eliminate her choices",
+          "radius": 26,
+          "type": "choice",
+          "next_event": 9
+        },
+        {
+          "x": 0.25, "y": 0.75,
+          "text": "Let her carry the weight",
+          "radius": 26,
+          "type": "choice",
+          "next_event": 10
         }
       ],
       "choices": [
@@ -240,19 +311,26 @@
       "image_link": "images/ep1_event8.png",
       "stats": { "physical": 100, "mental": 82 },
       "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
-      "text": "WARNING: Synchronization effects documented in 0.3% of analysts. Symptoms include: déjà vu (chronic), identity drift (progressive), recursive awareness (terminal). The parenthetical modifiers suggest these are not bugs. They are features operating outside acceptable parameters.",
+      "text": "WARNING: Synchronization effects documented in 0.3% of analysts. Symptoms include: deja vu (chronic), identity drift (progressive), recursive awareness (terminal). The parenthetical modifiers suggest these are not bugs. They are features operating outside acceptable parameters.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.45,
+          "x": 0.5, "y": 0.45,
           "text": "Section 4.7: 'Analysts experiencing recursive awareness should report immediately for recalibration.' The word 'recalibration' is hyperlinked. You do not click it. You already know it means erasure.",
-          "radius": 26
+          "radius": 26,
+          "type": "text"
         },
         {
-          "x": 0.3,
-          "y": 0.65,
+          "x": 0.3, "y": 0.65,
           "text": "A footnote, mostly redacted: 'Previous Analyst 47-C reported [REDACTED] before voluntary [REDACTED]. Station reassignment complete. No further incidents.' You are not the first to sit at this desk.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
+        },
+        {
+          "x": 0.5, "y": 0.2,
+          "text": "Return to station",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 7
         }
       ],
       "choices": [
@@ -271,16 +349,23 @@
       "text": "Your finger descends. The button accepts the pressure with mechanical indifference. Subject 7-1201's probability cloud collapses to a single line. She will forget the lie. She will forget that forgetting was forced upon her. You feel relief. Then your stomach turns. Relief and nausea are not opposites. They are the same recognition arriving through different doors.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.5,
+          "x": 0.5, "y": 0.5,
           "text": "The button is chrome. Perfectly smooth. Your fingerprint smudges its surface. Evidence of the choice. Evidence of the crime. You will clean it before leaving. Everyone cleans the button.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
         },
         {
-          "x": 0.6,
-          "y": 0.25,
+          "x": 0.6, "y": 0.25,
           "text": "CORRECTION APPLIED flashes green. Below: 'Subject trajectory optimized. Deviation eliminated. Coherence restored.' The text scrolls like credits at the end of a film. The film is a child's stolen future.",
-          "radius": 22
+          "radius": 22,
+          "type": "text"
+        },
+        {
+          "x": 0.5, "y": 0.8,
+          "text": "Continue monitoring",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 11
         }
       ],
       "choices": [
@@ -299,16 +384,30 @@
       "text": "The deviation metric climbs: 8.4%. Your supervisor's message arrives with the inevitability of a mathematical proof. 'Variance requires correction.' Your hesitation is measured in milliseconds. The system logs milliseconds. Mercy, it seems, can be quantified. And therefore eliminated.",
       "hotspots": [
         {
-          "x": 0.4,
-          "y": 0.35,
+          "x": 0.4, "y": 0.35,
           "text": "The child's neural activity spikes. She is crying. The simulation does not render tears, only probability distributions. Suffering is data. Data can be cleaned.",
-          "radius": 24
+          "radius": 24,
+          "type": "text"
         },
         {
-          "x": 0.7,
-          "y": 0.6,
+          "x": 0.7, "y": 0.6,
           "text": "Your supervisor's icon pulses red. SUPERVISOR 11-A. You have never met them. You will never meet them. Authority is faceless here. Faceless authority cannot be questioned.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
+        },
+        {
+          "x": 0.7, "y": 0.8,
+          "text": "Correct immediately",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 9
+        },
+        {
+          "x": 0.3, "y": 0.8,
+          "text": "Let her suffer longer",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 12
         }
       ],
       "choices": [
@@ -325,19 +424,33 @@
       "image_link": "images/ep1_event11.png",
       "stats": { "physical": 100, "mental": 75 },
       "inventory": { "items": ["Transit Pass", "Assignment Letter", "Department ID"], "tapes": [] },
-      "text": "Subject 7-6634. Stanislav Novák. Twenty-three years old. He has arrived at the question that ends all questions: 'Are my thoughts mine?' Deviation spikes to 32%. Then 41%. The screen flickers. In the corruption, you see your own designation. ANALYST 47-C. You are also a number being monitored. The thought is not new. You have thought it before. Many times before.",
+      "text": "Subject 7-6634. Stanislav Novak. Twenty-three years old. He has arrived at the question that ends all questions: 'Are my thoughts mine?' Deviation spikes to 32%. Then 41%. The screen flickers. In the corruption, you see your own designation. ANALYST 47-C. You are also a number being monitored. The thought is not new. You have thought it before. Many times before.",
       "hotspots": [
         {
-          "x": 0.35,
-          "y": 0.4,
+          "x": 0.35, "y": 0.4,
           "text": "Stanislav's eyes stare directly at the camera. At you. Through you. He cannot see you. The simulation does not work that way. Yet his gaze finds you anyway. Finds the exact pixel you occupy.",
-          "radius": 22
+          "radius": 22,
+          "type": "text"
         },
         {
-          "x": 0.65,
-          "y": 0.65,
+          "x": 0.65, "y": 0.65,
           "text": "The screen glitches. For one frame, the subject ID changes: ANALYST 47-C. Your ID. Then it reverts. The error log is empty. Errors that do not exist cannot be corrected.",
-          "radius": 26
+          "radius": 26,
+          "type": "text"
+        },
+        {
+          "x": 0.75, "y": 0.8,
+          "text": "Destroy his question",
+          "radius": 26,
+          "type": "choice",
+          "next_event": 13
+        },
+        {
+          "x": 0.25, "y": 0.8,
+          "text": "Let him ask longer",
+          "radius": 26,
+          "type": "choice",
+          "next_event": 14
         }
       ],
       "choices": [
@@ -357,16 +470,30 @@
       "text": "Blood. Your nose is bleeding. You have not moved. Twenty-three floors above, someone collapses. The event log shows simultaneous timestamp. SYNCHRONIZATION SPIKE DETECTED. The child's suffering has opened a seam in reality. Or reality was always torn, and you are only now bleeding through the gap.",
       "hotspots": [
         {
-          "x": 0.3,
-          "y": 0.45,
+          "x": 0.3, "y": 0.45,
           "text": "The split screen shows two neural patterns collapsing into coherence. Hers. Yours. The synchronization is perfect. Too perfect. You taste copper. She tastes copper. The distance between observer and observed has become zero.",
-          "radius": 28
+          "radius": 28,
+          "type": "text"
         },
         {
-          "x": 0.7,
-          "y": 0.55,
+          "x": 0.7, "y": 0.55,
           "text": "Building-wide alert: 'EMPATHIC RESONANCE CASCADE - FLOOR 11 - STATION 47-C'. Your station. Your cascade. The blood on your keyboard is evidence. Delete the evidence. Delete yourself.",
-          "radius": 24
+          "radius": 24,
+          "type": "text"
+        },
+        {
+          "x": 0.7, "y": 0.8,
+          "text": "Seal the wound",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 13
+        },
+        {
+          "x": 0.3, "y": 0.8,
+          "text": "Document the bleeding",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 15
         }
       ],
       "choices": [
@@ -386,16 +513,23 @@
       "text": "Stanislav stops asking. The building's electromagnetic hum returns to baseline. Your headache evaporates. COHERENCE RESTORED, the system confirms. You have murdered a question. The corpse will decompose quietly in Stanislav's amygdala. He will sleep better. You will not.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.4,
+          "x": 0.5, "y": 0.4,
           "text": "All indicators green. Perfect flatlines. Stanislav's probability cloud has collapsed to a single trajectory. He will live. He will work. He will never wonder why. The answer has been surgically removed.",
-          "radius": 24
+          "radius": 24,
+          "type": "text"
         },
         {
-          "x": 0.4,
-          "y": 0.7,
+          "x": 0.4, "y": 0.7,
           "text": "Your efficiency rating increases: 94.7%. Congratulations appear on screen. You are good at this. Being good at this makes you nauseous. Excellence and horror shake hands in your stomach.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
+        },
+        {
+          "x": 0.5, "y": 0.85,
+          "text": "Clock out",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 16
         }
       ],
       "choices": [
@@ -414,16 +548,30 @@
       "text": "Stanislav's lips move. 'What if someone is watching me?' The screen glitches. The camera angle inverts. For one frame, you see your own workstation from behind. From above. From the perspective of something that should not exist. The angle is impossible. The angle is true.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.35,
+          "x": 0.5, "y": 0.35,
           "text": "His mouth forms the words in perfect synchronization with your thoughts. He is asking your question. Or you are asking his. The boundary has dissolved. Two simulations running the same code.",
-          "radius": 25
+          "radius": 25,
+          "type": "text"
         },
         {
-          "x": 0.6,
-          "y": 0.65,
+          "x": 0.6, "y": 0.65,
           "text": "The inverted camera shows your desk. Your hands. Your screen. Which displays Stanislav's desk. His hands. His screen. Which displays your desk. The recursion has no bottom. Or you are the bottom.",
-          "radius": 28
+          "radius": 28,
+          "type": "text"
+        },
+        {
+          "x": 0.75, "y": 0.8,
+          "text": "Erase him",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 13
+        },
+        {
+          "x": 0.25, "y": 0.8,
+          "text": "Turn around",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 15
         }
       ],
       "choices": [
@@ -443,16 +591,30 @@
       "text": "Your chair. Your desk. Your monitor. All in their correct positions. The office is empty. It has always been empty. But you are not alone. Your own terminal betrays you with a flash: TRAJECTORY ANALYST 47-C - STABILITY 74% - VARIANCE ACCEPTABLE. The screen goes dark. The message was not for you. It was about you. For someone else.",
       "hotspots": [
         {
-          "x": 0.5,
-          "y": 0.6,
+          "x": 0.5, "y": 0.6,
           "text": "The overhead angle is geometrically impossible. No camera exists in this position. Yet the feed is real. Higher resolution than security cameras. As if rendered from memory. From perfect, merciless memory.",
-          "radius": 26
+          "radius": 26,
+          "type": "text"
         },
         {
-          "x": 0.35,
-          "y": 0.45,
+          "x": 0.35, "y": 0.45,
           "text": "Your coffee cup steams. You have not touched it in hours. The coffee is still hot. Time does not flow normally here. Or you have been sitting here for less than a second. Or forever.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
+        },
+        {
+          "x": 0.7, "y": 0.85,
+          "text": "Forget what you saw",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 16
+        },
+        {
+          "x": 0.3, "y": 0.85,
+          "text": "Remember everything",
+          "radius": 24,
+          "type": "choice",
+          "next_event": 16
         }
       ],
       "choices": [
@@ -472,22 +634,29 @@
       "text": "Your reflection observes the city. Or the city observes you through your reflection. The distinction has collapsed. The automated voice: 'Welcome to your first day.'\n\nSilence.\n\n'Welcome to your first day.'\n\nThe repetition is not an error. The error is believing there was ever a second day. Or that days are countable things. Or that you are the one counting.",
       "hotspots": [
         {
-          "x": 0.45,
-          "y": 0.5,
+          "x": 0.45, "y": 0.5,
           "text": "Your reflection blinks a fraction of a second before you do. The delay is measurable. Three milliseconds. The system logs milliseconds. Your reflection is being monitored. Or your reflection is doing the monitoring.",
-          "radius": 24
+          "radius": 24,
+          "type": "text"
         },
         {
-          "x": 0.7,
-          "y": 0.35,
+          "x": 0.7, "y": 0.35,
           "text": "The city slides past like a probability distribution. Buildings blur into waveforms. The metro follows the same route it has always followed. Will always follow. There are no other routes. There never were.",
-          "radius": 22
+          "radius": 22,
+          "type": "text"
         },
         {
-          "x": 0.25,
-          "y": 0.7,
+          "x": 0.25, "y": 0.7,
           "text": "Your Department ID badge reflects light from the window. The photo is yours. The name is yours. The number: 47-C. Somewhere, someone is monitoring Subject 47-C. Logging your deviations. Preparing corrections.",
-          "radius": 20
+          "radius": 20,
+          "type": "text"
+        },
+        {
+          "x": 0.5, "y": 0.85,
+          "text": "End of Chapter 1",
+          "radius": 28,
+          "type": "choice",
+          "next_event": 0
         }
       ],
       "choices": [

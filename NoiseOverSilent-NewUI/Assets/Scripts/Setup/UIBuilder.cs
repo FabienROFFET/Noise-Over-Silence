@@ -28,9 +28,11 @@ namespace NoiseOverSilent.Setup
         [SerializeField] private GameObject tmpTextPrefab;
         [SerializeField] private GameObject tmpButtonPrefab;
 
+        private HotspotManager hotspotManager;
+
         private void Awake()
         {
-            Debug.Log("[UIBuilder v6.3] Building scene...");
+            Debug.Log("[UIBuilder v6.4] Building scene...");
 
             GameObject canvas = BuildCanvas();
             BuildEventSystem();
@@ -44,6 +46,10 @@ namespace NoiseOverSilent.Setup
 
             SlidingPanel       panel        = BuildSlidingPanel(canvas);
             ChapterIntroScreen chapterIntro = BuildChapterIntroScreen(canvas);
+
+            // HotspotManager after SlidingPanel — popup becomes later sibling = renders in front
+            BuildHotspotManager(bgImage.GetComponent<RectTransform>(), canvas.transform);
+
             BuildTopRightIcons(canvas);
 
             // Landing page last — highest sort order, shown on startup
@@ -51,7 +57,7 @@ namespace NoiseOverSilent.Setup
 
             WireGameManager(imgDisplay, panel, chapterIntro);
 
-            Debug.Log("[UIBuilder v6.3] Done!");
+            Debug.Log("[UIBuilder v6.4] Done!");
         }
 
         // ── Canvas ──────────────────────────────────────────────────────────
@@ -372,10 +378,8 @@ namespace NoiseOverSilent.Setup
                 () =>
                 {
                     SoundManager.PlayButtonClick();
-                    if (SaveLoadSystem.SaveExists())
-                        Debug.Log("[Menu] Save confirmed — file already up to date.");
-                    else
-                        Debug.LogWarning("[Menu] No save exists yet — play an event first.");
+                    GameManager gm = FindFirstObjectByType<GameManager>();
+                    gm?.SaveCurrentEvent();
                 });
 
             // Load — middle (slot 1)
@@ -601,6 +605,14 @@ namespace NoiseOverSilent.Setup
             return go;
         }
 
+        // ── Hotspot Manager ──────────────────────────────────────────────────
+        private void BuildHotspotManager(RectTransform imageContainer, Transform canvasTransform)
+        {
+            hotspotManager = gameObject.AddComponent<HotspotManager>();
+            hotspotManager.Initialize(imageContainer, canvasTransform);
+            Debug.Log("[UIBuilder v6.4] HotspotManager created.");
+        }
+
         // ── Wire GameManager ─────────────────────────────────────────────────
         private void WireGameManager(ImageDisplay imgDisplay, SlidingPanel panel,
                                      ChapterIntroScreen chapterIntro)
@@ -612,12 +624,16 @@ namespace NoiseOverSilent.Setup
             SetField(gm, "imageDisplay",       imgDisplay);
             SetField(gm, "slidingPanel",       panel);
             SetField(gm, "chapterIntroScreen", chapterIntro);
-            SetField(gm, "startEpisode",       1);
+            SetField(gm, "hotspotManager",     hotspotManager);
             SetField(gm, "startEventId",       1);
 
             panel.SetGameManager(gm);
 
-            Debug.Log("[UIBuilder v6.3] GameManager wired.");
+            // Wire GameManager into HotspotManager so choice hotspots can navigate
+            if (hotspotManager != null)
+                hotspotManager.SetGameManager(gm);
+
+            Debug.Log("[UIBuilder v6.4] GameManager wired.");
         }
 
         // ── Reflection helper ────────────────────────────────────────────────

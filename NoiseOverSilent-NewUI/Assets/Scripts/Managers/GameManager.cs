@@ -3,8 +3,8 @@
 // FILE    : GameManager.cs
 // PATH    : Assets/Scripts/Managers/
 // CREATED : 2026-02-14
-// UPDATED : 2026-03-17 (v2.0.5)
-// CHANGES : v2.0.5 - Removed auto-save from ShowEvent
+// UPDATED : 2026-03-17 (v2.0.6)
+// CHANGES : v2.0.6 - Hide SlidingPanel when event has choice hotspots
 //                    Added explicit SaveCurrentEvent() called by Save button
 //           v2.0.4 - SaveGame() called at end of every ShowEvent()
 //           v2.0.3 - Removed auto-start from Start()
@@ -26,7 +26,6 @@ namespace NoiseOverSilent.Managers
         [SerializeField] private SlidingPanel       slidingPanel;
         [SerializeField] private HotspotManager     hotspotManager;
         [SerializeField] private ChapterIntroScreen chapterIntroScreen;
-        [SerializeField] private int                startEpisode = 1;
         [SerializeField] private int                startEventId = 1;
 
         private EpisodeData currentEpisode;
@@ -95,7 +94,21 @@ namespace NoiseOverSilent.Managers
             else
                 Debug.LogWarning("[GameManager v2.0.4] HotspotManager not assigned!");
 
-            slidingPanel.ShowEvent(currentEvent);
+            // If choice hotspots are on screen, the image drives navigation.
+            // Show only the bottom text — keep the choice panel off-screen.
+            bool hasChoiceHotspots = currentEvent.hotspots != null &&
+                                     currentEvent.hotspots.Exists(h => h.type == "choice");
+
+            if (hasChoiceHotspots)
+            {
+                slidingPanel.SetTextOnly(currentEvent); // text shown, panel stays hidden
+            }
+            else
+            {
+                slidingPanel.ShowEvent(currentEvent);   // text + choices + panel slides in
+            }
+
+            Debug.Log($"[GameManager v2.0.6] Panel {(hasChoiceHotspots ? "hidden (choice hotspots active)" : "shown")}.");
 
             // NOTE: No auto-save here. Player saves explicitly via the Save button.
         }

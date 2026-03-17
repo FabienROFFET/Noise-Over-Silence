@@ -3,8 +3,8 @@ using System.Collections.Generic;
 namespace NoiseOverSilent.Data
 {
     /// <summary>
-    /// GameData v2.0 - 2026-03-17
-    /// Added Hotspot support for clickable areas on images
+    /// GameData v2.1 - 2026-03-17
+    /// Hotspot now has type ("text" or "choice") and next_event
     /// </summary>
 
     [System.Serializable]
@@ -33,10 +33,12 @@ namespace NoiseOverSilent.Data
     [System.Serializable]
     public class Hotspot
     {
-        public float x;           // Normalized X position (0-1, where 0=left, 1=right)
-        public float y;           // Normalized Y position (0-1, where 0=bottom, 1=top)
-        public string text;       // Text to display when clicked
-        public int radius = 20;   // Circle radius in pixels
+        public float x;             // Normalized X (0=left, 1=right)
+        public float y;             // Normalized Y (0=bottom, 1=top)
+        public string text;         // Popup text (type=text) or label (type=choice)
+        public int radius = 20;     // Circle radius in pixels
+        public string type = "text"; // "text" = popup only | "choice" = navigate to next_event
+        public int next_event = 0;  // Target event id (only used when type = "choice")
     }
 
     [System.Serializable]
@@ -59,7 +61,7 @@ namespace NoiseOverSilent.Data
         public Stats stats;
         public Inventory inventory;
         public string text;
-        public List<Hotspot> hotspots;  // NEW: Clickable areas on the image
+        public List<Hotspot> hotspots;
         public List<Choice> choices;
     }
 
